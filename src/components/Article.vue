@@ -9,7 +9,7 @@
       </el-col>
       <el-col :span="17">
         <div class="start-cover"></div>
-        <router-link to="/article_detail/1" class="article-title">
+        <router-link :to="'/article_detail/'+o" class="article-title">
           通过SourceMap还原了Vue前端代码怎么去运行调试和二次开发？
         </router-link>
         <p class="article-desc">
