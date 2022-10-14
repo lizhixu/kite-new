@@ -2,6 +2,27 @@ body {
     font-family: "JetBrainsMono-Medium";
 }
 
+a {
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    color: #333;
+    vertical-align: baseline;
+    text-decoration: none;
+    font-size: 100%;
+}
+
+a:hover, a:focus {
+    color: #0089ff;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+
+a:focus {
+    color: #333;
+}
+
 ::-webkit-scrollbar-track {
     background: rgb(238, 238, 238);
 }

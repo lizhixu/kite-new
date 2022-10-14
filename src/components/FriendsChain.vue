@@ -3,12 +3,14 @@
     <template #header>
       <div class="card-header">
         <span class="c-s-title">友链</span>
-        <el-button text><IconApply/></el-button>
+        <el-button text>
+          <IconApply/>
+        </el-button>
       </div>
     </template>
-    <div>
-      <el-link> default</el-link>
-      <el-link type="primary">primary</el-link>
+    <div class="f-link">
+      <el-link href="https://element.eleme.io" target="_blank"> default</el-link>
+      <el-link href="https://element.eleme.io" type="primary">primary</el-link>
       <el-link type="success">success</el-link>
       <el-link type="warning">warning</el-link>
       <el-link type="danger">danger</el-link>
@@ -21,7 +23,10 @@
 </script>
 
 <style scoped>
-.el-link {
+
+.f-link > a {
   margin-right: 8px;
+  text-decoration: none;
+  background: transparent;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <el-card class="box-card mgt10" v-for="o in 30" :key="o">
+  <el-card class="box-card mgt10" v-for="o in 20" :key="o">
     <el-row :gutter="30">
       <el-col :span="7">
         <el-link :underline="false">
@@ -9,7 +9,9 @@
       </el-col>
       <el-col :span="17">
         <div class="start-cover"></div>
-        <el-link :underline="false" class="article-title">城市id应该如何存储？</el-link>
+        <router-link to="/article_detail/1" class="article-title">
+          通过SourceMap还原了Vue前端代码怎么去运行调试和二次开发？
+        </router-link>
         <p class="article-desc">
           原彩显示建议开吗可能是相关行业人士都值得关注的知识，在此大海号对原彩显示建议开吗知乎进行详细的介绍，并拓展一些相关的知识分享给大家，希望能够为您带来帮助！本文目录一览：1、iphone原彩显示有用吗...</p>
         <el-row :gutter="10" class="article-detail">
@@ -49,7 +51,9 @@
 }
 
 .article-title {
-  color: #000000;
+  width: 400px;
+  text-decoration: none;
+  display: block;
   font-size: 18px;
   font-weight: bold;
   line-height: 26px;
@@ -59,6 +63,10 @@
 
 .article-title :hover {
   color: #0089ff;
+}
+
+.article-title :active {
+  color: #aaaa;
 }
 
 .article-desc {
@@ -76,13 +84,13 @@
 
 .article-detail {
   color: #666;
-  margin-top: 20px;
 }
 
 .article-author {
   text-align: right;
 }
-.article-author>a {
+
+.article-author > a {
   margin-top: -15px;
 }
 </style>

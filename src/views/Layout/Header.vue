@@ -4,10 +4,10 @@
       mode="horizontal"
       :ellipsis="false"
       @select="handleSelect"
-      class="pd150"
-      active-text-color	="#5cb9ff"
+      class="pd150 header"
+      active-text-color="#5cb9ff"
   >
-    <el-menu-item index="0">
+    <el-menu-item class="logo">
       <img src="https://dd-static.jd.com/ddimg/jfs/t1/123081/3/31365/30273/6344cf2eEdce44449/311b5af8818e5895.png"
            alt="" style="width: 56px;">
     </el-menu-item>
@@ -28,7 +28,7 @@
     </el-sub-menu>
     <el-menu-item>
       <el-icon :size="20">
-        <Edit />
+        <Edit/>
       </el-icon>
     </el-menu-item>
   </el-menu>
@@ -50,5 +50,25 @@ const handleSelect = (key, keyPath) => {
 
 .el-header {
   --el-header-padding: 0px;
+}
+
+.header {
+  box-shadow: 0px 5px 40px 0px rgb(17 58 93 / 10%);
+  background-color: rgba(255, 255, 255, .96);
+  background-image: url(//dahaihao.com/zb_users/theme/hopelee/style/images/top-fr-bg.png);
+  background-position: center right;
+  background-size: auto 100%;
+}
+
+.logo:after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 0;
+  width: 1px;
+  height: 20px;
+  background: #ddd;
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
 }
 </style>
