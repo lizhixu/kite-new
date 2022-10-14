@@ -1,0 +1,26 @@
+{
+  "name": "kite_new",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview --port 4173"
+  },
+  "dependencies": {
+    "@element-plus/icons-vue": "^2.0.10",
+    "@smallwei/avue": "next",
+    "element-plus": "^2.2.17",
+    "pinia": "^2.0.21",
+    "sticky-sidebar-v2": "^1.1.1",
+    "vue": "^3.2.38",
+    "vue-router": "^4.1.5"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^3.0.3",
+    "unplugin-auto-import": "^0.11.2",
+    "unplugin-icons": "^0.14.11",
+    "unplugin-vue-components": "^0.22.8",
+    "vite": "^3.0.9",
+    "vite-plugin-inspect": "^0.7.5"
+  }
+}
