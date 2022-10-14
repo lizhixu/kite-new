@@ -7,7 +7,8 @@
     </template>
 
     <el-row>
-      <el-col :span="8" v-for="o in 6" class="feat-list" :class="(o>3?'brsd pgt10':'brsd bbsd') + (o%3 == 0?' brsdh':'')">
+      <el-col :span="8" v-for="o in 6" class="feat-list"
+              :class="(o>3?'brsd pgt10':'brsd bbsd') + (o%3 == 0?' brsdh':'')">
         <article class=" guide-inner top-num0">
           <div class="guide-inner-info">
             <div class="g-i-top">
@@ -16,7 +17,9 @@
               </span>
               <span class="g-i-time"><Clock style="width: 1em;"/>2022-09-08</span>
             </div>
-            <h5><a href="https://dahaihao.com/46532.html">iphone验机步骤（iPhone验机流程）</a></h5>
+            <h5>
+              <el-link :underline="false" class="normal">iphone验机步骤（iPhone验机流程）</el-link>
+            </h5>
             <p>最近有很多小伙伴咨询关于iphone验机步骤的问题，小编结合多年的经验整理出来一些i...</p>
           </div>
         </article>
@@ -57,5 +60,17 @@
   -webkit-line-clamp: 2;
   text-overflow: ellipsis;
   overflow: hidden;
+}
+.normal{
+  color: black;
+  font-size: 15px;
+  height: 25px;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.normal :hover{
+  color: #0089ff;
 }
 </style>
