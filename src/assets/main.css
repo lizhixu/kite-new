@@ -1,7 +1,9 @@
 body {
     font-family: "JetBrainsMono-Medium";
 }
-
+ul, ol{
+    padding: 0;
+}
 a {
     margin: 0;
     padding: 0;
@@ -33,9 +35,18 @@ a:focus {
 }
 
 ::-webkit-scrollbar {
-    width: 5px;
-    height: 5px;
+    width: 6px;
+    height: 6px;
 }
+
+.content {
+    padding-right: 10px;
+}
+
+.toc-content-heading, .u-divider {
+    display: none;
+}
+
 
 .pd150 {
     padding: 0 200px;

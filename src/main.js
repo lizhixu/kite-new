@@ -5,6 +5,8 @@ import 'element-plus/dist/index.css'
 import Avue from '@smallwei/avue';
 import '@smallwei/avue/lib/index.css';
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
+import UndrawUi from 'undraw-ui'
+import 'undraw-ui/dist/style.css'
 
 import App from './App.vue'
 import router from './router'
@@ -21,5 +23,6 @@ app.use(Avue);
 
 app.use(createPinia())
 app.use(router)
+app.use(UndrawUi)
 
 app.mount('#app')

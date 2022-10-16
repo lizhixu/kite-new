@@ -57,8 +57,4 @@ onMounted(() => {
   border-bottom: 3px solid #ff5757;
   text-shadow: 2px 2px 3px #9f9b9b;
 }
-
-.content {
-  padding-right: 10px;
-}
 </style>

@@ -12,8 +12,9 @@
         <router-link :to="'/article_detail/'+o" class="article-title">
           通过SourceMap还原了Vue前端代码怎么去运行调试和二次开发？
         </router-link>
-        <p class="article-desc">
-          原彩显示建议开吗可能是相关行业人士都值得关注的知识，在此大海号对原彩显示建议开吗知乎进行详细的介绍，并拓展一些相关的知识分享给大家，希望能够为您带来帮助！本文目录一览：1、iphone原彩显示有用吗...</p>
+        <u-fold line="2" class="article-desc">
+          <p>每当白日依山尽，夕阳余辉便透过朵朵云层，像万道金光，如霞光万丈，把天空白云染得红彤彤，把大地山河映得金灿灿，仿佛整个世界在那一瞬间都变得金碧辉煌，热情奔放起来</p>
+        </u-fold>
         <el-row :gutter="10" class="article-detail">
           <el-col :span="6">
             <span><Clock style="width: 1em;"/>2022-09-08</span>
@@ -71,6 +72,7 @@
 
 .article-desc {
   font-size: 14px;
+  margin-top: -10px;
 }
 
 .start-cover {
