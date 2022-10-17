@@ -9,7 +9,7 @@
     <el-row>
       <el-col :span="8" v-for="o in 6" class="feat-list"
               :class="(o>3?'brsd pgt10':'brsd bbsd') + (o%3 == 0?' brsdh':'')">
-        <article class=" guide-inner top-num0">
+        <article class="guide-inner top-num0">
           <div class="guide-inner-info">
             <div class="g-i-top">
               <span class="g-i-cate">
@@ -20,7 +20,7 @@
             <h5>
               <el-link :underline="false" class="normal">iphone验机步骤（iPhone验机流程）</el-link>
             </h5>
-            <p>最近有很多小伙伴咨询关于iphone验机步骤的问题，小编结合多年的经验整理出来一些i...</p>
+            <p>最近有很多小伙伴咨询关于iphone验机步骤的问题，小编结合多年的经验整理出来一些i最近有很多小伙伴咨询关于iphone验机步骤的问题，小编结合多年的经验整理出来一些i最近有很多小伙伴咨询关于iphone验机步骤的问题，小编结合多年的经验整理出来一些i...</p>
           </div>
         </article>
       </el-col>

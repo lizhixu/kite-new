@@ -9,16 +9,17 @@
       <el-row :gutter="10" v-for="o in 6" :class="o>1?'mgt10':''">
         <el-col :span="8">
           <span class="hot-list-num" :class="o<4?('hot-list-num'+o):''">{{ o }}</span>
-          <el-link :underline="false">
+          <router-link :to="`/article_detail/` + o">
             <el-image style="border-radius: 5px"
                       src="//p8.itc.cn/q_70/images03/20210729/b17c17d08e4f4791b3abf393b2f7692d.png"/>
-          </el-link>
+          </router-link>
         </el-col>
         <el-col :span="16">
           <router-link :to="`/article_detail/` + o" :underline="false">
             十个免费短视频和音乐素材网站-可免费商用4K高清视频和音频资源
           </router-link>
         </el-col>
+        <el-divider v-if="o != 6"/>
       </el-row>
     </div>
   </el-card>
@@ -51,5 +52,8 @@
 
 .hot-list-num3 {
   background: #6bd139;
+}
+.el-divider{
+  margin: 5px 0;
 }
 </style>

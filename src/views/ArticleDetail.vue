@@ -15,8 +15,12 @@
           <p>链接：xxx</p>
           <p>文章版权归作者所有，转载请标明出处。</p>
         </div>
+
+        <div class="create-desc mgt10">
+          最后更新时间：2022年10月17日 14:23:05
+        </div>
       </el-card>
-      <el-card class="mgt10">
+      <el-card class="mgt10" v-show="false">
         <el-row>
           <el-col :span="10">
             <u-fold line="1">
@@ -39,7 +43,7 @@
           </el-col>
         </el-row>
       </el-card>
-      <el-card class="mgt10">
+      <el-card class="mgt10" id="comment">
         <div class="comment-view" style="padding: 0px">
           <u-comment :config="config" @submit="submit" @like="like" @remove="remove" @report="report">
             <template #list-title>全部评论</template>
@@ -68,14 +72,19 @@ import {ArrowRight} from '@element-plus/icons-vue'
 import {UToast} from 'undraw-ui'
 import emoji from '@/emoji'
 import StickySidebar from "sticky-sidebar-v2";
+import router from "@/router";
 
 onMounted(() => {
-  var sidebar = new StickySidebar('.sidebar', {
+  new StickySidebar('.sidebar', {
     topSpacing: 20,
     bottomSpacing: 20,
     containerSelector: '.main-content',
     scrollContainer: '#main-viewport'
   });
+  const slide = document.getElementById(router.currentRoute.value.hash.substring(1))
+  if (slide){
+    slide.scrollIntoView()
+  }
 })
 
 const data = ref({
@@ -90,6 +99,7 @@ const data = ref({
                 <h2>呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵</h2>
                 <p>为什么呢？只带一把雨伞？</p>
                 <p>然而我又看到樱子穿着白色的风衣，撑着伞，静静地过马路了。她是要帮我寄信的。那，那是一封写给南部母亲的信。我茫然站在骑楼下，我又看到永远的樱子走到街心。其实雨下得并不大，却是一生一世中最大的一场雨。而那封信是这样写的，年轻的樱子知不知道呢？</p>
+                <img src="https://img1.baidu.com/it/u=3155988012,1977937542&fm=253&fmt=auto&app=138&f=JPG?w=640&h=343" alt="">
                 <blockquote>
                   <p>妈：我打算在下个月和樱子结婚。</p>
                 </blockquote><p>虽然是春天，好像已是秋深了。</p>
@@ -253,5 +263,8 @@ config.comments = [
   background-size: 100%;
   z-index: 26;
   transform: rotateZ(180deg);
+}
+.create-desc{
+  color: #666666;
 }
 </style>

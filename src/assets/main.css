@@ -1,9 +1,11 @@
 body {
     font-family: "JetBrainsMono-Medium";
 }
-ul, ol{
+
+ul, ol {
     padding: 0;
 }
+
 a {
     margin: 0;
     padding: 0;
@@ -25,13 +27,18 @@ a:focus {
     color: #333;
 }
 
+a:visited {
+    color: #333;
+}
+
 ::-webkit-scrollbar-track {
     background: rgb(238, 238, 238);
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #cccccc;
-    border-radius: 4px;
+    background-color: #49b1f5;
+    background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, .4) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .4) 50%, rgba(255, 255, 255, .4) 75%, transparent 75%, transparent);
+    border-radius: 2em;
 }
 
 ::-webkit-scrollbar {

@@ -29,9 +29,10 @@
       </el-sub-menu>
     </el-sub-menu>
     <el-menu-item>
-      <el-icon :size="20">
-        <Edit/>
-      </el-icon>
+      <template #title>
+        <el-icon><Cellphone /></el-icon>
+        <span>登录</span>
+      </template>
     </el-menu-item>
   </el-menu>
 </template>

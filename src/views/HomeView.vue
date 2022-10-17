@@ -8,6 +8,7 @@
       <el-col :span="7" class="sidebar">
         <div class="sidebar__inner">
           <Data/>
+          <WxCode class="mgt10"/>
           <HotListTp class="mgt10"/>
           <FriendsChain class="mgt10"/>
           <Copyright class="mgt10"/>
@@ -23,6 +24,7 @@ import HotListTp from "@/components/HotListTp.vue";
 import FriendsChain from "@/components/FriendsChain.vue";
 import Copyright from "@/components/Copyright.vue";
 import StickySidebar from "sticky-sidebar-v2";
+import WxCode from "@/components/WxCode.vue";
 
 onMounted(() => {
   var sidebar = new StickySidebar('.sidebar', {
