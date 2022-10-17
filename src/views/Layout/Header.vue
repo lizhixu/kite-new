@@ -73,4 +73,7 @@ const handleSelect = (key, keyPath) => {
   -webkit-transform: translateY(-50%);
   transform: translateY(-50%);
 }
+.el-menu-item{
+  font-weight: bold;
+}
 </style>

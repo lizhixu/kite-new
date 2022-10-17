@@ -24,5 +24,9 @@ const router = createRouter({
         }
     ]
 })
-
+router.beforeEach((to, from, next) => {
+    // 让页面回到顶部
+    document.documentElement.scrollTop = 0;
+    next();
+});
 export default router

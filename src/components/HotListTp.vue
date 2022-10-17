@@ -15,9 +15,9 @@
           </el-link>
         </el-col>
         <el-col :span="16">
-          <el-link :underline="false">
+          <router-link :to="`/article_detail/` + o" :underline="false">
             十个免费短视频和音乐素材网站-可免费商用4K高清视频和音频资源
-          </el-link>
+          </router-link>
         </el-col>
       </el-row>
     </div>
