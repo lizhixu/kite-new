@@ -14,16 +14,15 @@ const option = ref({
       click: function (item) {
       },
       count: 100,
-      decimals: 2,
       title: '昨日被阅读数',
-      href: '#',
+      href: 'javascript:;',
     },
     {
       click: function (item) {
       },
       count: 3000,
       title: '网站文章数',
-      href: '#',
+      href: 'javascript:;',
     },
   ]
 })

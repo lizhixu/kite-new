@@ -2,7 +2,7 @@
   <el-card class="box-card">
     <template #header>
       <div class="card-header">
-        <span class="c-s-title">网站分类</span>
+        <span class="c-s-title">网站专栏</span>
       </div>
     </template>
     <div class="category">

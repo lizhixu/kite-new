@@ -21,12 +21,12 @@
             <span><Clock style="width: 1em;"/>2022-09-08</span>
           </el-col>
           <el-col :span="5">
-            <span><View style="width: 1em;"/>100 阅读</span>
+            <span><View style="width: 1em;"/>100阅读</span>
           </el-col>
           <el-col :span="5">
             <router-link :to="'/article_detail/'+o +'#comment'" class="article-detail-a">
               <ChatRound style="width: 1em;"/>
-              <span>100 评论</span>
+              <span>100评论</span>
             </router-link>
           </el-col>
           <el-col :span="8" class="article-author">

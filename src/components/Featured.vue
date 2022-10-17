@@ -18,9 +18,10 @@
               <span class="g-i-time"><Clock style="width: 1em;"/>2022-09-08</span>
             </div>
             <h5>
-              <el-link :underline="false" class="normal">iphone验机步骤（iPhone验机流程）</el-link>
+              <router-link :to="'/article_detail/'+o" class="normal">iphone验机步骤（iPhone验机流程）</router-link>
             </h5>
-            <p>最近有很多小伙伴咨询关于iphone验机步骤的问题，小编结合多年的经验整理出来一些i最近有很多小伙伴咨询关于iphone验机步骤的问题，小编结合多年的经验整理出来一些i最近有很多小伙伴咨询关于iphone验机步骤的问题，小编结合多年的经验整理出来一些i...</p>
+            <p>
+              最近有很多小伙伴咨询关于iphone验机步骤的问题，小编结合多年的经验整理出来一些i最近有很多小伙伴咨询关于iphone验机步骤的问题，小编结合多年的经验整理出来一些i最近有很多小伙伴咨询关于iphone验机步骤的问题，小编结合多年的经验整理出来一些i...</p>
           </div>
         </article>
       </el-col>
@@ -61,7 +62,8 @@
   text-overflow: ellipsis;
   overflow: hidden;
 }
-.normal{
+
+.normal {
   color: black;
   font-size: 15px;
   height: 25px;
@@ -70,7 +72,8 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.normal :hover{
+
+.normal :hover {
   color: #0089ff;
 }
 </style>

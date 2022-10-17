@@ -10,29 +10,28 @@
     <el-menu-item class="logo">
       <router-link to="/">
         <img src="https://ttfou.com/images/2022/10/17/0e466ab23365717fd6861bbb621d4f8b.png"
-             alt="" style="width: 56px;">
+             alt="" style="width: 50px;">
       </router-link>
     </el-menu-item>
     <el-menu-item index="/">首页</el-menu-item>
-    <el-menu-item index="3">专栏</el-menu-item>
-    <div class="flex-grow"/>
     <el-sub-menu index="2">
-      <template #title>Workspace</template>
-      <el-menu-item index="2-1">item one</el-menu-item>
-      <el-menu-item index="2-2">item two</el-menu-item>
-      <el-menu-item index="2-3">item three</el-menu-item>
-      <el-sub-menu index="2-4">
-        <template #title>item four</template>
-        <el-menu-item index="2-4-1">item one</el-menu-item>
-        <el-menu-item index="2-4-2">item two</el-menu-item>
-        <el-menu-item index="2-4-3">item three</el-menu-item>
-      </el-sub-menu>
+      <template #title>专栏</template>
+      <el-menu-item index="/special/php">PHP</el-menu-item>
+      <el-menu-item index="/special/golang">Go</el-menu-item>
+      <el-menu-item index="/special/vuejs">VueJs</el-menu-item>
     </el-sub-menu>
-    <el-menu-item>
+    <el-menu-item index="3">Tool</el-menu-item>
+    <div class="flex-grow"/>
+    <el-menu-item class="k-avatar">
       <template #title>
-        <el-icon><Cellphone /></el-icon>
+        <el-icon>
+          <Cellphone/>
+        </el-icon>
         <span>登录</span>
       </template>
+    </el-menu-item>
+    <el-menu-item class="k-avatar">
+      <el-avatar src="//tvax4.sinaimg.cn/crop.0.0.996.996.1024/e318a1b0ly8ggeuuuuuofj20ro0rotbk.jpg"></el-avatar>
     </el-menu-item>
   </el-menu>
 </template>
@@ -74,7 +73,16 @@ const handleSelect = (key, keyPath) => {
   -webkit-transform: translateY(-50%);
   transform: translateY(-50%);
 }
-.el-menu-item{
+
+.el-menu-item, .el-sub-menu__title {
   font-weight: bold;
+}
+
+.k-avatar {
+  margin: auto !important;
+}
+
+.k-avatar:hover {
+  background-color: #00000000 !important;
 }
 </style>
