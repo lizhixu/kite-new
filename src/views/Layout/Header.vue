@@ -9,7 +9,7 @@
   >
     <el-menu-item class="logo">
       <router-link to="/">
-        <img src="https://dd-static.jd.com/ddimg/jfs/t1/123081/3/31365/30273/6344cf2eEdce44449/311b5af8818e5895.png"
+        <img src="https://ttfou.com/images/2022/10/17/0e466ab23365717fd6861bbb621d4f8b.png"
              alt="" style="width: 56px;">
       </router-link>
     </el-menu-item>
