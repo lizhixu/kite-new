@@ -7,7 +7,6 @@ import '@smallwei/avue/lib/index.css';
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import UndrawUi from 'undraw-ui'
 import 'undraw-ui/dist/style.css'
-import 'nprogress/nprogress.css' //这个样式必须引入
 
 import App from './App.vue'
 import router from './router'
