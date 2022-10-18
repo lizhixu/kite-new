@@ -53,7 +53,8 @@
 .hot-list-num3 {
   background: #6bd139;
 }
-.el-divider{
+
+.el-divider {
   margin: 5px 0;
 }
 </style>

@@ -14,8 +14,8 @@
         </el-scrollbar>
       </el-affix>
     </el-col>
-    <el-col :span="13" class="content">
-      <Article/>
+    <el-col :span="14" class="content">
+      <CategoryArticle/>
     </el-col>
     <el-col :span="6" class="sidebar">
       <div class="sidebar__inner">
@@ -30,6 +30,7 @@
 import HotListTp from "@/components/HotListTp.vue";
 import CategoryLabel from "@/components/CategoryLabel.vue";
 import StickySidebar from "sticky-sidebar-v2";
+import CategoryArticle from "@/components/CategoryArticle.vue";
 
 onMounted(() => {
   var sidebar = new StickySidebar('.sidebar', {
@@ -74,5 +75,6 @@ onMounted(() => {
 
 .special-label-activate:hover {
   background-color: #00965e !important;
+  border-radius: 0.25rem;
 }
 </style>

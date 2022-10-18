@@ -5,7 +5,7 @@
         <Header/>
       </el-affix>
     </el-header>
-    <el-main class="pd150 mgt10">
+    <el-main>
       <RouterView/>
     </el-main>
   </el-container>
@@ -19,4 +19,9 @@ import Header from "@/views/Layout/Header.vue";
 </script>
 <style>
 @import './assets/fonts.css';
+
+.el-main {
+  width: 1110px;
+  margin: auto;
+}
 </style>

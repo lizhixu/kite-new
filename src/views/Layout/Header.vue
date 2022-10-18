@@ -4,7 +4,7 @@
       mode="horizontal"
       :ellipsis="false"
       @select="handleSelect"
-      class="pd150 k-header"
+      class=" k-header"
       active-text-color="#5cb9ff" :router="true"
   >
     <el-menu-item class="logo">
@@ -60,6 +60,7 @@ const handleSelect = (key, keyPath) => {
   background-image: url(//dahaihao.com/zb_users/theme/hopelee/style/images/top-fr-bg.png);
   background-position: center right;
   background-size: auto 100%;
+  border-top: 2px solid #5cb9ff;
 }
 
 .logo:after {

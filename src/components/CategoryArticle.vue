@@ -1,13 +1,7 @@
 <template>
-  <el-card class="box-card mgt10" v-for="o in 10" :key="o">
+  <el-card class="box-card" :class="o>1?'mgt10':''" v-for="o in 10" :key="o">
     <el-row :gutter="30">
-      <el-col :span="7">
-        <router-link :to="'/article_detail/'+o">
-          <el-image style="width: 205px; height: 150px;border-radius: 5px"
-                    src="//gimg2.baidu.com/image_search/src=http%3A%2F%2Fckfuture.cn%2Fupload%2Fue%2Fimage%2F20170221%2F1487663928883012.jpg&refer=http%3A%2F%2Fckfuture.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1668578834&t=432fa64ee8e9ced6e1e25542cfed405d"/>
-        </router-link>
-      </el-col>
-      <el-col :span="17">
+      <el-col>
         <div class="start-cover"></div>
         <router-link :to="'/article_detail/'+o" class="article-title">
           通过SourceMap还原了Vue前端代码怎么去运行调试和二次开发？
@@ -53,7 +47,7 @@
 }
 
 .article-title {
-  width: 400px;
+  width: 460px;
   text-decoration: none;
   display: block;
   font-size: 18px;
