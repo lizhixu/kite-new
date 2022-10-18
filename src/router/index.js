@@ -1,5 +1,6 @@
 import {createRouter, createWebHistory} from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import ErrorView from '../views/ErrorView.vue'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 
@@ -10,6 +11,11 @@ const router = createRouter({
             path: '/',
             name: 'home',
             component: HomeView
+        },
+        {
+            path: '/404',
+            name: 'error',
+            component: ErrorView
         },
         {
             path: '/article_detail/:id',
@@ -34,7 +40,11 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
     // 让页面回到顶部
     document.documentElement.scrollTop = 0;
-    next();
+    if (to.matched.length === 0) {  //如果未匹配到路由
+        from.name ? next({name: from.name}) : next('/404');   //如果上级也未匹配到路由则跳转登录页面，如果上级能匹配到则转上级路由
+    } else {
+        next();    //如果匹配到正确跳转
+    }
 });
 
 NProgress.configure({
