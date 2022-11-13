@@ -10,26 +10,41 @@ const router = createRouter({
         {
             path: '/',
             name: 'home',
+            meta: {
+                title: '首页'
+            },
             component: HomeView
         },
         {
             path: '/404',
             name: 'error',
+            meta: {
+                title: '404'
+            },
             component: ErrorView
         },
         {
             path: '/article_detail/:id',
             name: 'article_detail',
+            meta: {
+                title: '文章'
+            },
             component: () => import('../views/ArticleDetail.vue')
         },
         {
             path: '/special/:special_name',
             name: 'special',
+            meta: {
+                title: '专题'
+            },
             component: () => import('../views/Special.vue')
         },
         {
             path: '/about',
             name: 'about',
+            meta: {
+                title: 'about'
+            },
             // route level code-splitting
             // this generates a separate chunk (About.[hash].js) for this route
             // which is lazy-loaded when the route is visited.
@@ -43,6 +58,7 @@ router.beforeEach((to, from, next) => {
     if (to.matched.length === 0) {  //如果未匹配到路由
         from.name ? next({name: from.name}) : next('/404');   //如果上级也未匹配到路由则跳转登录页面，如果上级能匹配到则转上级路由
     } else {
+        document.title = to.meta.title
         next();    //如果匹配到正确跳转
     }
 });
