@@ -51,5 +51,30 @@ export default defineConfig({
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
+  },
+  build: {
+    // rollup 配置
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes("main.css")) {
+            // 需要单独分割那些资源 就写判断逻辑就行
+            return 'src/assets/main.css';
+          }
+          if (id.includes("HomeView.vue")) {
+            // 单独分割hello world.vue文件
+            return 'src/views/HomeView.vue';
+          }
+          // // 最小化拆分包
+          if (id.includes("node_modules")) {
+            return id
+                .toString()
+                .split("node_modules/")[1]
+                .split("/")[0]
+                .toString();
+          }
+        }
+      }
+    }
   }
 })

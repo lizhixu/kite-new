@@ -7,8 +7,7 @@
       </el-col>
       <el-col :span="7" class="sidebar">
         <div class="sidebar__inner">
-          <Data/>
-          <WxCode class="mgt10"/>
+          <WxCode/>
           <HotListTp class="mgt10"/>
           <FriendsChain class="mgt10"/>
           <Copyright class="mgt10"/>

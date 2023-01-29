@@ -4,7 +4,7 @@
       <el-col :span="7">
         <router-link :to="'/article_detail/'+o">
           <el-image style="width: 205px; height: 150px;border-radius: 5px"
-                    src="//gimg2.baidu.com/image_search/src=http%3A%2F%2Fckfuture.cn%2Fupload%2Fue%2Fimage%2F20170221%2F1487663928883012.jpg&refer=http%3A%2F%2Fckfuture.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1668578834&t=432fa64ee8e9ced6e1e25542cfed405d"/>
+                    src="https://picx.zhimg.com/v2-c723c96636425aec5c56429abfb30d49_1440w.jpeg?source=d16d100b"/>
         </router-link>
       </el-col>
       <el-col :span="17">
@@ -31,7 +31,7 @@
           </el-col>
           <el-col :span="8" class="article-author">
             <el-avatar style="width: 25px;height: 25px;margin-right: 3px;"
-                       src="//tvax4.sinaimg.cn/crop.0.0.996.996.1024/e318a1b0ly8ggeuuuuuofj20ro0rotbk.jpg"
+                       src="//p3-passport.byteimg.com/img/user-avatar/cb1d6d812c74b1540552190d2429e81d~180x180.awebp"
             />
             <el-link :underline="false">JacyLi</el-link>
           </el-col>
@@ -78,9 +78,9 @@
 
 .start-cover {
   height: 50px;
-  margin: -15px 0 -35px 0;
-  /*background-image: url(//ttfou.com/images/2022/10/14/f76944211232b03289ab30dcb8e841c0.png);*/
-  background-image: url(//ttfou.com/images/2022/10/14/4d87388bf56266cd39af0ea1170ab64c.png);
+  margin: -15px -30px -35px 0;
+  background-image: url(//ttfou.com/images/2022/10/14/f76944211232b03289ab30dcb8e841c0.png);
+  //background-image: url(//ttfou.com/images/2022/10/14/4d87388bf56266cd39af0ea1170ab64c.png);
   background-size: 100% auto;
   background-repeat: no-repeat;
 }

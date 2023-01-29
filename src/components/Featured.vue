@@ -1,10 +1,5 @@
 <template>
   <el-card class="box-card">
-    <template #header>
-      <div class="card-header">
-        <span class="c-s-title">精选导读</span>
-      </div>
-    </template>
 
     <el-row>
       <el-col :span="8" v-for="o in 6" class="feat-list"

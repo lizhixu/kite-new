@@ -31,7 +31,7 @@
       </template>
     </el-menu-item>
     <el-menu-item class="k-avatar">
-      <el-avatar src="//tvax4.sinaimg.cn/crop.0.0.996.996.1024/e318a1b0ly8ggeuuuuuofj20ro0rotbk.jpg"></el-avatar>
+      <el-avatar src="//p3-passport.byteimg.com/img/user-avatar/cb1d6d812c74b1540552190d2429e81d~180x180.awebp"></el-avatar>
     </el-menu-item>
   </el-menu>
 </template>
