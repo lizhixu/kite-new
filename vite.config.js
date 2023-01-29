@@ -61,10 +61,6 @@ export default defineConfig({
             // 需要单独分割那些资源 就写判断逻辑就行
             return 'src/assets/main.css';
           }
-          if (id.includes("HomeView.vue")) {
-            // 单独分割hello world.vue文件
-            return 'src/views/HomeView.vue';
-          }
           // // 最小化拆分包
           if (id.includes("node_modules")) {
             return id
