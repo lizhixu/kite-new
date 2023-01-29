@@ -54,12 +54,19 @@ export default defineConfig({
   },
   build: {
     // rollup 配置
+    outDir: 'dist',
+    chunkSizeWarningLimit: 1000,
     rollupOptions: {
+      input: {
+        main: 'index.html',
+      },
       output: {
+        chunkFileNames: 'js/[name]-[hash].js', // 分类输出
+        entryFileNames: 'js/[name]-[hash].js',
+        assetFileNames: '[ext]/[name]-[hash].[ext]',
         manualChunks(id) {
-          if (id.includes("main.css")) {
-            // 需要单独分割那些资源 就写判断逻辑就行
-            return 'src/assets/main.css';
+          if (id.includes('avue')) {
+            return; //不打入这俩个文件相关的东西
           }
           // // 最小化拆分包
           if (id.includes("node_modules")) {
