@@ -7,6 +7,7 @@ import IconsResolver from 'unplugin-icons/resolver'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
+import legacyPlugin from '@vitejs/plugin-legacy'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -46,6 +47,36 @@ export default defineConfig({
     Icons({
       autoInstall: true,
     }),
+    //浏览器兼容
+    legacyPlugin({
+      targets: [
+          "defaults",
+          "> 1%",
+          "last 2 versions",
+          "not ie <= 8",
+          "ios > 7",
+      ],  // 需要兼容的目标列表，可以设置多个
+      additionalLegacyPolyfills:['regenerator-runtime/runtime'], // 面向IE11时需要此插件
+      renderLegacyChunks: true,
+      polyfills: [
+        'es.symbol',
+        'es.array.filter',
+        'es.promise',
+        'es.promise.finally',
+        'es/map',
+        'es/set',
+        'es.array.for-each',
+        'es.object.define-properties',
+        'es.object.define-property',
+        'es.object.get-own-property-descriptor',
+        'es.object.get-own-property-descriptors',
+        'es.object.keys',
+        'es.object.to-string',
+        'web.dom-collections.for-each',
+        'esnext.global-this',
+        'esnext.string.match-all'
+      ]
+    })
   ],
   resolve: {
     alias: {
