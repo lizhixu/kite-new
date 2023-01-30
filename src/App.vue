@@ -2,7 +2,9 @@
   <el-container class="bg">
     <el-header>
       <el-affix :offset="0">
-        <Header/>
+        <div class="k-header-bg">
+          <Header/>
+        </div>
       </el-affix>
     </el-header>
     <el-main>
@@ -23,5 +25,13 @@ import Header from "@/views/Layout/Header.vue";
 .el-main {
   width: 1110px;
   margin: auto;
+}
+.k-header-bg{
+  background-color: rgba(255, 255, 255, .96);
+  box-shadow: 0px 5px 40px 0px rgb(17 58 93 / 10%);
+  background-image: url(//dahaihao.com/zb_users/theme/hopelee/style/images/top-fr-bg.png);
+  background-position: center right;
+  background-size: auto 100%;
+  border-top: 2px solid #5cb9ff;
 }
 </style>

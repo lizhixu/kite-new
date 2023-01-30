@@ -31,7 +31,8 @@
       </template>
     </el-menu-item>
     <el-menu-item class="k-avatar">
-      <el-avatar src="//p3-passport.byteimg.com/img/user-avatar/cb1d6d812c74b1540552190d2429e81d~180x180.awebp"></el-avatar>
+      <el-avatar
+          src="//p3-passport.byteimg.com/img/user-avatar/cb1d6d812c74b1540552190d2429e81d~180x180.awebp"></el-avatar>
     </el-menu-item>
   </el-menu>
 </template>
@@ -55,12 +56,9 @@ const handleSelect = (key, keyPath) => {
 }
 
 .k-header {
-  box-shadow: 0px 5px 40px 0px rgb(17 58 93 / 10%);
-  background-color: rgba(255, 255, 255, .96);
-  background-image: url(//dahaihao.com/zb_users/theme/hopelee/style/images/top-fr-bg.png);
-  background-position: center right;
-  background-size: auto 100%;
-  border-top: 2px solid #5cb9ff;
+  width: 1110px;
+  margin: auto;
+  border-bottom: none;
 }
 
 .logo:after {

@@ -27,8 +27,8 @@ import WxCode from "@/components/WxCode.vue";
 
 onMounted(() => {
   var sidebar = new StickySidebar('.sidebar', {
-    topSpacing: 20,
-    bottomSpacing: 20,
+    topSpacing: 30,
+    bottomSpacing: 30,
     containerSelector: '.main-content',
     scrollContainer: '#main-viewport'
   });

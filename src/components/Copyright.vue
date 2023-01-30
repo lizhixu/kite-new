@@ -1,12 +1,11 @@
 <template>
-  <div class="mgt10 copyright">
+  <div class="copyright">
     <span>
       <IconSupport/>
       Designed By <el-link type="danger">lizhixu</el-link>
     </span>
     <p>2022爱的飞行日记©</p>
     <p>备案号：陇ICP123213</p>
-    <p>本博客内容托管于<a href="https://www.oschina.net/" title="OSCHINA" target="_blank"><IconOschina/></a></p>
   </div>
 </template>
 
