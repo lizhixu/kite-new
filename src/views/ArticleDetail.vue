@@ -20,33 +20,28 @@
           最后更新时间：2022年10月17日 14:23:05
         </div>
       </el-card>
-      <el-card class="mgt10" v-show="false">
+      <el-card class="mgt10 page">
         <el-row>
           <el-col :span="10">
-            <u-fold line="1">
-              <h4>
-                <router-link to="">
-                  每当白日依山尽，夕阳余辉便透过朵朵云层，像万道金光，如霞光万丈，把天空白云染得红彤彤，把大地山河映得金灿灿，仿佛整个世界在那一瞬间都变得金碧辉煌，热情奔放起来
-                </router-link>
-              </h4>
-            </u-fold>
+            上一篇：
+            <router-link to="">
+              每当白日依山尽，夕阳余辉便透过朵朵
+            </router-link>
           </el-col>
-          <el-col :span="4"></el-col>
+          <el-col :span="4" style="text-align: center">
+            <u-divider vertical /></el-col>
           <el-col :span="10">
-            <u-fold line="1">
-              <h4>
-                <router-link to="">
-                  每当白日依山尽，夕阳余辉便透过朵朵云层，像万道金光，如霞光万丈，把天空白云染得红彤彤，把大地山河映得金灿灿，仿佛整个世界在那一瞬间都变得金碧辉煌，热情奔放起来
-                </router-link>
-              </h4>
-            </u-fold>
+            下一篇：
+            <router-link to="">
+              每当白日依山尽，夕阳余辉便透过朵朵云层
+            </router-link>
           </el-col>
         </el-row>
       </el-card>
       <el-card class="mgt10" id="comment">
         <div class="comment-view" style="padding: 0px">
-          <u-comment :config="config" @submit="submit" @like="like" @remove="remove" @report="report">
-            <template #list-title>全部评论</template>
+          <u-comment :config="config" :show-size="2" @submit="submit" @like="like" @remove="remove" @report="report">
+            <!-- <template #list-title>全部评论</template> -->
           </u-comment>
         </div>
       </el-card>
@@ -82,8 +77,8 @@ onMounted(() => {
     scrollContainer: '#main-viewport'
   });
   const slide = document.getElementById(router.currentRoute.value.hash.substring(1))
-  if (slide){
-    window.scrollTo(0,slide.offsetTop)
+  if (slide) {
+    window.scrollTo(0, slide.offsetTop)
   }
 })
 
@@ -118,9 +113,9 @@ const props = ref({
   lead: 'lead',
   body: 'body'
 })
-var config = reactive({
+let config = reactive({
   user: {
-    id: 1,
+    id: '1',
     username: 'user',
     avatar: 'https://static.juzicon.com/avatars/avatar-200602130320-HMR2.jpeg?x-oss-process=image/resize,w_100',
     // 评论id数组 建议:存储方式用户id和文章id和评论id组成关系,根据用户id和文章id来获取对应点赞评论id,然后加入到数组中返回
@@ -129,12 +124,11 @@ var config = reactive({
   emoji: emoji,
   comments: []
 });
-var temp_id = 100;
+let temp_id = 100;
 // 提交评论事件
-var submit = function (content, parentId, finish) {
-  console.log(content, parentId);
-  var comment = {
-    id: (temp_id += 1),
+let submit =  (content, parentId, finish)=> {
+  let comment = {
+    id: String((temp_id += 1)),
     parentId: parentId,
     uid: config.user.id,
     username: config.user.username,
@@ -147,11 +141,12 @@ var submit = function (content, parentId, finish) {
     createTime: '1分钟前',
     reply: null
   };
-  setTimeout(function () {
+  setTimeout(()=> {
     finish(comment);
     UToast({message: '评论成功!', type: 'info'});
   }, 200);
 };
+
 // 删除评论
 var remove = function (id, finish) {
   setTimeout(function () {
@@ -170,29 +165,29 @@ var report = function (id, finish) {
 // 点赞按钮事件
 var like = function (id, finish) {
   console.log(id);
-  setTimeout(function () {
+  setTimeout( ()=> {
     finish();
   }, 200);
 };
 config.comments = [
   {
-    id: 1,
+    id: '1',
     parentId: null,
-    uid: 1,
+    uid: '1',
     username: '落🤍尘',
     avatar: 'https://static.juzicon.com/avatars/avatar-200602130320-HMR2.jpeg?x-oss-process=image/resize,w_100',
     level: 6,
     link: '/1',
     address: '来自上海',
-    content: '缘生缘灭，缘起缘落，我在看别人的故事，别人何尝不是在看我的故事?别人在演绎人生，我又何尝不是在这场戏里?谁的眼神沧桑了谁?我的眼神，只是沧桑了自己[喝酒]',
+    content:
+        '缘生缘灭，缘起缘落，我在看别人的故事，别人何尝不是在看我的故事?别人在演绎人生，我又何尝不是在这场戏里?谁的眼神沧桑了谁?我的眼神，只是沧桑了自己[喝酒]',
     like: 2,
-    createTime: '1分钟前',
-    reply: null
+    createTime: '1分钟前'
   },
   {
-    id: 2,
+    id: '2',
     parentId: null,
-    uid: 2,
+    uid: '2',
     username: '悟二空',
     avatar: 'https://static.juzicon.com/user/avatar-bf22291e-ea5c-4280-850d-88bc288fcf5d-220408002256-ZBQQ.jpeg',
     level: 1,
@@ -205,11 +200,12 @@ config.comments = [
       total: 2,
       list: [
         {
-          id: 21,
-          parentId: 2,
-          uid: 3,
+          id: '21',
+          parentId: '2',
+          uid: '3',
           username: '别扰我清梦*ぁ',
-          avatar: 'https://static.juzicon.com/user/avatar-8b6206c1-b28f-4636-8952-d8d9edec975d-191001105631-MDTM.jpg?x-oss-process=image/resize,m_fill,w_100,h_100',
+          avatar:
+              'https://static.juzicon.com/user/avatar-8b6206c1-b28f-4636-8952-d8d9edec975d-191001105631-MDTM.jpg?x-oss-process=image/resize,m_fill,w_100,h_100',
           level: 5,
           link: '/21',
           address: '来自重庆',
@@ -218,11 +214,12 @@ config.comments = [
           createTime: '1分钟前'
         },
         {
-          id: 22,
-          parentId: 2,
-          uid: 4,
+          id: '22',
+          parentId: '2',
+          uid: '4',
           username: 'Blizzard',
-          avatar: 'https://static.juzicon.com/user/avatar-3cb86a0c-08e7-4305-9ac6-34e0cf4937cc-180320123405-BCV6.jpg?x-oss-process=image/resize,m_fill,w_100,h_100',
+          avatar:
+              'https://static.juzicon.com/user/avatar-3cb86a0c-08e7-4305-9ac6-34e0cf4937cc-180320123405-BCV6.jpg?x-oss-process=image/resize,m_fill,w_100,h_100',
           level: 3,
           link: '/22',
           content: '回复 <span style="color: blue;"">@别扰我清梦*ぁ:</span> 看完打了一个哈切。。。会传染。。。[委屈]',
@@ -241,11 +238,13 @@ config.comments = [
 .article-detail {
   margin-top: 20px;
 }
+
 .u-comment {
   padding: 0;
   margin-top: -30px;
 }
-.privacy_agreement{
+
+.privacy_agreement {
   text-align: justify;
   border-radius: 8px;
   position: relative;
@@ -253,6 +252,7 @@ config.comments = [
   padding: 15px;
   margin-bottom: 20px;
 }
+
 .privacy_agreement:after {
   content: "";
   display: block;
@@ -266,7 +266,8 @@ config.comments = [
   z-index: 26;
   transform: rotateZ(180deg);
 }
-.create-desc{
+
+.create-desc {
   color: #666666;
 }
 </style>

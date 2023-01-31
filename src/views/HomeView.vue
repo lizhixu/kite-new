@@ -7,7 +7,8 @@
       </el-col>
       <el-col :span="7" class="sidebar">
         <div class="sidebar__inner">
-          <WxCode/>
+          <u-search :config="config" @submit="submit"></u-search>
+          <WxCode class="mgt10"/>
           <HotListTp class="mgt10"/>
           <FriendsChain class="mgt10"/>
           <Copyright class="mgt10"/>
@@ -18,12 +19,31 @@
 </template>
 <script setup>
 import Article from "@/components/Article.vue";
-import Data from "@/components/Data.vue";
 import HotListTp from "@/components/HotListTp.vue";
 import FriendsChain from "@/components/FriendsChain.vue";
 import Copyright from "@/components/Copyright.vue";
 import StickySidebar from "sticky-sidebar-v2";
 import WxCode from "@/components/WxCode.vue";
+
+const config = ref({
+  keywords: ['斗罗大陆', '斗破苍穹', '吞噬星空', '凡人修仙传', '一念永恒'],
+  hotSearchList: [
+    '斗罗大陆',
+    '斗破苍穹',
+    '吞噬星空',
+    '凡人修仙传',
+    '一念永恒',
+    '完美世界',
+    '鬼灭之刃',
+    '间谍过家家',
+    '武动乾坤',
+    '神印王座'
+  ] // top10 热门搜索 最多显示10条数据
+});
+const submit = function (val) {
+  console.log(val);
+  window.open('/all?keyword=' + val);
+};
 
 onMounted(() => {
   var sidebar = new StickySidebar('.sidebar', {
@@ -57,5 +77,14 @@ onMounted(() => {
   font-weight: bold;
   border-bottom: 3px solid #ff5757;
   text-shadow: 2px 2px 3px #9f9b9b;
+}
+
+.u-search {
+  width: auto !important;
+}
+
+.card-box {
+  background: #ffffff;
+  width: 310px !important;
 }
 </style>

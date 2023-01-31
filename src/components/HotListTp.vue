@@ -29,6 +29,9 @@
 </script>
 
 <style scoped>
+.hot-list{
+  font-size: 14px;
+}
 .hot-list-num {
   position: absolute;
   left: 5px;
