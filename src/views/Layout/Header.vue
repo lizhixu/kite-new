@@ -59,6 +59,7 @@ const handleSelect = (key, keyPath) => {
   width: 1110px;
   margin: auto;
   border-bottom: none;
+  background-color: #FFFFFF00;
 }
 
 .logo:after {

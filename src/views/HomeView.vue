@@ -47,8 +47,8 @@ const submit = function (val) {
 
 onMounted(() => {
   var sidebar = new StickySidebar('.sidebar', {
-    topSpacing: 30,
-    bottomSpacing: 30,
+    topSpacing: 40,
+    bottomSpacing: 40,
     containerSelector: '.main-content',
     scrollContainer: '#main-viewport'
   });
