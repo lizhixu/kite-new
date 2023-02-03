@@ -55,11 +55,9 @@
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
   text-overflow: ellipsis;
-  overflow: hidden;
 }
 
 .normal {
-  color: black;
   font-size: 15px;
   height: 25px;
   display: block;
