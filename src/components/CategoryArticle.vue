@@ -25,7 +25,7 @@
           </el-col>
           <el-col :span="8" class="article-author">
             <el-avatar style="width: 25px;height: 25px;margin-right: 3px;"
-                       src="//tvax4.sinaimg.cn/crop.0.0.996.996.1024/e318a1b0ly8ggeuuuuuofj20ro0rotbk.jpg"
+                       src="https://picx.zhimg.com/v2-c723c96636425aec5c56429abfb30d49_1440w.jpeg?source=d16d100b"
             />
             <el-link :underline="false">JacyLi</el-link>
           </el-col>

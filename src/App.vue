@@ -1,16 +1,14 @@
 <template>
-  <el-container class="bg">
-    <el-header>
-      <el-affix :offset="0">
-        <div class="k-header-bg">
-          <Header/>
-        </div>
-      </el-affix>
-    </el-header>
-    <el-main>
+  <div class="bg">
+    <el-affix :offset="0">
+      <div class="k-header-bg">
+        <Header/>
+      </div>
+    </el-affix>
+    <div class="main">
       <RouterView/>
-    </el-main>
-  </el-container>
+    </div>
+  </div>
   <el-backtop :right="100" :bottom="100"/>
 </template>
 <script setup>
@@ -22,11 +20,12 @@ import Header from "@/views/Layout/Header.vue";
 <style>
 @import './assets/fonts.css';
 
-.el-main {
+.main {
   width: 1110px;
-  margin: auto;
+  margin: 20px auto;
 }
-.k-header-bg{
+
+.k-header-bg {
   background-color: rgba(255, 255, 255, .96);
   box-shadow: 0px 5px 40px 0px rgb(17 58 93 / 10%);
   border-top: 2px solid #5cb9ff;

@@ -1,7 +1,9 @@
 body {
     font-family: "JetBrainsMono-Medium";
 }
-
+body,html{
+    height: 100%;
+}
 ul, ol {
     padding: 0;
 }

@@ -1,11 +1,11 @@
 <template>
   <main>
-    <el-row class="main-content">
-      <el-col :span="17" class="content">
+    <div class="main-content">
+      <div class="content" style="width: 800px;display: inline-block">
         <Featured/>
         <Article/>
-      </el-col>
-      <el-col :span="7" class="sidebar">
+      </div>
+      <div class="sidebar" style="width: 300px;float: right">
         <div class="sidebar__inner">
           <u-search :config="config" @submit="submit"></u-search>
           <WxCode class="mgt10"/>
@@ -13,8 +13,8 @@
           <FriendsChain class="mgt10"/>
           <Copyright class="mgt10"/>
         </div>
-      </el-col>
-    </el-row>
+      </div>
+    </div>
   </main>
 </template>
 <script setup>
@@ -47,8 +47,8 @@ const submit = function (val) {
 
 onMounted(() => {
   var sidebar = new StickySidebar('.sidebar', {
-    topSpacing: 40,
-    bottomSpacing: 40,
+    topSpacing: 20,
+    bottomSpacing: 20,
     containerSelector: '.main-content',
     scrollContainer: '#main-viewport'
   });
