@@ -14,7 +14,7 @@
     "nprogress": "^0.2.0",
     "pinia": "^2.0.21",
     "sticky-sidebar-v2": "^1.1.1",
-    "undraw-ui": "^0.6.9",
+    "undraw-ui": "^0.8.2",
     "vue": "^3.2.38",
     "vue-router": "^4.1.5"
   },

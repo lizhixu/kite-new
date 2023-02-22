@@ -30,7 +30,7 @@
   resolved "https://registry.npmmirror.com/@ctrl/tinycolor/-/tinycolor-3.5.0.tgz#6e52b3d1c38d13130101771821e09cdd414a16bc"
   integrity sha512-tlJpwF40DEQcfR/QF+wNMVyGMaO9FQp6Z1Wahj4Gk3CJQYHwA2xVG7iKDFdW6zuxZY9XWOpGcfNCTsX4McOsOg==
 
-"@element-plus/icons-vue@^2.0.10", "@element-plus/icons-vue@^2.0.6":
+"@element-plus/icons-vue@^2.0.10", "@element-plus/icons-vue@^2.0.6", "@element-plus/icons-vue@^2.0.9":
   version "2.0.10"
   resolved "https://registry.npmmirror.com/@element-plus/icons-vue/-/icons-vue-2.0.10.tgz#60808d613c3dbdad025577022be8a972739ade21"
   integrity sha512-ygEZ1mwPjcPo/OulhzLE7mtDrQBWI8vZzEWSNB2W/RNCRjoQGwbaK4N8lV4rid7Ts4qvySU3njMN7YCiSlSaTQ==
@@ -1163,11 +1163,12 @@ ufo@^1.0.1:
   resolved "https://registry.npmmirror.com/ufo/-/ufo-1.0.1.tgz#64ed43b530706bda2e4892f911f568cf4cf67d29"
   integrity sha512-boAm74ubXHY7KJQZLlXrtMz52qFvpsbOxDcZOnw/Wf+LS4Mmyu7JxmzD4tDLtUQtmZECypJ0FrCz4QIe6dvKRA==
 
-undraw-ui@^0.6.9:
-  version "0.6.9"
-  resolved "https://registry.npmmirror.com/undraw-ui/-/undraw-ui-0.6.9.tgz#9ce095d8db4d5768f34510b9c9b27b63a34353cb"
-  integrity sha512-z/nN9dcr/TrTT/N8B+f7fZt6gWxCUpxGkovZT82DO31w9QCwVYA3f+tF+3kWiGFvQJOk9QIB0X/0LTuEroIVHA==
+undraw-ui@^0.8.2:
+  version "0.8.2"
+  resolved "https://registry.yarnpkg.com/undraw-ui/-/undraw-ui-0.8.2.tgz#91ed66fc2e2f96b0d2b6dfd6616b097cd92ba289"
+  integrity sha512-La/fiGSgD4VZLfkKTuxt3A0iP7SRkrnUkRIU3mYmXH5m3Wq5t2TzJMWv9ETJt/jo7G+54CzllHhOtiSbiFiWdA==
   dependencies:
+    "@element-plus/icons-vue" "^2.0.9"
     element-plus "^2.1.8"
     store "^2.0.12"
     vue "^3.2.31"
