@@ -12,6 +12,7 @@ import App from './App.vue'
 import router from './router'
 
 import './assets/main.css'
+import {useCategoryStore} from "@/stores/category";
 
 const app = createApp(App)
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
@@ -20,9 +21,10 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 
 app.use(ElementPlus)
 app.use(Avue);
+app.use(UndrawUi)
 
 app.use(createPinia())
+useCategoryStore().request();
 app.use(router)
-app.use(UndrawUi)
 
 app.mount('#app')

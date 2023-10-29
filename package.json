@@ -8,13 +8,16 @@
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.0.10",
-    "@smallwei/avue": "next",
+    "@smallwei/avue": "^3.2.21",
     "axios": "^1.2.6",
+    "dayjs": "^1.11.10",
     "element-plus": "^2.2.17",
+    "lodash": "^4.17.21",
+    "markdown-it": "^13.0.2",
     "nprogress": "^0.2.0",
     "pinia": "^2.0.21",
     "sticky-sidebar-v2": "^1.1.1",
-    "undraw-ui": "^0.8.2",
+    "undraw-ui": "^0.9.9",
     "vue": "^3.2.38",
     "vue-router": "^4.1.5"
   },

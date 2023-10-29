@@ -1,21 +1,21 @@
 <template>
-  <div v-for="o in 10" :key="o">
-    <el-card class="box-card mgt10">
+  <div v-for="(article,index) in articleList" :key="index">
+    <el-card class="box-card mgt10" v-if="article.attributes.img.length > 0">
       <el-row :gutter="30">
         <el-col :span="7">
-          <router-link :to="'/article_detail/'+o">
+          <router-link :to="'/article_detail/'+article.id">
             <el-image style="width: 205px; height: 150px;border-radius: 5px"
-                      src="https://picx.zhimg.com/v2-c723c96636425aec5c56429abfb30d49_1440w.jpeg?source=d16d100b"/>
+                      :src="article.attributes.img[0]"/>
           </router-link>
         </el-col>
         <el-col :span="17">
-          <div class="start-cover" :style="{'background-image':'url(//ttfou.com/images/2022/10/14/4d87388bf56266cd39af0ea1170ab64c.png)'}"></div>
-          <router-link :to="'/article_detail/'+o" class="article-title">
-            通过SourceMap还原了Vue前端代码怎么去运行调试和二次开发？
+          <div class="start-cover"
+               :style="{'background-image':`url(${api_url + category.categories[article.attributes.category.data.id].attributes.picture.data.attributes.url})`}"></div>
+          <router-link :to="'/article_detail/'+article.id" class="article-title">
+            {{ article.attributes.title }}
           </router-link>
-          <u-fold line="2" class="article-desc">
-            <p>
-              每当白日依山尽，夕阳余辉便透过朵朵云层，像万道金光，如霞光万丈，把天空白云染得红彤彤，把大地山河映得金灿灿，仿佛整个世界在那一瞬间都变得金碧辉煌，热情奔放起来</p>
+          <u-fold line="3" class="article-desc">
+            <p>{{ article.attributes.description || fremoveHtmlStyle(md.render(article.attributes.content)) }}</p>
           </u-fold>
           <el-row :gutter="10" class="article-detail">
             <el-col :span="6">
@@ -40,14 +40,14 @@
         </el-col>
       </el-row>
     </el-card>
-    <el-card class="box-card mgt10">
-      <div class="start-cover start-cover-2" :style="{'background-image':'url(//ttfou.com/images/2022/10/14/f76944211232b03289ab30dcb8e841c0.png)'}"></div>
-      <router-link :to="'/article_detail/'+o" class="article-title" style="width: 550px">
-        通过SourceMap还原了Vue前端代码怎么去运行调试和二次开发？
+    <el-card class="box-card mgt10" v-else>
+      <div class="start-cover start-cover-2"
+           :style="{'background-image':`url(${api_url + category.categories[article.attributes.category.data.id].attributes.picture.data.attributes.url})`}"></div>
+      <router-link :to="'/article_detail/'+article.id" class="article-title" style="width: 550px">
+        {{ article.attributes.title }}
       </router-link>
-      <u-fold line="2" class="article-desc">
-        <p>
-          每当白日依山尽，夕阳余辉便透过朵朵云层，像万道金光，如霞光万丈，把天空白云染得红彤彤，把大地山河映得金灿灿，仿佛整个世界在那一瞬间都变得金碧辉煌，热情奔放起来</p>
+      <u-fold line="3" class="article-desc">
+        <p>{{ article.attributes.description || fremoveHtmlStyle(md.render(article.attributes.content)) }}</p>
       </u-fold>
       <el-row :gutter="10" class="article-detail">
         <el-col :span="6">
@@ -57,7 +57,7 @@
           <span><View style="width: 1em;"/>100阅读</span>
         </el-col>
         <el-col :span="5">
-          <router-link :to="'/article_detail/'+o +'#comment'" class="article-detail-a">
+          <router-link :to="'/article_detail/'+article.id +'#comment'" class="article-detail-a">
             <ChatRound style="width: 1em;"/>
             <span>100评论</span>
           </router-link>
@@ -77,6 +77,34 @@
 </template>
 
 <script setup>
+import {find} from "@/utils/strapi";
+import {ref} from "vue";
+import _ from 'lodash'
+import {extractImagesFromMarkdown, fremoveHtmlStyle} from "@/utils/util";
+import MarkdownIt from "markdown-it";
+import {useCategoryStore} from "@/stores/category";
+
+const api_url = import.meta.env.VITE_API_URL;
+const md = new MarkdownIt()
+
+let loading = ref(true);
+const articleList = ref();
+find('articles', {
+  populate: '*',
+  filters: {},
+  pagination: {
+    start: 0,
+    limit: 20
+  }
+}).then((res) => {
+  console.log(res)
+  articleList.value = _.map(res.data, (data) => {
+    data.attributes.img = extractImagesFromMarkdown(data.attributes.content)
+    return data;
+  });
+  loading.value = false;
+});
+const category = useCategoryStore();
 </script>
 <style scoped>
 .article-page {
@@ -104,8 +132,7 @@
 }
 
 .article-desc {
-  font-size: 14px;
-  margin-top: -10px;
+  line-height: 28px;
 }
 
 .start-cover {

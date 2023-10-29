@@ -24,6 +24,7 @@ import FriendsChain from "@/components/FriendsChain.vue";
 import Copyright from "@/components/Copyright.vue";
 import StickySidebar from "sticky-sidebar-v2";
 import WxCode from "@/components/WxCode.vue";
+import {ref} from "vue";
 
 const config = ref({
   keywords: ['斗罗大陆', '斗破苍穹', '吞噬星空', '凡人修仙传', '一念永恒'],
@@ -44,7 +45,6 @@ const submit = function (val) {
   console.log(val);
   window.open('/all?keyword=' + val);
 };
-
 onMounted(() => {
   var sidebar = new StickySidebar('.sidebar', {
     topSpacing: 20,

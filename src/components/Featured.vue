@@ -1,30 +1,63 @@
 <template>
   <el-card class="box-card">
-
     <el-row>
-      <el-col :span="8" v-for="o in 6" class="feat-list"
-              :class="(o>3?'brsd pgt10':'brsd bbsd') + (o%3 == 0?' brsdh':'')">
-        <article class="guide-inner top-num0">
-          <div class="guide-inner-info">
-            <div class="g-i-top">
-              <span class="g-i-cate">
-                  <el-tag>PHP</el-tag>
-              </span>
-              <span class="g-i-time"><Clock style="width: 1em;"/>2022-09-08</span>
-            </div>
-            <h5>
-              <router-link :to="'/article_detail/'+o" class="normal">iphone验机步骤（iPhone验机流程）</router-link>
-            </h5>
-            <p>
-              最近有很多小伙伴咨询关于iphone验机步骤的问题，小编结合多年的经验整理出来一些i最近有很多小伙伴咨询关于iphone验机步骤的问题，小编结合多年的经验整理出来一些i最近有很多小伙伴咨询关于iphone验机步骤的问题，小编结合多年的经验整理出来一些i...</p>
-          </div>
-        </article>
+      <el-col :span="8" v-for="(article,index) in articleList" class="feat-list"
+              :class="(index>2?'brsd pgt10':'brsd bbsd') + ((index+1)%3 === 0?' brsdh':'')">
+        <el-skeleton style="width: 240px" :loading="loading" animated :rows="3">
+          <template #default>
+            <article class="guide-inner top-num0">
+              <div class="guide-inner-info">
+                <div class="g-i-top">
+                  <span class="g-i-cate">
+                      <el-tag>{{ article.attributes.category.data.attributes.name}}</el-tag>
+                  </span>
+                  <span class="g-i-time"><Clock
+                      style="width: 1em;"/>{{ dayjs(article.attributes.updatedAt).format('YYYY-MM-DD') }}</span>
+                </div>
+                <h5>
+                  <router-link :to="'/article_detail/'+article.id" class="normal">{{ article.attributes.title }}
+                  </router-link>
+                </h5>
+                <u-fold line="1">
+                  <p>{{ article.attributes.description || fremoveHtmlStyle(md.render(article.attributes.content)) }}</p>
+                </u-fold>
+              </div>
+            </article>
+          </template>
+        </el-skeleton>
       </el-col>
     </el-row>
   </el-card>
 </template>
 
 <script setup>
+import {ref} from "vue";
+import {find} from "@/utils/strapi";
+import MarkdownIt from "markdown-it";
+import {fremoveHtmlStyle} from "@/utils/util";
+import dayjs from "dayjs";
+import {useCategoryStore} from "@/stores/category";
+
+const md = new MarkdownIt()
+const category = useCategoryStore();
+
+let loading = ref(true);
+const articleList = ref(Array(6).fill({}));
+find('articles', {
+  populate: '*',
+  filters: {
+    chosen: {
+      '$eq': true
+    }
+  },
+  pagination: {
+    start: 0,
+    limit: 6
+  }
+}).then((res) => {
+  articleList.value = res.data;
+  loading.value = false;
+});
 </script>
 
 <style scoped>

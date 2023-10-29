@@ -9,16 +9,19 @@
   >
     <el-menu-item class="logo">
       <router-link to="/">
-        <img src="https://ttfou.com/images/2022/10/17/0e466ab23365717fd6861bbb621d4f8b.png"
+        <img :src="logo"
              alt="" style="width: 50px;">
       </router-link>
     </el-menu-item>
     <el-menu-item index="/">首页</el-menu-item>
     <el-sub-menu index="2">
       <template #title>专栏</template>
-      <el-menu-item index="/special/php">PHP</el-menu-item>
-      <el-menu-item index="/special/golang">Go</el-menu-item>
-      <el-menu-item index="/special/vuejs">VueJs</el-menu-item>
+      <template v-for="category in category.categories">
+        <el-menu-item :index="'/special/'+category.id" v-if="category.attributes.status">{{
+            category.attributes.name
+          }}
+        </el-menu-item>
+      </template>
     </el-sub-menu>
     <el-menu-item index="3">Tool</el-menu-item>
     <div class="flex-grow"/>
@@ -39,11 +42,22 @@
 
 <script setup>
 import {ref} from 'vue'
+import {find} from "@/utils/strapi";
+import {useCategoryStore} from "@/stores/category";
 
 const activeIndex = ref('/')
 const handleSelect = (key, keyPath) => {
   console.log(key, keyPath)
 }
+const category = useCategoryStore();
+
+const blogConfig = ref();
+const logo = ref('');
+find('blog-config', {populate: '*'}).then((res) => {
+  blogConfig.value = res.data.attributes;
+  logo.value = import.meta.env.VITE_API_URL + blogConfig.value.logo.data[0].attributes.url
+});
+
 </script>
 
 <style>

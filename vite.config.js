@@ -14,6 +14,13 @@ export default defineConfig({
   plugins: [
     Vue(),
     AutoImport({
+      // targets to transform
+      include: [
+        /\.[tj]sx?$/, // .ts, .tsx, .js, .jsx
+        /\.vue$/,
+        /\.vue\?vue/, // .vue
+        /\.md$/, // .md
+      ],
       // Auto import functions from Vue, e.g. ref, reactive, toRef...
       // 自动导入 Vue 相关函数，如：ref, reactive, toRef 等
       imports: ['vue'],
@@ -28,7 +35,8 @@ export default defineConfig({
         IconsResolver({
           prefix: 'Icon',
         }),
-      ]
+      ],
+      vueTemplate: true
     }),
 
     Components({
@@ -110,5 +118,14 @@ export default defineConfig({
         }
       }
     }
+  },
+  server: {
+    proxy: {
+      "/api": {
+        target: "https://ilzx.eu.org",
+        changeOrigin: true,
+        // rewrite: (path) => path.replace(/^\/api/, ""),
+      },
+    },
   }
 })
