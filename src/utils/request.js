@@ -1,10 +1,9 @@
 import Axios from 'axios'
 
 const axios = Axios;
-
+const baseURL = import.meta.env.MODE === 'development' ? '/api' : import.meta.env.VITE_API_URL;
 const service = Axios.create({
-    baseURL: '/api',
-    timeout: 5000,
+    baseURL: baseURL,
     headers: {'Content-Type': 'application/json'},
 });
 
