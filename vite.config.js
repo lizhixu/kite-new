@@ -122,7 +122,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "https://ilzx.eu.org",
+        target: "https://api.lizhixu.cn",
         changeOrigin: true,
         // rewrite: (path) => path.replace(/^\/api/, ""),
       },
