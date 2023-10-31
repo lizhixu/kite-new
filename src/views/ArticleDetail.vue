@@ -7,7 +7,7 @@
           <el-breadcrumb-item>PHP</el-breadcrumb-item>
           <el-breadcrumb-item>正文</el-breadcrumb-item>
         </el-breadcrumb>
-        <avue-article id="article" class="article-detail" :props="props"
+        <avue-article id="article" class="article-detail markdown-body" :props="props"
                       :data="data"></avue-article>
         <div class="privacy_agreement mgt10">
           <p>版权声明：</p>
@@ -17,7 +17,7 @@
         </div>
 
         <div class="create-desc mgt10">
-          最后更新时间：2022年10月17日 14:23:05
+          最后更新时间：{{ data.updatedAt }}
         </div>
       </el-card>
       <el-card class="mgt10 page">
@@ -29,7 +29,8 @@
             </router-link>
           </el-col>
           <el-col :span="4" style="text-align: center">
-            <u-divider vertical /></el-col>
+            <u-divider vertical/>
+          </el-col>
           <el-col :span="10">
             下一篇：
             <router-link to="">
@@ -49,7 +50,6 @@
     <el-col :span="7" class="sidebar">
       <div class="sidebar__inner">
         <Category/>
-        <RecentlyPublished class="mgt10"/>
         <el-card class="article-catalog mgt10">
           <template #header>
             <div class="card-header">
@@ -58,16 +58,26 @@
           </template>
           <u-anchor container="#article"></u-anchor>
         </el-card>
+        <RecentlyPublished class="mgt10"/>
       </div>
     </el-col>
   </el-row>
 </template>
 <script setup>
+import 'github-markdown-css/github-markdown-light.css'
+import {useRoute} from 'vue-router'
 import {ArrowRight} from '@element-plus/icons-vue'
 import {UToast} from 'undraw-ui'
 import emoji from '@/emoji'
 import StickySidebar from "sticky-sidebar-v2";
 import router from "@/router";
+import {findOne} from "@/utils/strapi";
+import MarkdownIt from "markdown-it";
+import dayjs from "dayjs";
+
+const md = new MarkdownIt()
+const route = useRoute();
+const id = route.params.id;
 
 onMounted(() => {
   new StickySidebar('.sidebar', {
@@ -83,35 +93,25 @@ onMounted(() => {
 })
 
 const data = ref({
-  title: '永远的蝴蝶',
-  meta: '陈启佑（台湾）',
-  lead: '《永远的蝴蝶》是台湾著名作家陈启佑先生的一篇小小说。这是一篇散文化的微型小说，其语言具有较强的抒情色彩，立意含蓄隽永 。作品情节很简单，写的是一个凄美的爱情故事。在一个雨天，“我”的恋人樱子自愿帮“我”到马路对面去寄信。随着一阵拔尖的刹车声，樱子年轻的生命消逝了。',
-  body: `<h2>哈哈哈</h2><p>那时候刚好下着雨，柏油路面湿冷冷的，还闪烁着青、黄、红颜色的灯火。我们就在骑楼下躲雨，看绿色的邮筒孤独地站在街的对面。我白色风衣的大口袋里有一封要寄给南部的母亲的信。樱子说她可以撑伞过去帮我寄信。我默默点头。</p>
-                <p>“谁叫我们只带来一把小伞哪。”她微笑着说，一面撑起伞，准备过马路帮我寄信。从她伞骨渗下来的小雨点，溅在我的眼镜玻璃上。</p>
-                <p>随着一阵拔尖的煞车声，樱子的一生轻轻地飞了起来。缓缓地，飘落在湿冷的街面上，好像一只夜晚的蝴蝶。</p>
-                <p>虽然是春天，好像已是秋深了。</p>
-                <p>她只是过马路去帮我寄信。这简单的行动，却要叫我终身难忘了。我缓缓睁开眼，茫然站在骑楼下，眼里裹着滚烫的泪水。世上所有的车子都停了下来，人潮涌向马路中央。没有人知道那躺在街面的，就是我的，蝴蝶。这时她只离我五公尺，竟是那么遥远。更大的雨点溅在我的眼镜上，溅到我的生命里来。</p>
-                <h2>呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵</h2>
-                <p>为什么呢？只带一把雨伞？</p>
-                <h3>sdasds</h3>
-                <p>然而我又看到樱子穿着白色的风衣，撑着伞，静静地过马路了。她是要帮我寄信的。那，那是一封写给南部母亲的信。我茫然站在骑楼下，我又看到永远的樱子走到街心。其实雨下得并不大，却是一生一世中最大的一场雨。而那封信是这样写的，年轻的樱子知不知道呢？</p>
-                <img src="https://img1.baidu.com/it/u=3155988012,1977937542&fm=253&fmt=auto&app=138&f=JPG?w=640&h=343" alt="">
-                <blockquote>
-                  <p>妈：我打算在下个月和樱子结婚。</p>
-                </blockquote><p>虽然是春天，好像已是秋深了。</p>
-                <h2>啊是的萨达萨达萨达萨达撒的</h2>
-                <p>她只是过马路去帮我寄信。这简单的行动，却要叫我终身难忘了。我缓缓睁开眼，茫然站在骑楼下，眼里裹着滚烫的泪水。世上所有的车子都停了下来，人潮涌向马路中央。没有人知道那躺在街面的，就是我的，蝴蝶。这时她只离我五公尺，竟是那么遥远。更大的雨点溅在我的眼镜上，溅到我的生命里来。</p>
-                <p>为什么呢？只带一把雨伞？</p>
-                <p>然而我又看到樱子穿着白色的风衣，撑着伞，静静地过马路了。她是要帮我寄信的。那，那是一封写给南部母亲的信。我茫然站在骑楼下，我又看到永远的樱子走到街心。其实雨下得并不大，却是一生一世中最大的一场雨。而那封信是这样写的，年轻的樱子知不知道呢？</p>
-                <blockquote>
-                  <p>妈：我打算在下个月和樱子结婚。</p>
-                </blockquote>`
+  title: '',
+  meta: '',
+  lead: '',
+  body: ''
 })
 const props = ref({
   title: 'title',
   meta: 'meta',
   lead: 'lead',
   body: 'body'
+})
+
+findOne('articles', id).then((res) => {
+  data.value = {
+    title: res.data.attributes.title,
+    lead: res.data.attributes.description,
+    body: md.render(res.data.attributes.content),
+    updatedAt: dayjs(res.data.attributes.updatedAt).format('YYYY-MM-DD HH:mm:ss')
+  }
 })
 var config = reactive({
   user: {
@@ -124,18 +124,18 @@ var config = reactive({
   emoji: emoji,
   comments: []
 });
+
 //获取文件url
 function createObjectURL(blob) {
   if (window.URL) {
     return window.URL.createObjectURL(blob);
-  }
-  else if (window.webkitURL) {
+  } else if (window.webkitURL) {
     return window.webkitURL.createObjectURL(blob);
-  }
-  else {
+  } else {
     return '';
   }
 }
+
 var temp_id = 100;
 // 提交评论事件
 var submit = function (_a) {
@@ -144,7 +144,9 @@ var submit = function (_a) {
   /**
    * 上传文件后端返回图片访问地址，格式以', '为分割; 如:  '/static/img/program.gif, /static/img/normal.webp'
    */
-  var contentImg = files.map(function (e) { return createObjectURL(e); }).join(', ');
+  var contentImg = files.map(function (e) {
+    return createObjectURL(e);
+  }).join(', ');
   var comment = {
     id: String((temp_id += 1)),
     parentId: parentId,
@@ -164,7 +166,7 @@ var submit = function (_a) {
   };
   setTimeout(function () {
     finish(comment);
-    UToast({ message: '评论成功!', type: 'info' });
+    UToast({message: '评论成功!', type: 'info'});
   }, 200);
 };
 // 删除评论

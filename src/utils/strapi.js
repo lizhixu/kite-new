@@ -10,7 +10,7 @@ export function find(model, params = {}) {
 
 export function findOne(model, id) {
     return request({
-        url: `/${model}${id}`,
+        url: `/${model}/${id}`,
         method: 'get',
     });
 }
