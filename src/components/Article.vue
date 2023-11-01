@@ -113,12 +113,12 @@ const articleList = ref(Array(4).fill({}));
 find('articles', {
   populate: '*',
   filters: {},
+  sort: 'updatedAt:desc',
   pagination: {
     start: 0,
     limit: 20
   }
 }).then((res) => {
-  console.log(res)
   articleList.value = _.map(res.data, (data) => {
     data.attributes.img = extractImagesFromMarkdown(data.attributes.content)
     return data;

@@ -4,15 +4,17 @@
       <el-card class="box-card">
         <el-breadcrumb :separator-icon="ArrowRight">
           <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-          <el-breadcrumb-item>PHP</el-breadcrumb-item>
+          <el-breadcrumb-item>{{ article?.category.data.attributes.name }}</el-breadcrumb-item>
           <el-breadcrumb-item>正文</el-breadcrumb-item>
         </el-breadcrumb>
         <avue-article id="article" class="article-detail markdown-body" :props="props"
                       :data="data"></avue-article>
         <div class="privacy_agreement mgt10">
           <p>版权声明：</p>
-          <p>作者：德玛西亚</p>
-          <p>链接：xxx</p>
+          <p>作者：{{ article?.author.data.attributes.username }}</p>
+          <p>链接：
+            <el-link>{{ curLocation }}</el-link>
+          </p>
           <p>文章版权归作者所有，转载请标明出处。</p>
         </div>
 
@@ -74,10 +76,14 @@ import router from "@/router";
 import {findOne} from "@/utils/strapi";
 import MarkdownIt from "markdown-it";
 import dayjs from "dayjs";
+import {ref} from "vue";
 
 const md = new MarkdownIt()
 const route = useRoute();
+let loading = ref(true);
+
 const id = route.params.id;
+const curLocation = window.location.href;
 
 onMounted(() => {
   new StickySidebar('.sidebar', {
@@ -104,13 +110,15 @@ const props = ref({
   lead: 'lead',
   body: 'body'
 })
-
-findOne('articles', id).then((res) => {
+const article = ref();
+findOne('articles', id, {populate: '*'}).then((res) => {
+  const attributes = article.value = res.data.attributes;
   data.value = {
-    title: res.data.attributes.title,
-    lead: res.data.attributes.description,
-    body: md.render(res.data.attributes.content),
-    updatedAt: dayjs(res.data.attributes.updatedAt).format('YYYY-MM-DD HH:mm:ss')
+    title: attributes.title,
+    meta: attributes.author.data.attributes.username,
+    lead: attributes.description,
+    body: md.render(attributes.content),
+    updatedAt: dayjs(attributes.updatedAt).format('YYYY-MM-DD HH:mm:ss')
   }
 })
 var config = reactive({
@@ -297,5 +305,10 @@ config.comments = [
 
 .create-desc {
   color: #666666;
+}
+</style>
+<style>
+.markdown-body, .avue-article__body, .avue-comment__body {
+  font-family: "JetBrainsMono-Medium" !important;
 }
 </style>

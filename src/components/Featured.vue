@@ -9,7 +9,7 @@
               <div class="guide-inner-info">
                 <div class="g-i-top">
                   <span class="g-i-cate">
-                      <el-tag>{{ article.attributes.category.data.attributes.name}}</el-tag>
+                      <el-tag>{{ article.attributes.category.data.attributes.name }}</el-tag>
                   </span>
                   <span class="g-i-time"><Clock
                       style="width: 1em;"/>{{ dayjs(article.attributes.updatedAt).format('YYYY-MM-DD') }}</span>
@@ -45,6 +45,7 @@ let loading = ref(true);
 const articleList = ref(Array(6).fill({}));
 find('articles', {
   populate: '*',
+  sort: 'updatedAt:desc',
   filters: {
     chosen: {
       '$eq': true

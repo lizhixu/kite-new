@@ -8,10 +8,11 @@ export function find(model, params = {}) {
     });
 }
 
-export function findOne(model, id) {
+export function findOne(model, id, params = {}) {
     return request({
         url: `/${model}/${id}`,
         method: 'get',
+        params: params,
     });
 }
 
