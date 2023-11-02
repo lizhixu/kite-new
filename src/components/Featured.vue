@@ -12,7 +12,7 @@
                       <el-tag>{{ article.attributes.category.data.attributes.name }}</el-tag>
                   </span>
                   <span class="g-i-time"><Clock
-                      style="width: 1em;"/>{{ dayjs(article.attributes.updatedAt).format('YYYY-MM-DD') }}</span>
+                      style="width: 1em;"/>{{ dayjs(article.attributes.createdAt).format('YYYY-MM-DD') }}</span>
                 </div>
                 <h5>
                   <router-link :to="'/article_detail/'+article.id" class="normal">{{ article.attributes.title }}
@@ -45,7 +45,7 @@ let loading = ref(true);
 const articleList = ref(Array(6).fill({}));
 find('articles', {
   populate: '*',
-  sort: 'updatedAt:desc',
+  sort: 'createdAt:desc',
   filters: {
     chosen: {
       '$eq': true

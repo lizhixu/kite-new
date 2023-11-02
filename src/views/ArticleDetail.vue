@@ -9,7 +9,7 @@
         </el-breadcrumb>
         <avue-article id="article" class="article-detail markdown-body" :props="props"
                       :data="data"></avue-article>
-        <div class="privacy_agreement mgt10">
+        <div class="privacy_agreement mgt10" v-show="article?.author.data.attributes.username">
           <p>版权声明：</p>
           <p>作者：{{ article?.author.data.attributes.username }}</p>
           <p>链接：
@@ -73,7 +73,7 @@ import {UToast} from 'undraw-ui'
 import emoji from '@/emoji'
 import StickySidebar from "sticky-sidebar-v2";
 import router from "@/router";
-import {findOne} from "@/utils/strapi";
+import {findOne, update} from "@/utils/strapi";
 import MarkdownIt from "markdown-it";
 import dayjs from "dayjs";
 import {ref} from "vue";
@@ -119,6 +119,14 @@ findOne('articles', id, {populate: '*'}).then((res) => {
     lead: attributes.description,
     body: md.render(attributes.content),
     updatedAt: dayjs(attributes.updatedAt).format('YYYY-MM-DD HH:mm:ss')
+  }
+})
+
+watch(article, (newValue) => {
+  if (document.cookie.indexOf("visited" + id) === -1) {
+    update('articles', id, {views: article.value.views + 1}).then((res) => {
+      document.cookie = "visited" + id + "=1;expires=" + new Date().getTime() + 20 * 60 * 1000 + "; path=/";
+    })
   }
 })
 var config = reactive({

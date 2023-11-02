@@ -36,7 +36,9 @@ export function update(model, id, data) {
     return request({
         url: `/${model}/${id}`,
         method: 'put',
-        data: data,
+        data: {
+            data: data
+        },
     });
 }
 
