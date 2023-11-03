@@ -35,7 +35,7 @@
               <el-row :gutter="10" class="article-detail">
                 <el-col :span="6">
                   <span><Clock style="width: 1em;"/>{{
-                      dayjs(article.attributes.updatedAt).format('YYYY-MM-DD')
+                      dayjs(article.attributes.articleUpdatedAt).format('YYYY-MM-DD')
                     }}</span>
                 </el-col>
                 <el-col :span="5">
@@ -68,7 +68,7 @@
           </u-fold>
           <el-row :gutter="10" class="article-detail">
             <el-col :span="6">
-              <span><Clock style="width: 1em;"/>{{ dayjs(article.attributes.updatedAt).format('YYYY-MM-DD') }}</span>
+              <span><Clock style="width: 1em;"/>{{ dayjs(article.attributes.articleUpdatedAt).format('YYYY-MM-DD') }}</span>
             </el-col>
             <el-col :span="5">
               <span><View style="width: 1em;"/>{{ article.attributes.views }}阅读</span>
@@ -113,7 +113,7 @@ const articleList = ref(Array(4).fill({}));
 find('articles', {
   populate: '*',
   filters: {},
-  sort: 'updatedAt:desc',
+  sort: 'articleUpdatedAt:desc',
   pagination: {
     start: 0,
     limit: 20

@@ -19,7 +19,7 @@
         </div>
 
         <div class="create-desc mgt10">
-          最后更新时间：{{ data.updatedAt }}
+          最后更新时间：{{ data.articleUpdatedAt }}
         </div>
       </el-card>
       <el-card class="mgt10 page">
@@ -118,7 +118,7 @@ findOne('articles', id, {populate: '*'}).then((res) => {
     meta: attributes.author.data.attributes.username,
     lead: attributes.description,
     body: md.render(attributes.content),
-    updatedAt: dayjs(attributes.updatedAt).format('YYYY-MM-DD HH:mm:ss')
+    articleUpdatedAt: dayjs(attributes.articleUpdatedAt).format('YYYY-MM-DD HH:mm:ss')
   }
 })
 

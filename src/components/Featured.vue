@@ -9,17 +9,19 @@
               <div class="guide-inner-info">
                 <div class="g-i-top">
                   <span class="g-i-cate">
-                      <el-tag>{{ article.attributes.category.data.attributes.name }}</el-tag>
+                      <el-tag>{{ getAttributes(article, 'category').data.attributes.name }}</el-tag>
                   </span>
                   <span class="g-i-time"><Clock
-                      style="width: 1em;"/>{{ dayjs(article.attributes.createdAt).format('YYYY-MM-DD') }}</span>
+                      style="width: 1em;"/>{{ dayjs(getAttributes(article, 'articleUpdatedAt')).format('YYYY-MM-DD') }}</span>
                 </div>
                 <h5>
-                  <router-link :to="'/article_detail/'+article.id" class="normal">{{ article.attributes.title }}
+                  <router-link :to="'/article_detail/'+article.id" class="normal">{{ getAttributes(article, 'title') }}
                   </router-link>
                 </h5>
                 <u-fold line="1">
-                  <p>{{ article.attributes.description || fremoveHtmlStyle(md.render(article.attributes.content)) }}</p>
+                  <p>{{
+                      getAttributes(article, 'description') || fremoveHtmlStyle(md.render(getAttributes(article, 'content')))
+                    }}</p>
                 </u-fold>
               </div>
             </article>
@@ -34,7 +36,7 @@
 import {ref} from "vue";
 import {find} from "@/utils/strapi";
 import MarkdownIt from "markdown-it";
-import {fremoveHtmlStyle} from "@/utils/util";
+import {fremoveHtmlStyle, getAttributes} from "@/utils/util";
 import dayjs from "dayjs";
 import {useCategoryStore} from "@/stores/category";
 
@@ -45,7 +47,7 @@ let loading = ref(true);
 const articleList = ref(Array(6).fill({}));
 find('articles', {
   populate: '*',
-  sort: 'createdAt:desc',
+  sort: 'articleUpdatedAt:desc',
   filters: {
     chosen: {
       '$eq': true
