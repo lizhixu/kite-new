@@ -51,7 +51,7 @@
     </el-col>
     <el-col :span="7" class="sidebar">
       <div class="sidebar__inner">
-        <Category/>
+        <Category :tags="article?.tags.data"/>
         <el-card class="article-catalog mgt10">
           <template #header>
             <div class="card-header">

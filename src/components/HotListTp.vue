@@ -7,19 +7,35 @@
     </template>
     <div class="hot-list">
       <el-row :gutter="10" v-for="(article,index) in articleList" :key="index" :class="index>1?'mgt10':''">
-        <el-col :span="8">
-          <span class="hot-list-num" :class="index<4?('hot-list-num'+(index+1)):''">{{ index + 1 }}</span>
-          <router-link :to="`/article_detail/${article.id}`">
-            <el-image style="border-radius: 5px;width: 85px;height: 60px;"
-                      :src="article.attributes?.img[0]"/>
-          </router-link>
-        </el-col>
-        <el-col :span="16">
-          <router-link :to="`/article_detail/${article.id}`" :underline="false">
-            {{ getAttributes(article, 'title') }}
-          </router-link>
-        </el-col>
-        <el-divider v-if="index != 6"/>
+        <el-skeleton style="width: 800px" :loading="loading" animated :rows="3">
+          <template #template>
+            <el-row>
+              <el-col :span="8">
+                <el-skeleton-item variant="image" style="width: 85px; height: 60px"/>
+              </el-col>
+              <el-col :span="16">
+                <el-skeleton-item variant="text" style="margin-right: 16px"/>
+                <el-skeleton-item variant="text" style="width: 40%"/>
+              </el-col>
+            </el-row>
+            <el-divider v-if="index !== articleList.length - 1"/>
+          </template>
+          <template #default>
+            <el-col :span="8">
+              <span class="hot-list-num" :class="index<4?('hot-list-num'+(index+1)):''">{{ index + 1 }}</span>
+              <router-link :to="`/article_detail/${article.id}`">
+                <el-image style="border-radius: 5px;width: 85px;height: 60px;"
+                          :src="article.attributes?.img[0]"/>
+              </router-link>
+            </el-col>
+            <el-col :span="16">
+              <router-link :to="`/article_detail/${article.id}`" :underline="false">
+                {{ getAttributes(article, 'title') }}
+              </router-link>
+            </el-col>
+            <el-divider v-if="index !== articleList.length - 1"/>
+          </template>
+        </el-skeleton>
       </el-row>
     </div>
   </el-card>
