@@ -1,6 +1,10 @@
 <template>
   <el-card class="copyright">
-    <p><i class="iconfont icon-banquan" style="color: #ff2d2d"></i> 2010-{{year}} 爱的飞行日记</p>
+    <p>
+      <i class="iconfont icon-dc-icon-beiangaoqishuliang" style="color: #0649d0"></i>
+      <a href="https://beian.miit.gov.cn/" target="_blank"> 陇ICP备2023004044号</a>
+    </p>
+    <p><i class="iconfont icon-banquan" style="color: #ff2d2d"></i> 2010-{{ year }} 爱的飞行日记</p>
     <span>
       <IconSupport/>
       Designed By <el-link type="danger">lizhixu</el-link>
