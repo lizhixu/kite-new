@@ -6,13 +6,16 @@
     </p>
     <p><i class="iconfont icon-banquan" style="color: #ff2d2d"></i> 2010-{{ year }} 爱的飞行日记</p>
     <span>
-      <IconSupport/>
+      <IconSupport />
       Designed By <el-link type="danger">lizhixu</el-link>
     </span>
     <p>
       <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank"><i
           class="iconfont icon-cc"></i> CC BY-NC-SA 3.0 CN</a>
     </p>
+    <p>本站由<img class="" src="https://www.sctes.com/assets/logo.svg" alt="无畏云" width="55" height="24"><a
+        href="https://www.sctes.com/" target="_blank"></a>提供<a href="https://www.sctes.com/"
+        target="_blank">CDN加速</a>/云存储服务</p>
   </el-card>
 </template>
 
