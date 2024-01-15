@@ -24,8 +24,9 @@
             <el-col :span="8">
               <span class="hot-list-num" :class="index<4?('hot-list-num'+(index+1)):''">{{ index + 1 }}</span>
               <router-link :to="`/article_detail/${article.id}`">
-                <el-image style="border-radius: 5px;width: 85px;height: 60px;"
-                          :src="article.attributes?.img[0]"/>
+                <div class="hot-list-cover">
+                  <img class="hot-list-cover img" :src="article.attributes?.img[0]"/>
+                </div>
               </router-link>
             </el-col>
             <el-col :span="16">
@@ -83,6 +84,13 @@ find('articles', {
   padding: 0 5px 1px;
   border-radius: 2px;
   z-index: 1;
+}
+
+.hot-list-cover {
+  width: 85px;
+  height: 60px;
+  border-radius: 5px;
+  overflow: hidden;
 }
 
 .hot-list-num1 {

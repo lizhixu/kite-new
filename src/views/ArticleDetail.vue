@@ -9,13 +9,15 @@
         </el-breadcrumb>
         <avue-article id="article" class="article-detail markdown-body" :props="props"
                       :data="data"></avue-article>
-        <div class="privacy_agreement mgt10" v-show="article?.author.data.attributes.username">
-          <p>版权声明：</p>
-          <p>作者：{{ article?.author.data.attributes.username }}</p>
-          <p>链接：
-            <el-link>{{ curLocation }}</el-link>
-          </p>
-          <p>文章版权归作者所有，转载请标明出处。</p>
+        <div class="privacy_agreement mgt10">
+          <div class="privacy_agreement-item" v-show="article?.author.data.attributes.username">
+            <p>版权声明：</p>
+            <p>作者：{{ article?.author.data.attributes.username }}</p>
+            <p>链接：
+              <el-link>{{ curLocation }}</el-link>
+            </p>
+            <p>文章版权归作者所有，转载请标明出处。</p>
+          </div>
         </div>
 
         <div class="create-desc mgt10">
@@ -52,6 +54,7 @@
     <el-col :span="7" class="sidebar">
       <div class="sidebar__inner">
         <Category :tags="article?.tags.data"/>
+        <RecentlyPublished class="mgt10"/>
         <el-card class="article-catalog mgt10">
           <template #header>
             <div class="card-header">
@@ -60,13 +63,12 @@
           </template>
           <u-anchor container="#article"></u-anchor>
         </el-card>
-        <RecentlyPublished class="mgt10"/>
       </div>
     </el-col>
   </el-row>
 </template>
 <script setup>
-import 'github-markdown-css/github-markdown-light.css'
+import '@/assets/markdown.scss'
 import {useRoute} from 'vue-router'
 import {ArrowRight} from '@element-plus/icons-vue'
 import {UToast} from 'undraw-ui'
@@ -77,8 +79,17 @@ import {findOne, update} from "@/utils/strapi";
 import MarkdownIt from "markdown-it";
 import dayjs from "dayjs";
 import {ref} from "vue";
+import hljs from 'highlight.js';
+import 'highlight.js/styles/stackoverflow-light.css';
 
-const md = new MarkdownIt()
+const md = new MarkdownIt({
+  html: true,
+  linkify: true,
+  typographer: true,
+  highlight: (str) => {
+    return hljs.highlightAuto(str).value;
+  },
+})
 const route = useRoute();
 let loading = ref(true);
 
@@ -290,11 +301,18 @@ config.comments = [
 
 .privacy_agreement {
   text-align: justify;
-  border-radius: 8px;
+  border-radius: 5px;
   position: relative;
-  background: #f2f4fc;
-  padding: 15px;
+  border: 1px dashed #8cc0f3;
+  box-shadow: 0 6px 10px -5px rgba(98, 189, 225, 0.3803921569);
   margin-bottom: 20px;
+}
+
+.privacy_agreement-item {
+  margin: 0 2px;
+  padding: 10px 20px;
+  border-radius: 5px;
+  background: aliceblue;
 }
 
 .privacy_agreement:after {

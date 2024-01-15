@@ -19,8 +19,10 @@
           <el-row :gutter="30">
             <el-col :span="7">
               <router-link :to="'/article_detail/'+article.id">
-                <el-image style="width: 205px; height: 150px;border-radius: 5px"
-                          :src="article.attributes.img[0]"/>
+                <div class="article-list-img">
+                  <img class="img article-list-img"
+                       :src="article.attributes.img[0]" :alt="article.attributes.title"/>
+                </div>
               </router-link>
             </el-col>
             <el-col :span="17">
@@ -68,7 +70,9 @@
           </u-fold>
           <el-row :gutter="10" class="article-detail">
             <el-col :span="6">
-              <span><Clock style="width: 1em;"/>{{ dayjs(article.attributes.articleUpdatedAt).format('YYYY-MM-DD') }}</span>
+              <span><Clock style="width: 1em;"/>{{
+                  dayjs(article.attributes.articleUpdatedAt).format('YYYY-MM-DD')
+                }}</span>
             </el-col>
             <el-col :span="5">
               <span><View style="width: 1em;"/>{{ article.attributes.views }}阅读</span>
@@ -150,6 +154,13 @@ const category = useCategoryStore();
 
 .article-title :active {
   color: #aaaa;
+}
+
+.article-list-img {
+  width: 205px;
+  height: 150px;
+  border-radius: 5px;
+  overflow: hidden;
 }
 
 .article-desc {

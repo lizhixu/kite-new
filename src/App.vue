@@ -30,4 +30,19 @@ import Header from "@/views/Layout/Header.vue";
   box-shadow: 0px 5px 40px 0px rgb(17 58 93 / 10%);
   border-top: 2px solid #5cb9ff;
 }
+
+.img {
+  transition: all 0.2s linear;
+}
+
+.img:hover {
+  transform: scale(1.2);
+  transition: all 0.2s linear;
+}
+
+*::selection {
+  background-color: #00325e;
+  color: white;
+  -webkit-text-fill-color: white;
+}
 </style>
