@@ -18,18 +18,18 @@
     "nprogress": "^0.2.0",
     "pinia": "^2.0.21",
     "sticky-sidebar-v2": "^1.1.1",
-    "undraw-ui": "^0.9.9",
+    "undraw-ui": "^1.0.7",
     "vue": "^3.2.38",
     "vue-router": "^4.1.5"
   },
   "devDependencies": {
-    "@vitejs/plugin-legacy": "^3.0.2",
-    "@vitejs/plugin-vue": "^3.0.3",
+    "@vitejs/plugin-legacy": "^5.2.0",
+    "@vitejs/plugin-vue": "^5.0.3",
     "terser": "^5.16.1",
     "unplugin-auto-import": "^0.11.2",
     "unplugin-icons": "^0.14.11",
     "unplugin-vue-components": "^0.22.8",
-    "vite": "^3.0.9",
-    "vite-plugin-inspect": "^0.7.5"
+    "vite": "^5.0.0",
+    "vite-plugin-inspect": "^0.8.1"
   }
 }

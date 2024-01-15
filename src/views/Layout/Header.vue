@@ -16,9 +16,9 @@
     <el-menu-item index="/">首页</el-menu-item>
     <el-sub-menu index="2">
       <template #title>专栏</template>
-      <template v-for="category in category.categories">
-        <el-menu-item :index="'/special/'+category.id" v-if="category.attributes.status">{{
-            category.attributes.name
+      <template v-for="cate in category.categories">
+        <el-menu-item :index="'/special/'+cate.id" v-if="cate.attributes.status">{{
+            cate.attributes.name
           }}
         </el-menu-item>
       </template>
