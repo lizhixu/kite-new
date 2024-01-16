@@ -12,7 +12,6 @@
   <el-backtop :right="100" :bottom="100"/>
 </template>
 <script setup>
-import {ref} from 'vue'
 import {RouterLink, RouterView} from 'vue-router'
 import Header from "@/views/Layout/Header.vue";
 

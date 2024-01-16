@@ -81,15 +81,18 @@ import dayjs from "dayjs";
 import {ref} from "vue";
 import hljs from 'highlight.js';
 import 'highlight.js/styles/stackoverflow-light.css';
+import MarkdownItGithubHeadings from '@gerhobbelt/markdown-it-github-headings'
 
 const md = new MarkdownIt({
   html: true,
   linkify: true,
   typographer: true,
+  langPrefix: 'language-',
   highlight: (str) => {
     return hljs.highlightAuto(str).value;
   },
 })
+md.use(MarkdownItGithubHeadings);
 const route = useRoute();
 let loading = ref(true);
 

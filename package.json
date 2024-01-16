@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.0.10",
+    "@gerhobbelt/markdown-it-github-headings": "^2.0.0-2",
     "@smallwei/avue": "^3.2.21",
     "axios": "^1.2.6",
     "dayjs": "^1.11.10",
