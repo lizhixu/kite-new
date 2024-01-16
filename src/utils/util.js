@@ -40,8 +40,35 @@ export function extractImagesFromMarkdown(markdownText) {
  * @returns {*|string}
  */
 export function getAttributes(data, name) {
-    if (data.attributes !== undefined) {
+    if (data?.attributes !== undefined) {
         return data.attributes[name];
     }
     return '';
+}
+
+export function loadJs(url, cb){
+    try {
+        const c = document.getElementsByTagName("head")[0] || document.head || document.documentElement;
+        const b = document.createElement("script");
+        b.setAttribute("type","text/javascript");
+        b.setAttribute("charset","UTF-8");
+        b.setAttribute("src", url);
+        b.setAttribute("id", 'changyan_pc_js');
+        if(window.attachEvent){
+            b.onreadystatechange = function(){
+                const e = b.readyState;
+                if(e === "loaded" || e === "complete"){
+                    b.onreadystatechange = null;
+                    cb && cb();
+                }
+            }
+        }else{
+            if(cb){
+                b.onload = cb
+            }
+        }
+        c.appendChild(b)
+    } catch (error) {
+        cb && cb();
+    }
 }
