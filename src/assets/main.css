@@ -81,8 +81,8 @@ a:hover, a:focus {
 
 .bg {
     background-color: #f5f5f5;
-    /*background-image: url("//ttfou.com/images/2023/02/02/7820455c3cfbd458a2144ffb9ed2e475.png");*/
     background-repeat: no-repeat;
+    background-size: cover;
     background-position: right bottom;
     background-attachment: fixed;
 }

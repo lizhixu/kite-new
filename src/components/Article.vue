@@ -170,8 +170,6 @@ const category = useCategoryStore();
 .start-cover {
   height: 50px;
   margin: -15px -30px -35px 0;
-  /*background-image: url(//ttfou.com/images/2022/10/14/f76944211232b03289ab30dcb8e841c0.png);*/
-  /*background-image: url(//ttfou.com/images/2022/10/14/4d87388bf56266cd39af0ea1170ab64c.png);*/
   background-size: 100% auto;
   background-repeat: no-repeat;
 }

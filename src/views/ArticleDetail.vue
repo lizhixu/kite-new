@@ -14,7 +14,10 @@
                 <el-skeleton-item variant="text" style="width: 10%"/>
               </div>
               <div class="mgt10">
-                <el-skeleton :rows="15"/>
+                <el-skeleton-item variant="image" style="width: 720px; height: 240px"/>
+              </div>
+              <div class="mgt10">
+                <el-skeleton :rows="10"/>
               </div>
             </div>
           </template>

@@ -4,7 +4,7 @@
       mode="horizontal"
       :ellipsis="false"
       @select="handleSelect"
-      class=" k-header"
+      class="k-header"
       active-text-color="#5cb9ff" :router="true"
   >
     <el-menu-item class="logo">
@@ -72,7 +72,7 @@ find('blog-config', {populate: '*'}).then((res) => {
 .k-header {
   width: 1110px;
   margin: auto;
-  border-bottom: none;
+  border-bottom: none !important;
   background-color: #FFFFFF00;
 }
 

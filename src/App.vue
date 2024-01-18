@@ -14,7 +14,6 @@
 <script setup>
 import {RouterLink, RouterView} from 'vue-router'
 import Header from "@/views/Layout/Header.vue";
-
 </script>
 <style>
 @import './assets/fonts.css';
