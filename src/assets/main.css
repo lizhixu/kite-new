@@ -98,7 +98,3 @@ a:hover, a:focus {
 .bbsd {
     border-bottom: 1px solid #ddd;
 }
-
-.inner-wrapper-sticky {
-    overflow: hidden;
-}
