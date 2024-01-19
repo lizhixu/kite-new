@@ -1301,6 +1301,39 @@
   resolved "https://registry.npmmirror.com/@types/web-bluetooth/-/web-bluetooth-0.0.16.tgz#1d12873a8e49567371f2a75fe3e7f7edca6662d8"
   integrity sha512-oh8q2Zc32S6gd/j50GowEjKLoOVOwHP/bWVjKJInBwQqdOYMdPrf1oVlelTlyfFK3CKxL1uahMDAr+vy8T7yMQ==
 
+"@unhead/dom@1.8.10":
+  version "1.8.10"
+  resolved "https://registry.npmmirror.com/@unhead/dom/-/dom-1.8.10.tgz#18505665a021d924645fedda18deb8fc8b2e81c3"
+  integrity sha512-dBeDbHrBjeU+eVgMsD91TGEazb1dwLrY0x/ve01CldMCmm+WcRu++SUW7s1QX84mzGH2EgFz78o1OPn6jpV3zw==
+  dependencies:
+    "@unhead/schema" "1.8.10"
+    "@unhead/shared" "1.8.10"
+
+"@unhead/schema@1.8.10":
+  version "1.8.10"
+  resolved "https://registry.npmmirror.com/@unhead/schema/-/schema-1.8.10.tgz#40e2578a006ae212b5afe7a44bd556846c32ea2e"
+  integrity sha512-cy8RGOPkwOVY5EmRoCgGV8AqLjy/226xBVTY54kBct02Om3hBdpB9FZa9frM910pPUXMI8PNmFgABO23O7IdJA==
+  dependencies:
+    hookable "^5.5.3"
+    zhead "^2.2.4"
+
+"@unhead/shared@1.8.10":
+  version "1.8.10"
+  resolved "https://registry.npmmirror.com/@unhead/shared/-/shared-1.8.10.tgz#86e02d7961fb7d523238a21c3532e5042aceb399"
+  integrity sha512-pEFryAs3EmV+ShDQx2ZBwUnt5l3RrMrXSMZ50oFf+MImKZNARVvD4+3I8fEI9wZh+Zq0JYG3UAfzo51MUP+Juw==
+  dependencies:
+    "@unhead/schema" "1.8.10"
+
+"@unhead/vue@^1.8.10":
+  version "1.8.10"
+  resolved "https://registry.npmmirror.com/@unhead/vue/-/vue-1.8.10.tgz#ee1b8cda7fc77de0c43fa5fc7c081528e31ec9cb"
+  integrity sha512-KF8pftHnxnlBlgNpKXWLTg3ZUtkuDCxRPUFSDBy9CtqRSX/qvAhLZ26mbqRVmHj8KigiRHP/wnPWNyGnUx20Bg==
+  dependencies:
+    "@unhead/schema" "1.8.10"
+    "@unhead/shared" "1.8.10"
+    hookable "^5.5.3"
+    unhead "1.8.10"
+
 "@vitejs/plugin-legacy@^5.2.0":
   version "5.2.0"
   resolved "https://registry.npmmirror.com/@vitejs/plugin-legacy/-/plugin-legacy-5.2.0.tgz#2f5b26d241d5e38d18b4ceb051cc780e7ab8ded1"
@@ -1952,6 +1985,11 @@ highlight.js@^11.9.0:
   version "11.9.0"
   resolved "https://registry.npmmirror.com/highlight.js/-/highlight.js-11.9.0.tgz#04ab9ee43b52a41a047432c8103e2158a1b8b5b0"
   integrity sha512-fJ7cW7fQGCYAkgv4CPfwFHrfd/cLS4Hau96JuJ+ZTOWhjnhoeN1ub1tFmALm/+lW5z4WCAuAV9bm05AP0mS6Gw==
+
+hookable@^5.5.3:
+  version "5.5.3"
+  resolved "https://registry.npmmirror.com/hookable/-/hookable-5.5.3.tgz#6cfc358984a1ef991e2518cb9ed4a778bbd3215d"
+  integrity sha512-Yc+BQe8SvoXH1643Qez1zqLRmbA5rCL+sSmk6TVos0LWVfNIB7PGncdlId77WzLGSIB5KaWgTaNTs2lNVEI6VQ==
 
 html-entities@^1.2.0:
   version "1.4.0"
@@ -2667,6 +2705,16 @@ undraw-ui@^1.0.7:
     element-plus "^2.2.0"
     vue "^3.3.4"
 
+unhead@1.8.10:
+  version "1.8.10"
+  resolved "https://registry.npmmirror.com/unhead/-/unhead-1.8.10.tgz#dd8aeda5ba3388e44f585dcd8f3d3e67d97e2cc1"
+  integrity sha512-dth8FvZkLriO5ZWWOBIYBNSfGiwJtKcqpPWpSOk/Z0e2jdlgwoZEWZHFyte0EKvmbZxKcsWNMqIuv7dEmS5yZQ==
+  dependencies:
+    "@unhead/dom" "1.8.10"
+    "@unhead/schema" "1.8.10"
+    "@unhead/shared" "1.8.10"
+    hookable "^5.5.3"
+
 unicode-canonical-property-names-ecmascript@^2.0.0:
   version "2.0.0"
   resolved "https://registry.npmmirror.com/unicode-canonical-property-names-ecmascript/-/unicode-canonical-property-names-ecmascript-2.0.0.tgz#301acdc525631670d39f6146e0e77ff6bbdebddc"
@@ -2850,3 +2898,8 @@ yocto-queue@^0.1.0:
   version "0.1.0"
   resolved "https://registry.npmmirror.com/yocto-queue/-/yocto-queue-0.1.0.tgz#0294eb3dee05028d31ee1a5fa2c556a6aaf10a1b"
   integrity sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==
+
+zhead@^2.2.4:
+  version "2.2.4"
+  resolved "https://registry.npmmirror.com/zhead/-/zhead-2.2.4.tgz#87cd1e2c3d2f465fa9f43b8db23f9716dfe6bed7"
+  integrity sha512-8F0OI5dpWIA5IGG5NHUg9staDwz/ZPxZtvGVf01j7vHqSyZ0raHY+78atOVxRqb73AotX22uV1pXt3gYSstGag==

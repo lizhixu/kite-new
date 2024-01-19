@@ -2,25 +2,33 @@
   <el-card>
     <el-row :gutter="10">
       <el-col :span="7">
-        <el-image src="//ttfou.com/images/2022/10/17/54774079842315d242b978af432fba00.jpg"></el-image>
+        <img :src="config?.ad.img" :alt="config?.ad.h4" class="wx-code-img" v-if="config?.ad"/>
       </el-col>
       <el-col :span="17" class="wx-code-msg">
-        <h4>关注“文讯学堂”公众号</h4>
-        <p>随时随地获取创作内容</p>
+        <h4>{{ config?.ad.h4 }}</h4>
+        <p>{{ config?.ad.p }}</p>
       </el-col>
     </el-row>
   </el-card>
 </template>
 
 <script setup>
+const config = inject('blogConfig');
 </script>
 
 <style scoped>
-.wx-code-msg{
+.wx-code-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.wx-code-msg {
   line-height: 2px;
   margin: auto;
 }
-.wx-code-msg>p{
+
+.wx-code-msg > p {
   font-size: 14px;
 }
 </style>

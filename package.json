@@ -10,6 +10,7 @@
     "@element-plus/icons-vue": "^2.0.10",
     "@gerhobbelt/markdown-it-github-headings": "^2.0.0-2",
     "@smallwei/avue": "^3.2.21",
+    "@unhead/vue": "^1.8.10",
     "axios": "^1.2.6",
     "dayjs": "^1.11.10",
     "element-plus": "^2.2.17",

@@ -7,8 +7,8 @@
       </div>
       <div class="sidebar" style="width: 300px;float: right">
         <div class="sidebar__inner">
-          <u-search :config="config" @submit="submit"></u-search>
-          <WxCode class="mgt10"/>
+          <!--          <u-search :config="config" @submit="submit"></u-search>-->
+          <WxCode/>
           <HotListTp class="mgt10"/>
           <FriendsChain class="mgt10"/>
           <Copyright class="mgt10"/>

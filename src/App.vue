@@ -2,7 +2,7 @@
   <div class="bg">
     <el-affix :offset="0">
       <div class="k-header-bg">
-        <Header/>
+        <Header :blogConfig/>
       </div>
     </el-affix>
     <div class="main">
@@ -14,6 +14,14 @@
 <script setup>
 import {RouterLink, RouterView} from 'vue-router'
 import Header from "@/views/Layout/Header.vue";
+import {useConfigStore} from "@/stores/config";
+
+const useConfig = useConfigStore();
+const blogConfig = ref(null);
+provide('blogConfig', blogConfig)//网站配置
+useConfig.$subscribe((_, state) => {
+  blogConfig.value = state.config;
+})
 </script>
 <style>
 @import './assets/fonts.css';

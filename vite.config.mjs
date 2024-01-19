@@ -8,6 +8,7 @@ import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import legacyPlugin from '@vitejs/plugin-legacy'
+import {unheadVueComposablesImports} from "@unhead/vue";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -23,7 +24,7 @@ export default defineConfig({
       ],
       // Auto import functions from Vue, e.g. ref, reactive, toRef...
       // 自动导入 Vue 相关函数，如：ref, reactive, toRef 等
-      imports: ['vue'],
+      imports: ['vue',unheadVueComposablesImports],
 
       // Auto import functions from Element Plus, e.g. ElMessage, ElMessageBox... (with style)
       // 自动导入 Element Plus 相关函数，如：ElMessage, ElMessageBox... (带样式)

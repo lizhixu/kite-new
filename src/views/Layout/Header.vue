@@ -9,8 +9,8 @@
   >
     <el-menu-item class="logo">
       <router-link to="/">
-        <img :src="logo"
-             alt="" style="width: 50px;">
+        <img :src="api_path + props.blogConfig?.logo.data[0].attributes.url"
+             alt="logo" style="width: 50px;" v-if="props.blogConfig">
       </router-link>
     </el-menu-item>
     <el-menu-item index="/">首页</el-menu-item>
@@ -42,22 +42,15 @@
 
 <script setup>
 import {ref} from 'vue'
-import {find} from "@/utils/strapi";
 import {useCategoryStore} from "@/stores/category";
 
+const props = defineProps(['blogConfig']);
 const activeIndex = ref('/')
 const handleSelect = (key, keyPath) => {
   console.log(key, keyPath)
 }
 const category = useCategoryStore();
-
-const blogConfig = ref();
-const logo = ref('');
-find('blog-config', {populate: '*'}).then((res) => {
-  blogConfig.value = res.data.attributes;
-  logo.value = import.meta.env.VITE_API_URL + blogConfig.value.logo.data[0].attributes.url
-});
-
+const api_path = import.meta.env.VITE_API_URL;
 </script>
 
 <style>

@@ -115,7 +115,9 @@ import hljs from 'highlight.js';
 import 'highlight.js/styles/stackoverflow-light.css';
 import MarkdownItGithubHeadings from '@gerhobbelt/markdown-it-github-headings'
 import MarkdownItCopy from 'markdown-it-code-copy'
-import {getAttributes, loadJs} from "@/utils/util";
+import {fremoveHtmlStyle, getAttributes, loadJs} from "@/utils/util";
+import {useHead} from "@unhead/vue";
+import _ from 'lodash'
 
 const md = new MarkdownIt({
   html: true,
@@ -167,6 +169,13 @@ findOne('articles', id, {populate: '*'}).then((res) => {
     articleUpdatedAt: dayjs(attributes.articleUpdatedAt).format('YYYY-MM-DD HH:mm:ss')
   }
   loading.value = false;
+  useHead({
+    title: data.value.title + ' - 爱的飞行日记',
+    meta: [
+      {name: 'description', content: () => data.value.lead || fremoveHtmlStyle(detail_body).slice(0, 50)},
+      {name: 'keywords', content: () => _.map(article.value.tags.data, (item) => getAttributes(item, 'name')).join(',')}
+    ],
+  })
 })
 watch(article, (newValue) => {
   if (document.cookie.indexOf("visited" + id) === -1) {
