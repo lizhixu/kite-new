@@ -25,7 +25,7 @@ import Copyright from "@/components/Copyright.vue";
 import StickySidebar from "sticky-sidebar-v2";
 import WxCode from "@/components/WxCode.vue";
 import {ref} from "vue";
-import {useHead} from "@unhead/vue";
+import {useHead} from "@/hooks/useHead";
 
 const config = ref({
   keywords: ['斗罗大陆', '斗破苍穹', '吞噬星空', '凡人修仙传', '一念永恒'],
@@ -57,7 +57,6 @@ onMounted(() => {
 
 const blogConfig = inject('blogConfig');
 useHead({
-  title: blogConfig?.title,
   meta: [
     {name: 'description', content: blogConfig?.seo.description},
     {name: 'keywords', content: blogConfig?.seo.keywords},
