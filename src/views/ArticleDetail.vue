@@ -116,7 +116,7 @@ import 'highlight.js/styles/stackoverflow-light.css';
 import MarkdownItGithubHeadings from '@gerhobbelt/markdown-it-github-headings'
 import MarkdownItCopy from 'markdown-it-code-copy'
 import {fremoveHtmlStyle, getAttributes, loadJs} from "@/utils/util";
-import {useHead} from "@unhead/vue";
+import {useHead} from "@/hooks/useHead";
 import _ from 'lodash'
 
 const md = new MarkdownIt({
@@ -171,7 +171,7 @@ findOne('articles', id, {populate: '*'}).then((res) => {
   }
   loading.value = false;
   useHead({
-    title: `${data.value.title} - ${blogConfig?.title}`,
+    title: data.value.title,
     meta: [
       {name: 'description', content: () => data.value.lead || fremoveHtmlStyle(detail_body).slice(0, 50)},
       {name: 'keywords', content: () => _.map(article.value.tags.data, (item) => getAttributes(item, 'name')).join(',')}

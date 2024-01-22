@@ -10,8 +10,8 @@
       Designed By <el-link type="danger">lizhixu</el-link>
     </span>
     <p>
-      <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank"><i
-          class="iconfont icon-cc"></i> CC BY-NC-SA 3.0 CN</a>
+      <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans" target="_blank"><i
+          class="iconfont icon-cc"></i> CC BY-NC-SA 4.0 DEED</a>
     </p>
     <div v-html="config?.copyright"></div>
   </el-card>
