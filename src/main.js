@@ -27,8 +27,8 @@ app.use(UndrawUi)
 app.use(createHead())
 
 app.use(createPinia())
-useCategoryStore().request();
-useConfigStore().request();
+await useCategoryStore().request();
+await useConfigStore().request();
 app.use(router)
 
 app.mount('#app')

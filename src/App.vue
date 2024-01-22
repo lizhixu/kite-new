@@ -2,7 +2,7 @@
   <div class="bg">
     <el-affix :offset="0">
       <div class="k-header-bg">
-        <Header :blogConfig/>
+        <Header/>
       </div>
     </el-affix>
     <div class="main">
@@ -12,17 +12,13 @@
   <el-backtop :right="100" :bottom="100"/>
 </template>
 <script setup>
-import {RouterLink, RouterView} from 'vue-router'
+import {RouterView} from 'vue-router'
 import Header from "@/views/Layout/Header.vue";
 import {useConfigStore} from "@/stores/config";
 import {loadJs} from "@/utils/util";
 
 const useConfig = useConfigStore();
-const blogConfig = ref(null);
-provide('blogConfig', blogConfig)//网站配置
-useConfig.$subscribe((_, state) => {
-  blogConfig.value = state.config;
-})
+provide('blogConfig', useConfig.config)//网站配置
 loadJs('//sdk.51.la/js-sdk-pro.min.js', () => {
   LA.init({id: "KK9yxWDTe8RbtoIZ", ck: "KK9yxWDTe8RbtoIZ", hashMode: true})
 })

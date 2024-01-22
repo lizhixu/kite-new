@@ -9,8 +9,8 @@
   >
     <el-menu-item class="logo">
       <router-link to="/">
-        <img :src="api_path + props.blogConfig?.logo.data[0].attributes.url"
-             alt="logo" style="width: 50px;" v-if="props.blogConfig">
+        <img :src="api_path + blogConfig?.logo.data[0].attributes.url"
+             alt="logo" style="width: 50px;" v-if="blogConfig">
       </router-link>
     </el-menu-item>
     <el-menu-item index="/">首页</el-menu-item>
@@ -44,7 +44,7 @@
 import {ref} from 'vue'
 import {useCategoryStore} from "@/stores/category";
 
-const props = defineProps(['blogConfig']);
+const blogConfig = inject('blogConfig');
 const activeIndex = ref('/')
 const handleSelect = (key, keyPath) => {
   console.log(key, keyPath)

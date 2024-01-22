@@ -133,6 +133,7 @@ md.use(MarkdownItCopy, {iconClass: 'iconfont icon-Copy', buttonClass: 'el-button
 
 const route = useRoute();
 const loading = ref(true);
+const blogConfig = inject('blogConfig');
 
 const id = route.params.id;
 const curLocation = window.location.href;
@@ -170,7 +171,7 @@ findOne('articles', id, {populate: '*'}).then((res) => {
   }
   loading.value = false;
   useHead({
-    title: data.value.title + ' - 爱的飞行日记',
+    title: `${data.value.title} - ${blogConfig?.title}`,
     meta: [
       {name: 'description', content: () => data.value.lead || fremoveHtmlStyle(detail_body).slice(0, 50)},
       {name: 'keywords', content: () => _.map(article.value.tags.data, (item) => getAttributes(item, 'name')).join(',')}
