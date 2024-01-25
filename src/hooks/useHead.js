@@ -2,7 +2,7 @@ import {useConfigStore} from "../stores/config";
 
 export function useHead(input) {
     const blogConfig = useConfigStore().config;
-    document.title = input.title ? `${input.title} - ` : '' + blogConfig.title;
+    document.title = (input.title ? `${input.title} - ` : '') + blogConfig.title;
     input.meta.map((item) => {
         if (typeof item.content === 'function') {
             addMeta(item.name, item.content())
