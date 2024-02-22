@@ -1,3 +1,5 @@
+import _ from "lodash";
+
 /**
  * 移除dom
  * @param html
@@ -46,24 +48,24 @@ export function getAttributes(data, name) {
     return '';
 }
 
-export function loadJs(url, cb){
+export function loadJs(url, cb) {
     try {
         const c = document.getElementsByTagName("head")[0] || document.head || document.documentElement;
         const b = document.createElement("script");
-        b.setAttribute("type","text/javascript");
-        b.setAttribute("charset","UTF-8");
+        b.setAttribute("type", "text/javascript");
+        b.setAttribute("charset", "UTF-8");
         b.setAttribute("src", url);
         b.setAttribute("id", 'changyan_pc_js');
-        if(window.attachEvent){
-            b.onreadystatechange = function(){
+        if (window.attachEvent) {
+            b.onreadystatechange = function () {
                 const e = b.readyState;
-                if(e === "loaded" || e === "complete"){
+                if (e === "loaded" || e === "complete") {
                     b.onreadystatechange = null;
                     cb && cb();
                 }
             }
-        }else{
-            if(cb){
+        } else {
+            if (cb) {
                 b.onload = cb
             }
         }
@@ -71,4 +73,34 @@ export function loadJs(url, cb){
     } catch (error) {
         cb && cb();
     }
+}
+
+export function findHTags(node) {
+    if (!node) {
+        return [];
+    }
+    // 创建H标签对象
+    const hTag = [];
+    let curChild = [];
+    node.forEach((item) => {
+        let lastNode = _.last(hTag);
+        let curIndex = hTag.length - 1;
+        let curLevel = parseInt(item.tagName.replace('H', ''));
+        if (lastNode && curLevel > lastNode.level) {
+            curChild.push(item);
+        } else {
+            if (curChild.length > 0) {
+                hTag[curIndex].children = [];
+                hTag[curIndex].children.push(...findHTags(curChild) ?? []);
+                curChild = [];
+            }
+            hTag.push({
+                level: curLevel,
+                text: item.innerText,
+                id: item.firstChild.id,
+                offsetTop: item.offsetTop
+            })
+        }
+    })
+    return hTag;
 }

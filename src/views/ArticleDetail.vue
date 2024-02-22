@@ -63,8 +63,8 @@
         <el-row>
           <el-col :span="10">
             上一篇：
-            <router-link to="">
-              每当白日依山尽，夕阳余辉便透过朵朵
+            <router-link :to="`/article_detail/${previous?.id}`">
+              {{ getAttributes(previous, 'title') }}
             </router-link>
           </el-col>
           <el-col :span="4" style="text-align: center">
@@ -72,8 +72,8 @@
           </el-col>
           <el-col :span="10">
             下一篇：
-            <router-link to="">
-              每当白日依山尽，夕阳余辉便透过朵朵云层
+            <router-link :to="`/article_detail/${next?.id}`">
+              {{ getAttributes(next, 'title') }}
             </router-link>
           </el-col>
         </el-row>
@@ -89,13 +89,15 @@
       <div class="sidebar__inner">
         <Category :tags="article?.tags.data"/>
         <RecentlyPublished class="mgt10"/>
-        <el-card class="article-catalog mgt10">
+        <el-card class="article-catalog mgt10" v-show="article_anchor?.length > 0">
           <template #header>
             <div class="card-header">
               <span class="c-s-title">目录</span>
             </div>
           </template>
-          <!--          <u-anchor container="#article"></u-anchor>-->
+          <el-anchor :offset="70">
+            <Anchor :tags="article_anchor" :level="0"/>
+          </el-anchor>
         </el-card>
       </div>
     </el-col>
@@ -107,7 +109,7 @@ import {useRoute} from 'vue-router'
 import {ArrowRight, View} from '@element-plus/icons-vue'
 import StickySidebar from "sticky-sidebar-v2";
 import router from "@/router";
-import {findOne, update} from "@/utils/strapi";
+import {find, findOne, update} from "../utils/strapi";
 import MarkdownIt from "markdown-it";
 import dayjs from "dayjs";
 import {ref} from "vue";
@@ -115,7 +117,7 @@ import hljs from 'highlight.js';
 import 'highlight.js/styles/stackoverflow-light.css';
 import MarkdownItGithubHeadings from '@gerhobbelt/markdown-it-github-headings'
 import MarkdownItCopy from 'markdown-it-code-copy'
-import {fremoveHtmlStyle, getAttributes, loadJs} from "@/utils/util";
+import {fremoveHtmlStyle, getAttributes, loadJs, findHTags} from "@/utils/util";
 import {useHead} from "@/hooks/useHead";
 import _ from 'lodash'
 
@@ -129,13 +131,13 @@ const md = new MarkdownIt({
   },
 })
 md.use(MarkdownItGithubHeadings);
-md.use(MarkdownItCopy, {iconClass: 'iconfont icon-Copy', buttonClass: 'el-button el-button--primary is-link'});
-let defaultRender = md.renderer.rules.link_open || function(tokens, idx, options, env, self) {
+md.use(MarkdownItCopy, {iconClass: 'iconfont icon-Copy', buttonClass: 'copy-button'});
+let defaultRender = md.renderer.rules.link_open || function (tokens, idx, options, env, self) {
   return self.renderToken(tokens, idx, options);
 };
 md.renderer.rules.link_open = function (tokens, idx, options, env, self) {
   // If you are sure other plugins can't add `target` - drop check below
-  var aIndex = tokens[idx].attrIndex('target');
+  let aIndex = tokens[idx].attrIndex('target');
 
   if (aIndex < 0) {
     tokens[idx].attrPush(['target', '_blank']); // add new attribute
@@ -165,6 +167,16 @@ onMounted(() => {
   if (slide) {
     window.scrollTo(0, slide.offsetTop)
   }
+  nextTick(() => {
+    window.changyan = undefined;
+    window.cyan = undefined;
+    loadJs("https://changyan.sohu.com/upload/changyan.js", () => {
+      window.changyan.api.config({
+        appid: 'cyx6aSIDq',
+        conf: 'prod_f539c5de4359f3e1215cfc4e744b2604'
+      });
+    })
+  })
 })
 
 const data = ref({
@@ -203,25 +215,24 @@ watch(article, (newValue) => {
 })
 
 const article_body = ref();
+const article_anchor = ref();
 watch(article_body, (newValue) => {
-  console.log(newValue.querySelectorAll('h1,h2,h3,h4,h5,h6'))
-})
-onMounted(() => {
-  nextTick(() => {
-    window.changyan = undefined;
-    window.cyan = undefined;
-    loadJs("https://changyan.sohu.com/upload/changyan.js", () => {
-      window.changyan.api.config({
-        appid: 'cyx6aSIDq',
-        conf: 'prod_f539c5de4359f3e1215cfc4e744b2604'
-      });
-    })
-  })
+  article_anchor.value = findHTags(newValue.querySelectorAll('h1,h2,h3,h4,h5,h6'))
 })
 
+//上下篇
+const previous = ref();
+const next = ref();
+find('articles', {'sort[0]': 'id:desc', 'filters[id][$lt]': id, 'pagination[limit]': 1}).then((res) => {
+  previous.value = res.data[0];
+})
+find('articles', {'sort[0]': 'id:asc', 'filters[id][$gt]': id, 'pagination[limit]': 1}).then((res) => {
+  next.value = res.data[0];
+})
 </script>
 
 <style scoped>
+
 .article-detail {
   margin-top: 20px;
 }

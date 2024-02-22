@@ -98,3 +98,14 @@ a:hover, a:focus {
 .bbsd {
     border-bottom: 1px solid #ddd;
 }
+
+.copy-button {
+    color: #909399;
+    border: none;
+    background: #f0f8ff;
+    transition: .2s;
+}
+
+.copy-button:hover {
+    color: var(--el-text-color-primary);
+}
