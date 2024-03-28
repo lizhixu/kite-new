@@ -63,18 +63,20 @@
         <el-row>
           <el-col :span="10">
             上一篇：
-            <router-link :to="`/article_detail/${previous?.id}`">
+            <router-link :to="`/article_detail/${previous?.id}`" v-if="previous">
               {{ getAttributes(previous, 'title') }}
             </router-link>
+            <span v-else>没有上一篇了</span>
           </el-col>
           <el-col :span="4" style="text-align: center">
             <u-divider vertical/>
           </el-col>
           <el-col :span="10">
             下一篇：
-            <router-link :to="`/article_detail/${next?.id}`">
+            <router-link :to="`/article_detail/${next?.id}`" v-if="next">
               {{ getAttributes(next, 'title') }}
             </router-link>
+            <span v-else>没有下一篇了</span>
           </el-col>
         </el-row>
       </el-card>
@@ -138,11 +140,13 @@ let defaultRender = md.renderer.rules.link_open || function (tokens, idx, option
 md.renderer.rules.link_open = function (tokens, idx, options, env, self) {
   // If you are sure other plugins can't add `target` - drop check below
   let aIndex = tokens[idx].attrIndex('target');
-
-  if (aIndex < 0) {
-    tokens[idx].attrPush(['target', '_blank']); // add new attribute
-  } else {
-    tokens[idx].attrs[aIndex][1] = '_blank';    // replace value of existing attr
+  let id = tokens[idx].attrGet('id');
+  if (!id || id.indexOf('user-content') === -1) {// 判断是否是锚点
+    if (aIndex < 0) {
+      tokens[idx].attrPush(['target', '_blank']); // add new attribute
+    } else {
+      tokens[idx].attrs[aIndex][1] = '_blank';    // replace value of existing attr
+    }
   }
 
   // pass token to default renderer.

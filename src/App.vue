@@ -6,17 +6,18 @@
       </div>
     </el-affix>
     <div class="main">
-      <RouterView/>
+      <RouterView :key="route.path"/>
     </div>
   </div>
   <el-backtop :right="100" :bottom="100"/>
 </template>
 <script setup>
-import {RouterView} from 'vue-router'
+import {RouterView, useRoute} from 'vue-router'
 import Header from "@/views/Layout/Header.vue";
 import {useConfigStore} from "@/stores/config";
 import {loadJs} from "@/utils/util";
 
+const route = useRoute()
 const useConfig = useConfigStore();
 provide('blogConfig', useConfig.config)//网站配置
 loadJs('//sdk.51.la/js-sdk-pro.min.js', () => {
