@@ -111,7 +111,7 @@ import {useRoute} from 'vue-router'
 import {ArrowRight, View} from '@element-plus/icons-vue'
 import StickySidebar from "sticky-sidebar-v2";
 import router from "@/router";
-import {find, findOne, update} from "../utils/strapi";
+import {find, findOne, update} from "@/utils/strapi";
 import MarkdownIt from "markdown-it";
 import dayjs from "dayjs";
 import {ref} from "vue";
@@ -300,9 +300,5 @@ find('articles', {'sort[0]': 'id:asc', 'filters[id][$gt]': id, 'pagination[limit
 
 .create-desc {
   color: #666666;
-}
-
-.markdown-body, .avue-article__body, .avue-comment__body {
-  font-family: "JetBrainsMono-Medium" !important;
 }
 </style>

@@ -4,8 +4,6 @@ import UndrawUi from 'undraw-ui'
 import 'undraw-ui/dist/style.css'
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
-import Avue from '@smallwei/avue';
-import '@smallwei/avue/lib/index.css';
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 
 import App from './App.vue'
@@ -21,7 +19,6 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 }
 
 app.use(ElementPlus)
-app.use(Avue);
 app.use(UndrawUi)
 
 app.use(createPinia())

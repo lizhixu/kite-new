@@ -1,5 +1,3 @@
-import {fileURLToPath, URL} from 'node:url'
-
 import {defineConfig} from 'vite'
 import Vue from '@vitejs/plugin-vue'
 import Icons from 'unplugin-icons/vite'
@@ -10,6 +8,7 @@ import {ElementPlusResolver} from 'unplugin-vue-components/resolvers'
 import legacyPlugin from '@vitejs/plugin-legacy'
 import topLevelAwait from "vite-plugin-top-level-await";
 import {nodePolyfills} from "vite-plugin-node-polyfills";
+import path from 'path'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -97,7 +96,7 @@ export default defineConfig({
     ],
     resolve: {
         alias: {
-            '@': fileURLToPath(new URL('./src', import.meta.url))
+            "@": path.join(__dirname, 'src')
         }
     },
     build: {
@@ -113,9 +112,6 @@ export default defineConfig({
                 entryFileNames: 'js/[name]-[hash].js',
                 assetFileNames: '[ext]/[name]-[hash].[ext]',
                 manualChunks(id) {
-                    if (id.includes('avue')) {
-                        return; //不打入这俩个文件相关的东西
-                    }
                     // // 最小化拆分包
                     if (id.includes("node_modules")) {
                         return id

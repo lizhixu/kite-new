@@ -9,7 +9,6 @@
   "dependencies": {
     "@element-plus/icons-vue": "^2.0.10",
     "@gerhobbelt/markdown-it-github-headings": "^2.0.0-2",
-    "@smallwei/avue": "^3.2.21",
     "axios": "^1.2.6",
     "dayjs": "^1.11.10",
     "element-plus": "^2.6.0",
@@ -26,7 +25,7 @@
     "vue-router": "^4.1.5"
   },
   "devDependencies": {
-    "@vitejs/plugin-legacy": "^5.2.0",
+    "@vitejs/plugin-legacy": "^5.3.2",
     "@vitejs/plugin-vue": "^5.0.3",
     "terser": "^5.16.1",
     "unplugin-auto-import": "^0.11.2",
