@@ -13,7 +13,7 @@
     "dayjs": "^1.11.10",
     "element-plus": "^2.6.0",
     "highlight.js": "^11.9.0",
-    "lodash": "^4.17.21",
+    "lodash-es": "^4.17.21",
     "markdown-it": "^13.0.2",
     "markdown-it-code-copy": "^0.1.2",
     "nprogress": "^0.2.0",

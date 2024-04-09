@@ -121,7 +121,7 @@ import MarkdownItGithubHeadings from '@gerhobbelt/markdown-it-github-headings'
 import MarkdownItCopy from 'markdown-it-code-copy'
 import {fremoveHtmlStyle, getAttributes, loadJs, findHTags} from "@/utils/util";
 import {useHead} from "@/hooks/useHead";
-import _ from 'lodash'
+import _ from 'lodash-es'
 
 const md = new MarkdownIt({
   html: true,

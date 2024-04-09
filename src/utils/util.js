@@ -1,4 +1,4 @@
-import _ from "lodash";
+import _ from "lodash-es";
 
 /**
  * 移除dom
@@ -15,7 +15,9 @@ export const fremoveHtmlStyle = (html) => {
         newHtml = newHtml.replace(relTag, '');
         newHtml = newHtml.replace(relClass, '');
     }
-    return newHtml;
+    let temp = document.createElement("div");
+    temp.innerHTML = newHtml;
+    return temp.innerText || temp.textContent;
 };
 
 /**

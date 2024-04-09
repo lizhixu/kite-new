@@ -102,7 +102,7 @@
 <script setup>
 import {find} from "@/utils/strapi";
 import {ref} from "vue";
-import _ from 'lodash'
+import _ from 'lodash-es'
 import {extractImagesFromMarkdown, fremoveHtmlStyle} from "@/utils/util";
 import MarkdownIt from "markdown-it";
 import {useCategoryStore} from "@/stores/category";
