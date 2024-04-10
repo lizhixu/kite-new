@@ -13,7 +13,14 @@ import path from 'path'
 // https://vitejs.dev/config/
 export default defineConfig({
     plugins: [
-        Vue(),
+        Vue({
+            template: {
+                compilerOptions: {
+                    // 将所有带短横线的标签名都视为自定义元素
+                    isCustomElement: (tag) => tag.includes('lottie-player')
+                }
+            }
+        }),
         AutoImport({
             // targets to transform
             include: [

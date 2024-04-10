@@ -23,5 +23,4 @@ app.use(createPinia())
 await useCategoryStore().request();
 await useConfigStore().request();
 app.use(router)
-
 app.mount('#app')

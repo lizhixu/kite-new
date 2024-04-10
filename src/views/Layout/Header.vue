@@ -33,7 +33,7 @@
         <span>登录</span>
       </template>
     </el-menu-item>
-    <el-menu-item class="k-avatar">
+    <el-menu-item class="k-avatar" index="avatar">
       <el-avatar
           src="//p3-passport.byteimg.com/img/user-avatar/cb1d6d812c74b1540552190d2429e81d~180x180.awebp"></el-avatar>
     </el-menu-item>
@@ -50,12 +50,15 @@ import {useCategoryStore} from "@/stores/category";
 const blogConfig = inject('blogConfig');
 const activeIndex = ref('/')
 const handleSelect = (key, keyPath) => {
-  console.log(key, keyPath)
+  if (key === 3) {
+    return
+  }
 }
 const category = useCategoryStore();
 const api_path = import.meta.env.VITE_API_URL;
 
 const dialogLoginVisible = ref(false)
+
 function toLogin() {
 
 }
