@@ -199,7 +199,7 @@ findOne('articles', id, {populate: '*'}).then((res) => {
     views: attributes.author.data.attributes.views,
     lead: attributes.description,
     body: detail_body,
-    articleUpdatedAt: dayjs(attributes.articleUpdatedAt).format('YYYY-MM-DD HH:mm:ss')
+    articleUpdatedAt: dayjs(attributes.articleUpdatedAt).format('YYYY-MM-DD HH:mm')
   }
   loading.value = false;
   useHead({
@@ -213,7 +213,7 @@ findOne('articles', id, {populate: '*'}).then((res) => {
 watch(article, (newValue) => {
   if (document.cookie.indexOf("visited" + id) === -1) {
     update('articles', id, {views: article.value.views + 1}).then((res) => {
-      document.cookie = "visited" + id + "=1;expires=" + new Date().getTime() + 20 * 60 * 1000 + "; path=/";
+      document.cookie = "visited" + id + "=1;expires=" + new Date().getTime() + 2000 + "; path=/";
     })
   }
 })

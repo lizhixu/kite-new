@@ -1,11 +1,10 @@
 import {createApp} from 'vue'
 import {createPinia} from 'pinia'
-import UndrawUi from 'undraw-ui'
-import 'undraw-ui/dist/style.css'
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 
+import './components/common/components'
 import App from './App.vue'
 import router from './router'
 
@@ -19,7 +18,6 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 }
 
 app.use(ElementPlus)
-app.use(UndrawUi)
 
 app.use(createPinia())
 await useCategoryStore().request();

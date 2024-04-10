@@ -23,9 +23,9 @@
         </el-menu-item>
       </template>
     </el-sub-menu>
-    <el-menu-item index="3">Tool</el-menu-item>
+    <!--    <el-menu-item index="3">Tool</el-menu-item>-->
     <div class="flex-grow"/>
-    <el-menu-item class="k-avatar">
+    <el-menu-item class="k-avatar" @click="dialogLoginVisible = true">
       <template #title>
         <el-icon>
           <Cellphone/>
@@ -38,6 +38,9 @@
           src="//p3-passport.byteimg.com/img/user-avatar/cb1d6d812c74b1540552190d2429e81d~180x180.awebp"></el-avatar>
     </el-menu-item>
   </el-menu>
+  <el-dialog v-model="dialogLoginVisible" width="800" title="登录 / 注册">
+    <Login/>
+  </el-dialog>
 </template>
 
 <script setup>
@@ -51,6 +54,11 @@ const handleSelect = (key, keyPath) => {
 }
 const category = useCategoryStore();
 const api_path = import.meta.env.VITE_API_URL;
+
+const dialogLoginVisible = ref(false)
+function toLogin() {
+
+}
 </script>
 
 <style>
