@@ -161,6 +161,8 @@ const category = useCategoryStore();
   height: 150px;
   border-radius: 5px;
   overflow: hidden;
+  object-fit:contain;
+  border: 1px solid rgb(228 230 235 / 50%);
 }
 
 .article-desc {

@@ -65,6 +65,7 @@ $colors: $basecolor, lighten($basecolor, 2%), lighten($basecolor, 5%), lighten($
     white-space: pre-wrap;
     margin: 2.5em 0;
     box-shadow: 0px 6px 10px -5px #62bde161;
+    background: aliceblue;
 
     &:hover {
       border-color: rgb(109, 157, 206);
@@ -73,7 +74,6 @@ $colors: $basecolor, lighten($basecolor, 2%), lighten($basecolor, 5%), lighten($
     > code {
       padding: 10px 20px;
       color: $code-font-color;
-      background: aliceblue;
       font-size: 14px;
       line-height: 1.6;
       display: block;
