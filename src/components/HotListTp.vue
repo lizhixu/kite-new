@@ -46,7 +46,7 @@
 import {ref} from "vue";
 import {find} from "@/utils/strapi";
 import {extractImagesFromMarkdown, getAttributes} from "@/utils/util";
-import _ from "lodash";
+import _ from "lodash-es";
 
 let loading = ref(true);
 const articleList = ref(Array(6).fill({}));
