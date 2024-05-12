@@ -5,6 +5,7 @@
       :ellipsis="false"
       @select="handleSelect"
       class="k-header"
+      v-if="headerShow"
       active-text-color="#5cb9ff" :router="true"
   >
     <el-menu-item class="logo">
@@ -44,9 +45,11 @@
 </template>
 
 <script setup>
-import {ref} from 'vue'
+import {inject, onMounted, ref} from 'vue'
 import {useCategoryStore} from "@/stores/category";
+import _ from "lodash-es";
 
+const headerShow = ref(true);
 const blogConfig = inject('blogConfig');
 const activeIndex = ref('/')
 const handleSelect = (key, keyPath) => {
@@ -62,6 +65,14 @@ const dialogLoginVisible = ref(false)
 function toLogin() {
 
 }
+
+const lastScrollTop = ref(0);
+onMounted(() => {
+  window.addEventListener("scroll", () => {
+    headerShow.value = lastScrollTop.value > window.pageYOffset;
+    lastScrollTop.value = window.pageYOffset;
+  })
+})
 </script>
 
 <style>
