@@ -16,12 +16,17 @@ import {RouterView, useRoute} from 'vue-router'
 import Header from "@/views/Layout/Header.vue";
 import {useConfigStore} from "@/stores/config";
 import {loadJs} from "@/utils/util";
+import {onMounted, provide} from "vue";
+import {useStarLink} from "@/hooks/background/useStarLink";
 
 const route = useRoute()
 const useConfig = useConfigStore();
 provide('blogConfig', useConfig.config)//网站配置
 loadJs('//sdk.51.la/js-sdk-pro.min.js', () => {
   LA.init({id: "KK9yxWDTe8RbtoIZ", ck: "KK9yxWDTe8RbtoIZ", hashMode: true})
+})
+onMounted(() => {
+  useStarLink().init();
 })
 </script>
 <style>

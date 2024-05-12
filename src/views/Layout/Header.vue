@@ -47,7 +47,6 @@
 <script setup>
 import {inject, onMounted, ref} from 'vue'
 import {useCategoryStore} from "@/stores/category";
-import _ from "lodash-es";
 
 const headerShow = ref(true);
 const blogConfig = inject('blogConfig');
@@ -69,6 +68,9 @@ function toLogin() {
 const lastScrollTop = ref(0);
 onMounted(() => {
   window.addEventListener("scroll", () => {
+    if (window.pageYOffset < window.screen.height) {
+      return;
+    }
     headerShow.value = lastScrollTop.value > window.pageYOffset;
     lastScrollTop.value = window.pageYOffset;
   })

@@ -1,16 +1,17 @@
-export function useStarLink() {
 //==========================================
 // 几何星空连线背景
 //==========================================
 
-// 可调参数
-    var BACKGROUND_COLOR = "rgba(0,43,54,1)";   // 背景颜色
+export function useStarLink() {
+    // 可调参数
+    var BACKGROUND_COLOR = "#f5f5f5";   // 背景颜色
     var POINT_NUM = 100;                        // 星星数目
-    var POINT_COLOR = "rgba(255,255,255,0.7)";  // 点的颜色
+    var POINT_COLOR = "rgba(13,139,251,0.7)";  // 点的颜色
     var LINE_LENGTH = 10000;                    // 点之间连线长度(的平方)
 
-// 创建背景画布
+    // 创建背景画布
     var cvs = document.createElement("canvas");
+    console.log(window.innerWidth)
     cvs.width = window.innerWidth;
     cvs.height = window.innerHeight;
     cvs.style.cssText = "\
@@ -26,7 +27,7 @@ export function useStarLink() {
 
     var startTime = new Date().getTime();
 
-//随机数函数
+    //随机数函数
     function randomInt(min, max) {
         return Math.floor((max - min + 1) * Math.random() + min);
     }
@@ -35,7 +36,7 @@ export function useStarLink() {
         return (max - min) * Math.random() + min;
     }
 
-//构造点类
+    //构造点类
     function Point() {
         this.x = randomFloat(0, cvs.width);
         this.y = randomFloat(0, cvs.height);
@@ -120,7 +121,7 @@ export function useStarLink() {
                 } else return;
             }
             var t = (1.05 - dis2 / LINE_LENGTH) * 0.2 * deg;
-            ctx.strokeStyle = "rgba(255,255,255," + t + ")";
+            ctx.strokeStyle = "rgba(13,139,251," + t + ")";
             ctx.beginPath();
             ctx.lineWidth = 1.5;
             ctx.moveTo(p1.x, p1.y);
@@ -131,7 +132,7 @@ export function useStarLink() {
         return;
     }
 
-//绘制每一帧
+    //绘制每一帧
     function drawFrame() {
         cvs.width = window.innerWidth;
         cvs.height = window.innerHeight;
@@ -150,6 +151,12 @@ export function useStarLink() {
         window.requestAnimationFrame(drawFrame);
     }
 
-    initPoints(POINT_NUM);
-    drawFrame();
+    function init() {
+        initPoints(POINT_NUM);
+        drawFrame();
+    }
+
+    return {
+        init: init
+    }
 }
