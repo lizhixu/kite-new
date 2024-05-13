@@ -68,7 +68,7 @@ function toLogin() {
 const lastScrollTop = ref(0);
 onMounted(() => {
   window.addEventListener("scroll", () => {
-    if (window.pageYOffset < window.screen.height) {
+    if (window.pageYOffset < window.screen.height && headerShow.value) {
       return;
     }
     headerShow.value = lastScrollTop.value > window.pageYOffset;
