@@ -1,4 +1,4 @@
-import request from '@/utils/request';
+import request from './request';
 
 export function find(model, params = {}) {
     return request({
@@ -46,5 +46,30 @@ export function deleted(model, id) {
     return request({
         url: `/${model}/${id}`,
         method: 'delete'
+    });
+}
+
+/**
+ * 注册
+ * @param data
+ * @returns {*}
+ */
+export function register(data) {
+    return request({
+        url: '/auth/local/register',
+        method: 'post',
+        data: data,
+    });
+}
+/**
+ * 登录
+ * @param data
+ * @returns {*}
+ */
+export function login(data) {
+    return request({
+        url: '/auth/local',
+        method: 'post',
+        data: data,
     });
 }

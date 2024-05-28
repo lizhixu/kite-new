@@ -11,7 +11,6 @@ export function useStarLink() {
 
     // 创建背景画布
     var cvs = document.createElement("canvas");
-    console.log(window.innerWidth)
     cvs.width = window.innerWidth;
     cvs.height = window.innerHeight;
     cvs.style.cssText = "\
