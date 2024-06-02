@@ -2,10 +2,18 @@
 import "@lottiefiles/lottie-player";
 import {reactive, ref} from 'vue'
 import {Lock, User} from "@element-plus/icons-vue";
+import {register} from "@/utils/strapi";
 
-const isLogin = ref(true);
 const loginFormRef = ref();
 const registerFormRef = ref();
+const isLogin = ref(true);
+const checkUserName = (rule, value, callback) => {
+  if (!value) {
+    return callback(new Error('请输入用户名'));
+  } else {
+    callback();
+  }
+};
 const checkEmail = (rule, value, callback) => {
   if (!value) {
     return callback(new Error('请输入邮箱'));
@@ -32,29 +40,39 @@ const loginForm = reactive({
 
 const validatePass2 = (rule, value, callback) => {
   if (value === '') {
-    callback(new Error('Please input the password again'))
+    callback(new Error('请再次输入密码'))
   } else if (value !== registerForm.password) {
-    callback(new Error("Two inputs don't match!"))
+    callback(new Error("两次输入的密码不一致!"))
   } else {
     callback()
   }
 }
 const registerForm = reactive({
-  username: '',
-  email: '',
-  password: '',
+  username: 'test123',
+  email: 'test123@qq.com',
+  password: '1qaz@WSX',
+  checkPass: '1qaz@WSX',
 });
 const rules = reactive({
+  username: [{validator: checkUserName, trigger: 'blur'}],
   email: [{validator: checkEmail, trigger: 'blur'}],
   password: [{validator: validatePass, trigger: 'blur'}],
-  checkPass: [{validator: validatePass, trigger: 'blur'}],
+  checkPass: [{validator: validatePass2, trigger: 'blur'}],
 });
 const submitForm = (formEl) => {
   if (!formEl)
     return;
   formEl.validate((valid) => {
     if (valid) {
-      console.log('submit!');
+      const formData = isLogin.value ? loginForm : registerForm;
+      if (isLogin.value) {
+
+      } else {
+        register(formData).then((res) => {
+          console.log(res)
+          // resetForm(formEl);
+        });
+      }
     } else {
       console.log('error submit!');
     }
@@ -87,7 +105,6 @@ const resetForm = (formEl) => {
                :model="loginForm"
                status-icon
                :rules="rules"
-               label-width="auto"
                class="loginForm"
       >
         <el-form-item prop="email">
@@ -126,14 +143,13 @@ const resetForm = (formEl) => {
       <el-form v-if="!isLogin"
                ref="registerFormRef"
                size="large"
-               :model="loginForm"
+               :model="registerForm"
                status-icon
                :rules="rules"
-               label-width="auto"
                class="registerForm"
       >
-        <el-form-item prop="email">
-          <el-input v-model="loginForm.email" placeholder="请输入邮箱">
+        <el-form-item prop="username">
+          <el-input v-model="registerForm.username" placeholder="请输入用户名">
             <template #suffix>
               <el-icon class="el-input__icon">
                 <User/>
@@ -141,8 +157,17 @@ const resetForm = (formEl) => {
             </template>
           </el-input>
         </el-form-item>
+        <el-form-item prop="email">
+          <el-input v-model="registerForm.email" placeholder="请输入邮箱">
+            <template #suffix>
+              <el-icon class="el-input__icon">
+                <Message/>
+              </el-icon>
+            </template>
+          </el-input>
+        </el-form-item>
         <el-form-item prop="password">
-          <el-input v-model="loginForm.password" type="password" placeholder="请输入密码" autocomplete="off">
+          <el-input v-model="registerForm.password" type="password" placeholder="请输入密码" autocomplete="off">
             <template #suffix>
               <el-icon class="el-input__icon">
                 <Lock/>
@@ -151,7 +176,7 @@ const resetForm = (formEl) => {
           </el-input>
         </el-form-item>
         <el-form-item prop="checkPass">
-          <el-input v-model="loginForm.checkPass" type="password" placeholder="请输入确认密码" autocomplete="off">
+          <el-input v-model="registerForm.checkPass" type="password" placeholder="请输入确认密码" autocomplete="off">
             <template #suffix>
               <el-icon class="el-input__icon">
                 <Lock/>
@@ -161,7 +186,7 @@ const resetForm = (formEl) => {
         </el-form-item>
         <el-link type="primary" @click="isLogin = !isLogin">登录</el-link>
         <el-form-item style="margin-top: 10px;">
-          <el-button type="primary" @click="submitForm(loginFormRef)" style="width: 100%;">
+          <el-button type="primary" @click="submitForm(registerFormRef)" style="width: 100%;">
             注册
           </el-button>
         </el-form-item>

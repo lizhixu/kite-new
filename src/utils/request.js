@@ -11,7 +11,8 @@ const service = Axios.create({
 service.interceptors.request.use(
     function (config) {
         // 在发送请求之前做些什么
-        config.headers.Authorization = `bearer ${import.meta.env.VITE_API_TOKEN}`;
+        const token = localStorage.getItem('token');
+        config.headers.Authorization = token ? `bearer ${token}` : '';
         return config
     },
     function (error) {

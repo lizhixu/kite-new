@@ -39,7 +39,7 @@
           src="//p3-passport.byteimg.com/img/user-avatar/cb1d6d812c74b1540552190d2429e81d~180x180.awebp"></el-avatar>
     </el-menu-item>
   </el-menu>
-  <el-dialog v-model="dialogLoginVisible" width="800" align-center>
+  <el-dialog v-model="dialogLoginVisible" width="800px" align-center>
     <Login/>
   </el-dialog>
 </template>
