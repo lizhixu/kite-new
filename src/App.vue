@@ -18,6 +18,10 @@ import {useConfigStore} from "@/stores/config";
 import {loadJs} from "@/utils/util";
 import {onMounted, provide} from "vue";
 import {useStarLink} from "@/hooks/background/useStarLink";
+import {me} from "@/utils/strapi";
+
+const token = ref('');
+provide('token', token);
 
 const route = useRoute()
 const useConfig = useConfigStore();
@@ -27,6 +31,12 @@ loadJs('//sdk.51.la/js-sdk-pro.min.js', () => {
 })
 onMounted(() => {
   useStarLink().init();
+  token.value = localStorage.getItem('token');
+})
+watch(token, (newVal) => {
+  me({populate: '*'}).then((res) => {
+    console.log(res)
+  })
 })
 </script>
 <style>

@@ -26,7 +26,7 @@
     </el-sub-menu>
     <!--    <el-menu-item index="3">Tool</el-menu-item>-->
     <div class="flex-grow"/>
-    <el-menu-item class="k-avatar" @click="dialogLoginVisible = true">
+    <el-menu-item class="k-avatar" v-if="!token"  @click="dialogLoginVisible = true">
       <template #title>
         <el-icon>
           <Cellphone/>
@@ -34,13 +34,13 @@
         <span>登录</span>
       </template>
     </el-menu-item>
-    <el-menu-item class="k-avatar" index="avatar">
+    <el-menu-item class="k-avatar" v-else index="avatar">
       <el-avatar
           src="//p3-passport.byteimg.com/img/user-avatar/cb1d6d812c74b1540552190d2429e81d~180x180.awebp"></el-avatar>
     </el-menu-item>
   </el-menu>
   <el-dialog v-model="dialogLoginVisible" width="800px" align-center>
-    <Login/>
+    <Login @close-dialog="dialogLoginVisible = false;"/>
   </el-dialog>
 </template>
 
@@ -48,6 +48,7 @@
 import {inject, onMounted, ref} from 'vue'
 import {useCategoryStore} from "@/stores/category";
 
+const token = inject('token');
 const headerShow = ref(true);
 const blogConfig = inject('blogConfig');
 const activeIndex = ref('/')
@@ -60,10 +61,6 @@ const category = useCategoryStore();
 const api_path = import.meta.env.VITE_API_URL;
 
 const dialogLoginVisible = ref(false)
-
-function toLogin() {
-
-}
 
 const lastScrollTop = ref(0);
 onMounted(() => {

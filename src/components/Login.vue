@@ -1,8 +1,12 @@
 <script setup>
 import "@lottiefiles/lottie-player";
-import {reactive, ref} from 'vue'
+import {inject, reactive, ref} from 'vue'
 import {Lock, User} from "@element-plus/icons-vue";
-import {register} from "@/utils/strapi";
+import {login, register} from "@/utils/strapi";
+import {ElNotification} from "element-plus";
+
+const token = inject('token');
+const emit = defineEmits(['close-dialog'])
 
 const loginFormRef = ref();
 const registerFormRef = ref();
@@ -34,8 +38,8 @@ const validatePass = (rule, value, callback) => {
   }
 };
 const loginForm = reactive({
-  password: '',
-  email: '',
+  password: '1qaz@WSX',
+  identifier: 'wxuns@qq.com',
 });
 
 const validatePass2 = (rule, value, callback) => {
@@ -48,13 +52,14 @@ const validatePass2 = (rule, value, callback) => {
   }
 }
 const registerForm = reactive({
-  username: 'test123',
-  email: 'test123@qq.com',
-  password: '1qaz@WSX',
-  checkPass: '1qaz@WSX',
+  username: '',
+  email: '',
+  password: '',
+  checkPass: '',
 });
 const rules = reactive({
   username: [{validator: checkUserName, trigger: 'blur'}],
+  identifier: [{validator: checkUserName, trigger: 'blur'}],
   email: [{validator: checkEmail, trigger: 'blur'}],
   password: [{validator: validatePass, trigger: 'blur'}],
   checkPass: [{validator: validatePass2, trigger: 'blur'}],
@@ -66,11 +71,49 @@ const submitForm = (formEl) => {
     if (valid) {
       const formData = isLogin.value ? loginForm : registerForm;
       if (isLogin.value) {
-
+        login(formData).then((res) => {
+          localStorage.setItem('token', res.jwt);
+          token.value = res.jwt;
+          ElNotification({
+            duration: 2000,
+            dangerouslyUseHTMLString: true,
+            message: '登录成功！！',
+            type: 'success',
+            onClose: () => {
+              resetForm(formEl);
+              emit('close-dialog')
+            }
+          })
+        }).catch((error) => {
+          ElNotification({
+            duration: 5000,
+            message: error.response.data.error.message,
+            type: 'error'
+          })
+        });
       } else {
         register(formData).then((res) => {
-          console.log(res)
-          // resetForm(formEl);
+          ElNotification({
+            title: '验证电子邮箱',
+            duration: 6000,
+            dangerouslyUseHTMLString: true,
+            message: `
+              <p>我们已向
+                <el-link type="primary">${registerForm.email}</el-link>
+                发送电子邮件以确保你拥有它，请查看你的收件箱并确认信息。
+              </p>`,
+            type: 'success',
+            onClose: () => {
+              resetForm(formEl);
+              emit('close-dialog')
+            }
+          })
+        }).catch((error) => {
+          ElNotification({
+            duration: 5000,
+            message: error.response.data.error.message,
+            type: 'error'
+          })
         });
       }
     } else {
@@ -107,8 +150,8 @@ const resetForm = (formEl) => {
                :rules="rules"
                class="loginForm"
       >
-        <el-form-item prop="email">
-          <el-input v-model="loginForm.email" placeholder="请输入邮箱">
+        <el-form-item prop="identifier">
+          <el-input v-model="loginForm.identifier" placeholder="请输入邮箱">
             <template #suffix>
               <el-icon class="el-input__icon">
                 <User/>
@@ -117,7 +160,7 @@ const resetForm = (formEl) => {
           </el-input>
         </el-form-item>
         <el-form-item prop="password">
-          <el-input v-model="loginForm.password" type="passwordword" placeholder="请输入密码" autocomplete="off">
+          <el-input v-model="loginForm.password" type="password" placeholder="请输入密码" autocomplete="off">
             <template #suffix>
               <el-icon class="el-input__icon">
                 <Lock/>
@@ -202,5 +245,9 @@ const resetForm = (formEl) => {
 
 .registerForm {
   margin-top: 30px;
+}
+
+.email-confirm {
+  text-align: center;
 }
 </style>

@@ -61,15 +61,30 @@ export function register(data) {
         data: data,
     });
 }
+
 /**
  * 登录
  * @param data
+ * @param params
  * @returns {*}
  */
 export function login(data) {
     return request({
         url: '/auth/local',
         method: 'post',
-        data: data,
+        data: data
+    });
+}
+
+/**
+ * 登录
+ * @returns {*}
+ * @param params
+ */
+export function me(params) {
+    return request({
+        url: '/users/me',
+        method: 'get',
+        params: params,
     });
 }
