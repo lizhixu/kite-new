@@ -18,10 +18,13 @@ import {useConfigStore} from "@/stores/config";
 import {loadJs} from "@/utils/util";
 import {onMounted, provide} from "vue";
 import {useStarLink} from "@/hooks/background/useStarLink";
-import {me} from "@/utils/strapi";
+import {findOne} from "@/utils/strapi";
+import {jwtDecode} from "jwt-decode";
 
 const token = ref('');
+const me = ref();
 provide('token', token);
+provide('me', me)//网站配置
 
 const route = useRoute()
 const useConfig = useConfigStore();
@@ -33,9 +36,12 @@ onMounted(() => {
   useStarLink().init();
   token.value = localStorage.getItem('token');
 })
+
 watch(token, (newVal) => {
-  me({populate: '*'}).then((res) => {
-    console.log(res)
+  if (!newVal) return
+  const id = jwtDecode(newVal)?.id;
+  findOne('users', id, {populate: '*'}).then((res) => {
+    me.value = res;
   })
 })
 </script>

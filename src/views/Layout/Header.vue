@@ -26,7 +26,7 @@
     </el-sub-menu>
     <!--    <el-menu-item index="3">Tool</el-menu-item>-->
     <div class="flex-grow"/>
-    <el-menu-item class="k-avatar" v-if="!token"  @click="dialogLoginVisible = true">
+    <el-menu-item class="k-avatar" v-if="!token" @click="dialogLoginVisible = true">
       <template #title>
         <el-icon>
           <Cellphone/>
@@ -34,10 +34,14 @@
         <span>登录</span>
       </template>
     </el-menu-item>
-    <el-menu-item class="k-avatar" v-else index="avatar">
-      <el-avatar
-          src="//p3-passport.byteimg.com/img/user-avatar/cb1d6d812c74b1540552190d2429e81d~180x180.awebp"></el-avatar>
-    </el-menu-item>
+
+    <el-sub-menu v-else index="avatar" popper-class="k-avatar-sub">
+      <template #title>
+        <el-avatar
+            :src="(me?.avatar)?(api_path + me.avatar.url):(multiavatar_path + me?.username + '.png')"></el-avatar>
+      </template>
+      <el-menu-item index="avatar-1" @click="signOut()">退出</el-menu-item>
+    </el-sub-menu>
   </el-menu>
   <el-dialog v-model="dialogLoginVisible" width="800px" align-center>
     <Login @close-dialog="dialogLoginVisible = false;"/>
@@ -47,8 +51,10 @@
 <script setup>
 import {inject, onMounted, ref} from 'vue'
 import {useCategoryStore} from "@/stores/category";
+import {ElNotification} from "element-plus";
 
 const token = inject('token');
+const me = inject('me');
 const headerShow = ref(true);
 const blogConfig = inject('blogConfig');
 const activeIndex = ref('/')
@@ -59,6 +65,17 @@ const handleSelect = (key, keyPath) => {
 }
 const category = useCategoryStore();
 const api_path = import.meta.env.VITE_API_URL;
+const multiavatar_path = import.meta.env.VITE_MULTIAVATAR;
+
+function signOut() {
+  localStorage.removeItem('token');
+  token.value = '';
+  ElNotification({
+    duration: 2000,
+    message: '注销成功！！',
+    type: 'success'
+  })
+}
 
 const dialogLoginVisible = ref(false)
 
@@ -112,5 +129,12 @@ onMounted(() => {
 
 .k-avatar:hover {
   background-color: #00000000 !important;
+}
+
+.k-avatar-sub {
+  .el-menu--popup {
+    min-width: 6.5rem !important;
+    text-align: center;
+  }
 }
 </style>
