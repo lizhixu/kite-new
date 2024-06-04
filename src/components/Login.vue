@@ -3,6 +3,9 @@ import "@lottiefiles/lottie-player";
 import {reactive, ref} from 'vue'
 import {Lock, User} from "@element-plus/icons-vue";
 import {register} from "@/utils/strapi";
+import {ElNotification} from "element-plus";
+
+const emit = defineEmits(['close-dialog'])
 
 const loginFormRef = ref();
 const registerFormRef = ref();
@@ -48,8 +51,8 @@ const validatePass2 = (rule, value, callback) => {
   }
 }
 const registerForm = reactive({
-  username: 'test123',
-  email: 'test123@qq.com',
+  username: 'test12',
+  email: 'php7ml@gmail.com',
   password: '1qaz@WSX',
   checkPass: '1qaz@WSX',
 });
@@ -71,6 +74,20 @@ const submitForm = (formEl) => {
         register(formData).then((res) => {
           console.log(res)
           // resetForm(formEl);
+          ElNotification({
+            title: '验证电子邮箱',
+            duration: 6000,
+            dangerouslyUseHTMLString: true,
+            message: `
+    <p>我们已向
+      <el-link type="primary">${registerForm.email}</el-link>
+      发送电子邮件以确保你拥有它，请查看你的收件箱并确认信息。
+    </p>`,
+            type: 'success',
+            onClose: () => {
+              emit('close-dialog')
+            }
+          })
         });
       }
     } else {
@@ -202,5 +219,9 @@ const resetForm = (formEl) => {
 
 .registerForm {
   margin-top: 30px;
+}
+
+.email-confirm {
+  text-align: center;
 }
 </style>

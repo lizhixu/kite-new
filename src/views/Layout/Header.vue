@@ -40,7 +40,7 @@
     </el-menu-item>
   </el-menu>
   <el-dialog v-model="dialogLoginVisible" width="800px" align-center>
-    <Login/>
+    <Login @close-dialog="dialogLoginVisible = false"/>
   </el-dialog>
 </template>
 
