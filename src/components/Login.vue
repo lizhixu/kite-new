@@ -38,8 +38,8 @@ const validatePass = (rule, value, callback) => {
   }
 };
 const loginForm = reactive({
-  password: '1qaz@WSX',
-  identifier: 'wxuns@qq.com',
+  password: '',
+  identifier: '',
 });
 
 const validatePass2 = (rule, value, callback) => {
