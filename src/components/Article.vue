@@ -128,6 +128,7 @@ find('articles', {
     return data;
   });
   loading.value = false;
+  hasMore.value = res.meta.pagination.total > 20;
 });
 const category = useCategoryStore();
 </script>
