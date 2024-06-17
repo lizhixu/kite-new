@@ -15,7 +15,7 @@
       </router-link>
     </el-menu-item>
     <el-menu-item index="/">首页</el-menu-item>
-    <el-sub-menu index="2">
+    <el-sub-menu index="2" popper-class="k-avatar-sub">
       <template #title>专栏</template>
       <template v-for="cate in category.categories">
         <el-menu-item :index="'/special/'+cate.id" v-if="cate.attributes.status">{{
@@ -38,7 +38,7 @@
     <el-sub-menu v-else index="avatar" popper-class="k-avatar-sub">
       <template #title>
         <el-avatar
-            :src="(me?.avatar)?(api_path + me.avatar.url):(multiavatar_path + me?.username + '.png')"></el-avatar>
+            :src="me && (me?.avatar)?(api_path + me.avatar.url):(multiavatar_path + me?.username + '.png')"></el-avatar>
       </template>
       <el-menu-item index="avatar-1" @click="signOut()">退出</el-menu-item>
     </el-sub-menu>
@@ -135,6 +135,13 @@ onMounted(() => {
   .el-menu--popup {
     min-width: 6.5rem !important;
     text-align: center;
+  }
+
+  .el-menu-item {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }
 </style>
