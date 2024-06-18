@@ -10,7 +10,7 @@
   >
     <el-menu-item class="logo">
       <router-link to="/">
-        <img :src="api_path + blogConfig?.logo.data[0].attributes.url"
+        <img :src="cdn_path + blogConfig?.logo.data[0].attributes.url"
              alt="logo" style="width: 50px;" v-if="blogConfig">
       </router-link>
     </el-menu-item>
@@ -38,7 +38,7 @@
     <el-sub-menu v-else index="avatar" popper-class="k-avatar-sub">
       <template #title>
         <el-avatar
-            :src="me && (me?.avatar)?(api_path + me.avatar.url):(multiavatar_path + me?.username + '.png')"></el-avatar>
+            :src="me && ((me?.avatar)?(cdn_path + me.avatar.url):(multiavatar_path + me?.username))"></el-avatar>
       </template>
       <el-menu-item index="avatar-1" @click="signOut()">退出</el-menu-item>
     </el-sub-menu>
@@ -64,8 +64,8 @@ const handleSelect = (key, keyPath) => {
   }
 }
 const category = useCategoryStore();
-const api_path = import.meta.env.VITE_API_URL;
-const multiavatar_path = import.meta.env.VITE_MULTIAVATAR;
+const cdn_path = import.meta.env.VITE_CDN_DOMAIN;
+const multiavatar_path = import.meta.env.VITE_DICEBEAR_DOMAIN;
 
 function signOut() {
   localStorage.removeItem('token');
