@@ -80,10 +80,19 @@
           </el-col>
         </el-row>
       </el-card>
-      <div class="mgt10 mgb100" id="comment">
+      <div class="mgt10 mgb10 article-detail-comment">
         <div class="comment-view" style="padding: 0px;z-index: 999;">
           <div class="comment-view-title">评论</div>
-          <UEditor/>
+          <el-row>
+            <el-col :span="2">
+              <el-avatar shape="circle" :size="50" src="">登录</el-avatar>
+            </el-col>
+            <el-col :span="22">
+              <UEditor/>
+              <el-button size="large" type="primary" class="mgt10" style="float:right;">提交</el-button>
+            </el-col>
+          </el-row>
+          <el-empty description="暂无评论数据" image="//images.lizhixu.cn/i/2024/06/21/voxri.png"/>
         </div>
       </div>
     </el-col>
@@ -202,11 +211,7 @@ findOne('articles', id, {populate: '*'}).then((res) => {
   })
 })
 watch(article, (newValue) => {
-  if (document.cookie.indexOf("visited" + id) === -1) {
-    update('articles', id, {views: article.value.views + 1}).then((res) => {
-      document.cookie = "visited" + id + "=1;expires=" + new Date().getTime() + 2000 + "; path=/";
-    })
-  }
+  update('articles', id, {views: article.value.views + 1})
 })
 
 const article_body = ref();
@@ -246,6 +251,12 @@ find('articles', {'sort[0]': 'id:asc', 'filters[id][$gt]': id, 'pagination[limit
   border: 1px solid #dedede;
   border-radius: 2px;
   background: #f9f9f9;
+  padding: 10px;
+}
+
+.article-detail-comment {
+  background: #ffffff;
+  border-radius: 2px;
   padding: 10px;
 }
 
