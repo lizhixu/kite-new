@@ -11,6 +11,7 @@ import router from './router'
 import './assets/main.css'
 import {useCategoryStore} from "@/stores/category";
 import {useConfigStore} from "@/stores/config";
+import CKEditor from '@ckeditor/ckeditor5-vue';
 
 const app = createApp(App)
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
@@ -23,4 +24,5 @@ app.use(createPinia())
 await useCategoryStore().request();
 await useConfigStore().request();
 app.use(router)
+app.use(CKEditor)
 app.mount('#app')

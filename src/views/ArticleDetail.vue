@@ -61,7 +61,7 @@
       </el-card>
       <el-card class="mgt10 page">
         <el-row>
-          <el-col :span="10">
+          <el-col :span="10" class="article-detail-next">
             上一篇：
             <router-link :to="`/article_detail/${previous?.id}`" v-if="previous">
               {{ getAttributes(previous, 'title') }}
@@ -71,7 +71,7 @@
           <el-col :span="4" style="text-align: center">
             <u-divider vertical/>
           </el-col>
-          <el-col :span="10">
+          <el-col :span="10" class="article-detail-next">
             下一篇：
             <router-link :to="`/article_detail/${next?.id}`" v-if="next">
               {{ getAttributes(next, 'title') }}
@@ -80,12 +80,12 @@
           </el-col>
         </el-row>
       </el-card>
-      <el-card class="mgt10 mgb10" id="comment">
-        <div class="comment-view" style="padding: 0px">
+      <div class="mgt10 mgb100" id="comment">
+        <div class="comment-view" style="padding: 0px;z-index: 999;">
           <div class="comment-view-title">评论</div>
-          <div id="SOHUCS" :sid="id"></div>
+          <UEditor/>
         </div>
-      </el-card>
+      </div>
     </el-col>
     <el-col :span="7" class="sidebar">
       <div class="sidebar__inner">
@@ -122,6 +122,7 @@ import MarkdownItCopy from 'markdown-it-code-copy'
 import {fremoveHtmlStyle, getAttributes, loadJs, findHTags} from "@/utils/util";
 import {useHead} from "@/hooks/useHead";
 import _ from 'lodash-es'
+import UEditor from "@/components/common/UEditor.vue";
 
 const md = new MarkdownIt({
   html: true,
@@ -158,7 +159,7 @@ const loading = ref(true);
 const blogConfig = inject('blogConfig');
 
 const id = route.params.id;
-const curLocation = window.location.href;
+const curLocation = window.location.origin + window.location.pathname;
 
 onMounted(() => {
   new StickySidebar('.sidebar', {
@@ -171,16 +172,6 @@ onMounted(() => {
   if (slide) {
     window.scrollTo(0, slide.offsetTop)
   }
-  nextTick(() => {
-    window.changyan = undefined;
-    window.cyan = undefined;
-    loadJs("https://changyan.sohu.com/upload/changyan.js", () => {
-      window.changyan.api.config({
-        appid: 'cyx6aSIDq',
-        conf: 'prod_f539c5de4359f3e1215cfc4e744b2604'
-      });
-    })
-  })
 })
 
 const data = ref({
@@ -260,6 +251,10 @@ find('articles', {'sort[0]': 'id:asc', 'filters[id][$gt]': id, 'pagination[limit
 
 .author-info-block {
   color: #8a919f;
+}
+
+.article-detail-next {
+  margin: auto;
 }
 
 .comment-view-title {
