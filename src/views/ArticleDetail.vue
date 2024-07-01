@@ -92,7 +92,8 @@
               <el-button size="large" type="primary" class="mgt10" style="float:right;">提交</el-button>
             </el-col>
           </el-row>
-          <el-empty description="暂无评论数据" image="//images.lizhixu.cn/i/2024/06/21/voxri.png"/>
+          <!--          <el-empty description="暂无评论数据" image="//images.lizhixu.cn/i/2024/06/21/voxri.png"/>-->
+          <Comment class="mgb50"/>
         </div>
       </div>
     </el-col>
@@ -132,6 +133,7 @@ import {fremoveHtmlStyle, getAttributes, loadJs, findHTags} from "@/utils/util";
 import {useHead} from "@/hooks/useHead";
 import _ from 'lodash-es'
 import UEditor from "@/components/common/UEditor.vue";
+import Comment from "@/components/Comment.vue";
 
 const md = new MarkdownIt({
   html: true,

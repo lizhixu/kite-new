@@ -1,86 +1,35 @@
 <template>
-  <div id="ckeditor">
-    <ckeditor
-        ref="editorRef"
-        v-model="editorDesign"
-        :editor="editor"
-        :config="editorConfig"
-        :disabled="disabled"
-        @ready="onEditorReady"
-        @focus="onEditorFocus"
-        @blur="onEditorBlur"
-        @input="onEditorInput"
-        @destroy="onEditorDestroy"
-    ></ckeditor>
-  </div>
+  <froala :tag="'textarea'" :config="config" v-model:value="model"></froala>
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
-import '@ckeditor/ckeditor5-build-classic/build/translations/zh-cn.js' //引入中文包
-const props = defineProps({
-  disabled: {
-    type: Boolean,
-    default: false, //是否禁用
-  },
-})
-const editor = ClassicEditor
-const editorDesign = ref('') //默认内容
+//Import Froala Editor
+import 'froala-editor/js/plugins.pkgd.min.js';
+import 'froala-editor/js/languages/zh_cn';
+//Import third party plugins
+import 'froala-editor/js/third_party/embedly.min';
+import 'froala-editor/js/third_party/font_awesome.min';
+import 'froala-editor/js/third_party/spell_checker.min';
+import 'froala-editor/js/third_party/image_tui.min';
+// Import Froala Editor css files.
+import 'froala-editor/css/froala_editor.pkgd.min.css';
+import 'froala-editor/css/froala_style.min.css';
+import {ref, reactive} from 'vue'
 
-const editorConfig = reactive({
-  language: 'zh-cn',
-  toolbar: {
-    items: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', '|', 'outdent', 'indent', '|', 'imageUpload', 'blockQuote', 'insertTable', 'mediaEmbed', 'undo', 'redo'],
-  },
-  image: {
-    toolbar: ['imageTextAlternative', 'toggleImageCaption', 'imageStyle:inline', 'imageStyle:block', 'imageStyle:side'],
-  },
-  table: {
-    contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells'],
-  },
-  ckfinder: {
-    uploadUrl: `/uploadfile`, // 上传图片接口
-    options: {
-      resourceType: 'Images',
-    },
-  },
-})
-
-const emit = defineEmits(['ready', 'focus', 'blur', 'input', 'destroy'])
-
-const editorRef = ref(null)
-const onEditorReady = () => {
-  console.log('准备好了')
-  emit('ready')
+const config = {
+  language: 'zh_cn',
+  toolbarButtons: ['bold', 'italic', 'underline', 'strikeThrough', 'fontSize', 'inlineClass', 'markdown', 'emoticons', 'fullscreen', 'undo', 'redo'],
+  quickInsertEnabled: false,
+  placeholderText: '请输入评论内容...',
+  events: {
+    initialized: function () {
+      console.log('initialized')
+    }
+  }
 }
-
-const onEditorFocus = () => {
-  console.log('聚焦')
-  emit('focus')
-}
-const onEditorBlur = () => {
-  console.log('失去焦点')
-  emit('blur')
-}
-
-const onEditorInput = () => {
-  console.log('正在录入')
-  emit('input')
-}
-
-const onEditorDestroy = () => {
-  console.log('销毁')
-  emit('destroy')
-}
+const model = ref('');
 </script>
 
 <style lang="scss">
-#ckeditor {
-  .ck-editor__editable {
-    min-height: 100px;
-    max-height: 500px;
-  }
-}
 </style>
 
