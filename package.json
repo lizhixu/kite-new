@@ -10,6 +10,8 @@
     "@element-plus/icons-vue": "^2.0.10",
     "@gerhobbelt/markdown-it-github-headings": "^2.0.0-2",
     "@lottiefiles/lottie-player": "^2.0.4",
+    "@wangeditor/editor": "^5.1.23",
+    "@wangeditor/editor-for-vue": "^5.1.12",
     "axios": "^1.2.6",
     "dayjs": "^1.11.10",
     "element-plus": "^2.6.0",
@@ -23,7 +25,6 @@
     "sass": "^1.69.7",
     "sticky-sidebar-v2": "^1.1.1",
     "vue": "^3.2.38",
-    "vue-froala-wysiwyg": "^4.2.1",
     "vue-router": "^4.1.5"
   },
   "devDependencies": {

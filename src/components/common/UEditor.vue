@@ -1,35 +1,58 @@
 <template>
-  <froala :tag="'textarea'" :config="config" v-model:value="model"></froala>
+  <div :style="toolbarStyle">
+    <Toolbar
+        style="border-bottom: 1px solid #ccc;"
+        :editor="editorRef"
+        :defaultConfig="toolbarConfig"
+        :mode="mode"
+    />
+    <Editor
+        :style="editorStyle"
+        v-model="valueHtml"
+        :defaultConfig="editorConfig"
+        :mode="mode"
+        @onFocus="editorFocus"
+        @onBlur="editorStyle.height = '100px';toolbarStyle.border = '1px solid #ccc'"
+        @onCreated="handleCreated"
+    />
+  </div>
 </template>
 
 <script setup>
-//Import Froala Editor
-import 'froala-editor/js/plugins.pkgd.min.js';
-import 'froala-editor/js/languages/zh_cn';
-//Import third party plugins
-import 'froala-editor/js/third_party/embedly.min';
-import 'froala-editor/js/third_party/font_awesome.min';
-import 'froala-editor/js/third_party/spell_checker.min';
-import 'froala-editor/js/third_party/image_tui.min';
-// Import Froala Editor css files.
-import 'froala-editor/css/froala_editor.pkgd.min.css';
-import 'froala-editor/css/froala_style.min.css';
-import {ref, reactive} from 'vue'
+import {Editor, Toolbar} from '@wangeditor/editor-for-vue'
+import {onBeforeUnmount, ref, shallowRef} from "vue";
 
-const config = {
-  language: 'zh_cn',
-  toolbarButtons: ['bold', 'italic', 'underline', 'strikeThrough', 'fontSize', 'inlineClass', 'markdown', 'emoticons', 'fullscreen', 'undo', 'redo'],
-  quickInsertEnabled: false,
-  placeholderText: '请输入评论内容...',
-  events: {
-    initialized: function () {
-      console.log('initialized')
-    }
-  }
+const editorStyle = ref({height: '100px', overflowY: 'hidden'});
+const toolbarStyle = ref({border: '1px solid #ccc'});
+const editorRef = shallowRef();
+const valueHtml = ref('')
+const toolbarConfig = {
+  toolbarKeys: ['headerSelect', 'bold', 'italic', 'codeBlock', 'emotion', {
+    key: 'group-more-style', // 必填，要以 group 开头
+    title: '更多样式', // 必填
+    menuKeys: ["through", "code", "clearStyle"] // 下级菜单 key ，必填
+  }]
+};
+const editorConfig = {placeholder: '请输入评论内容...'};
+const mode = 'simple'; // or 'simple'
+function handleCreated(editor) {
+  editor.blur()
+  editorRef.value = editor // 记录 editor 实例，重要！
 }
-const model = ref('');
-</script>
 
+function editorFocus(editor) {
+  if (!editor.isFocused()) return
+  editorStyle.value.height = '200px';
+  toolbarStyle.value.border = '1px solid #5cb9ff'
+}
+
+onBeforeUnmount(() => {
+  const editor = editorRef.value
+  if (editor == null) return
+  editor.destroy()
+})
+</script>
+<style src="@wangeditor/editor/dist/css/style.css"></style>
 <style lang="scss">
 </style>
 

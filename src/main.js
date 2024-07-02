@@ -3,7 +3,6 @@ import {createPinia} from 'pinia'
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
-import VueFroala from 'vue-froala-wysiwyg';
 
 import './components/common/components'
 import App from './App.vue'
@@ -24,5 +23,4 @@ app.use(createPinia())
 await useCategoryStore().request();
 await useConfigStore().request();
 app.use(router)
-app.use(VueFroala);
 app.mount('#app')
