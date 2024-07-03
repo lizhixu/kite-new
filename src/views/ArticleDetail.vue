@@ -100,7 +100,7 @@
     <el-col :span="7" class="sidebar">
       <div class="sidebar__inner">
         <Category :tags="article?.tags.data"/>
-        <RecentlyPublished class="mgt10"/>
+        <RecentlyPublished :id="id" :tags="article?.tags.data" class="mgt10"/>
         <el-card class="article-catalog mgt10" v-show="article_anchor?.length > 0">
           <template #header>
             <div class="card-header">

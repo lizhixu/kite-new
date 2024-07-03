@@ -1,57 +1,48 @@
 <template>
-  <el-card>
+  <el-card v-if="related">
     <template #header>
       <div class="card-header">
-        <span class="c-s-title">最近发表</span>
+        <span class="c-s-title">相关推荐</span>
       </div>
     </template>
     <el-timeline>
       <el-timeline-item
-          v-for="(activity, index) in activities"
+          v-for="(item, index) in related"
           :key="index"
-          :icon="activity.icon"
-          :type="activity.type"
-          :color="activity.color"
-          :size="activity.size"
-          :hollow="activity.hollow"
-          :timestamp="activity.timestamp"
+          :type="'primary'"
+          :hollow="true"
+          :timestamp="dayjs(getAttributes(item, 'articleUpdatedAt')).format('YYYY-MM-DD HH:mm')"
       >
-        {{ activity.content }}
+        <a :href="`/article_detail/${item?.id}`" target="_blank">{{ getAttributes(item, 'title') }}</a>
       </el-timeline-item>
     </el-timeline>
   </el-card>
 </template>
 
 <script lang="ts" setup>
-import {MoreFilled} from '@element-plus/icons-vue'
+import {onUpdated, ref} from "vue";
+import {find} from "@/utils/strapi";
+import {getAttributes} from "@/utils/util";
+import dayjs from "dayjs";
 
-const activities = [
-  {
-    content: '可根据实际场景⾃定义节点尺⼨、颜⾊，或直接使⽤图标。',
-    timestamp: '2018-04-12 20:46',
-    size: 'large',
-    type: 'primary',
-    icon: MoreFilled,
-  },
-  {
-    content: 'Custom color',
-    timestamp: '2018-04-03 20:46',
-    color: '#0bbd87',
-  },
-  {
-    content: 'Custom size',
-    timestamp: '2018-04-03 20:46',
-    size: 'large',
-  },
-  {
-    content: 'Custom hollow',
-    timestamp: '2018-04-03 20:46',
-    type: 'primary',
-    hollow: true,
-  },
-  {
-    content: 'Default node',
-    timestamp: '2018-04-03 20:46',
-  },
-]
+const props = defineProps(['tags', 'id']);
+//相关推荐
+const related = ref();
+onUpdated(() => {
+  const tags = props.tags?.map?.((item) => {
+    return item.id;
+  })
+  find('articles', {
+    'filters[tags][$in]': tags,
+    'filters[id][$ne]': props.id,
+    'sort[0]': 'id:desc',
+    'populate': '*',
+    'pagination[page]': 1,
+    'pagination[pageSize]': 10
+  }).then((res) => {
+    if (res.data.length > 0) {
+      related.value = res.data;
+    }
+  })
+})
 </script>
