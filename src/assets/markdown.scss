@@ -166,10 +166,12 @@ $colors: $basecolor, lighten($basecolor, 2%), lighten($basecolor, 5%), lighten($
         border: 1px solid $color-blue;
         background-color: #f0f8ff;
         font-weight: 600;
+        padding: 10px 0;
       }
 
       td {
         line-height: 2;
+        padding: 5px 10px;
         border: 1px solid color.change($color: $color-yellow, $alpha: 0.4);
 
         & > :last-child {
