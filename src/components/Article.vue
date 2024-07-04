@@ -94,14 +94,11 @@
       </template>
     </el-skeleton>
   </div>
-  <div class="mgt10 mgb10 article-page" v-if="hasMore">
-    <el-pagination background layout="prev, pager, next" :total="1000" style="align-self: center;"/>
-  </div>
 </template>
 
 <script setup>
 import {find} from "@/utils/strapi";
-import {ref} from "vue";
+import {onUnmounted, ref} from "vue";
 import _ from 'lodash-es'
 import {extractImagesFromMarkdown, fremoveHtmlStyle} from "@/utils/util";
 import MarkdownIt from "markdown-it";
@@ -112,25 +109,59 @@ const api_url = import.meta.env.VITE_API_URL;
 const md = new MarkdownIt()
 
 let loading = ref(true);
-let hasMore = ref(false);
 const articleList = ref(Array(4).fill({}));
-find('articles', {
-  populate: '*',
-  filters: {},
-  sort: 'articleUpdatedAt:desc',
-  pagination: {
-    start: 0,
-    limit: 20
-  }
-}).then((res) => {
-  articleList.value = _.map(res.data, (data) => {
-    data.attributes.img = extractImagesFromMarkdown(data.attributes.content)
-    return data;
+let page = 0;
+const pageSize = 10;
+let totalPage = 1;
+
+function getArticle() {
+  find('articles', {
+    populate: '*',
+    filters: {},
+    sort: 'articleUpdatedAt:desc',
+    pagination: {start: page * pageSize, limit: pageSize}
+  }).then((res) => {
+    const tmpList = _.map(res.data, (data) => {
+      data.attributes.img = extractImagesFromMarkdown(data.attributes.content)
+      return data;
+    })
+    if (tmpList.length === 0) return;
+    if (page === 0) {
+      totalPage = Math.ceil(res.meta.pagination.total / pageSize);
+      articleList.value = tmpList
+    } else {
+      articleList.value.push(...tmpList);
+    }
+    loading.value = false;
+    nextLoad = false;
   });
-  loading.value = false;
-  hasMore.value = res.meta.pagination.total > 20;
-});
+}
+
+getArticle();
 const category = useCategoryStore();
+let docEl = document.documentElement;
+// 浏览器可视部分的高度
+let clientHeight = document.documentElement.clientHeight || document.body.clientHeight;
+let nextLoad = false;
+window.addEventListener('scroll', () => {
+  // 页面中内容的总高度
+  let docELHeight = docEl.scrollHeight;
+  // 页面内已经滚动的距离
+  let scrollTop = docEl.scrollTop;
+  // 页面上滚动到底部的条件
+  if (scrollTop >= docELHeight - clientHeight && !nextLoad) {
+    // 页面内已经滚动的距离 = 页面中内容的总高度 - 浏览器可视部分的高度
+    console.log('到达底部了！');
+    page++;
+    if (totalPage - 1 >= page) {
+      nextLoad = true;
+      getArticle();
+    }
+  }
+});
+onUnmounted(() => {
+  console.log(1)
+})
 </script>
 <style scoped>
 .article-page {
@@ -162,7 +193,7 @@ const category = useCategoryStore();
   height: 150px;
   border-radius: 5px;
   overflow: hidden;
-  object-fit:contain;
+  object-fit: contain;
   border: 1px solid rgb(228 230 235 / 50%);
 }
 
