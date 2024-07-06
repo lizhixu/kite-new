@@ -124,12 +124,12 @@ import router from "@/router";
 import {find, findOne, update} from "@/utils/strapi";
 import MarkdownIt from "markdown-it";
 import dayjs from "dayjs";
-import {ref} from "vue";
+import {inject, onMounted, ref} from "vue";
 import hljs from 'highlight.js';
 import 'highlight.js/styles/stackoverflow-light.css';
 import MarkdownItGithubHeadings from '@gerhobbelt/markdown-it-github-headings'
 import MarkdownItCopy from 'markdown-it-code-copy'
-import {fremoveHtmlStyle, getAttributes, loadJs, findHTags} from "@/utils/util";
+import {findHTags, fremoveHtmlStyle, getAttributes} from "@/utils/util";
 import {useHead} from "@/hooks/useHead";
 import _ from 'lodash-es'
 import UEditor from "@/components/common/UEditor.vue";
@@ -211,6 +211,7 @@ findOne('articles', id, {populate: '*'}).then((res) => {
       {name: 'keywords', content: () => _.map(article.value.tags.data, (item) => getAttributes(item, 'name')).join(',')}
     ],
   })
+  renderPre();
 })
 watch(article, (newValue) => {
   update('articles', id, {views: article.value.views + 1})
@@ -225,12 +226,24 @@ watch(article_body, (newValue) => {
 //上下篇
 const previous = ref();
 const next = ref();
-find('articles', {'sort[0]': 'id:desc', 'filters[id][$lt]': id, 'pagination[limit]': 1}).then((res) => {
-  previous.value = res.data[0];
-})
-find('articles', {'sort[0]': 'id:asc', 'filters[id][$gt]': id, 'pagination[limit]': 1}).then((res) => {
-  next.value = res.data[0];
-})
+
+function renderPre() {
+  const articleUpdatedAt = article.value.articleUpdatedAt;
+  find('articles', {
+    'sort[0]': 'articleUpdatedAt:desc',
+    'filters[articleUpdatedAt][$lt]': articleUpdatedAt,
+    'pagination[limit]': 1
+  }).then((res) => {
+    previous.value = res.data[0];
+  })
+  find('articles', {
+    'sort[0]': 'articleUpdatedAt:asc',
+    'filters[articleUpdatedAt][$gt]': articleUpdatedAt,
+    'pagination[limit]': 1
+  }).then((res) => {
+    next.value = res.data[0];
+  })
+}
 </script>
 
 <style scoped>

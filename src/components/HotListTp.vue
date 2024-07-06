@@ -30,9 +30,10 @@
               </router-link>
             </el-col>
             <el-col :span="16">
-              <router-link :to="`/article_detail/${article.id}`" :underline="false">
+              <a :href="`/article_detail/${article.id}`" :title="getAttributes(article, 'title')" target="_blank"
+                 :underline="false">
                 {{ getAttributes(article, 'title') }}
-              </router-link>
+              </a>
             </el-col>
             <el-divider v-if="index !== articleList.length - 1"/>
           </template>
@@ -91,7 +92,7 @@ find('articles', {
   height: 60px;
   border-radius: 5px;
   overflow: hidden;
-  object-fit:contain;
+  object-fit: contain;
   border: 1px solid rgb(228 230 235 / 50%);
 }
 

@@ -1,7 +1,7 @@
 <template>
   <main>
     <div class="main-content">
-      <div class="content" style="width: 800px;display: inline-block">
+      <div class="content mgb50" style="width: 800px;display: inline-block">
         <Featured/>
         <Article/>
       </div>

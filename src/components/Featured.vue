@@ -15,8 +15,9 @@
                       style="width: 1em;"/>{{ dayjs(getAttributes(article, 'articleUpdatedAt')).format('YYYY-MM-DD') }}</span>
                 </div>
                 <h5>
-                  <router-link :to="'/article_detail/'+article.id" class="normal">{{ getAttributes(article, 'title') }}
-                  </router-link>
+                  <a :href="'/article_detail/'+article.id" class="normal" :title="getAttributes(article, 'title')"
+                     target="_blank">{{ getAttributes(article, 'title') }}
+                  </a>
                 </h5>
                 <u-fold line="1">
                   <p>{{

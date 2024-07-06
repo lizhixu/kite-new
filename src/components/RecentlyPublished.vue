@@ -13,7 +13,8 @@
           :hollow="true"
           :timestamp="dayjs(getAttributes(item, 'articleUpdatedAt')).format('YYYY-MM-DD HH:mm')"
       >
-        <a :href="`/article_detail/${item?.id}`" target="_blank">{{ getAttributes(item, 'title') }}</a>
+        <a :href="`/article_detail/${item?.id}`" :title="getAttributes(item, 'title')"
+           target="_blank">{{ getAttributes(item, 'title') }}</a>
       </el-timeline-item>
     </el-timeline>
   </el-card>
@@ -35,7 +36,7 @@ onUpdated(() => {
   find('articles', {
     'filters[tags][$in]': tags,
     'filters[id][$ne]': props.id,
-    'sort[0]': 'id:desc',
+    'sort[0]': 'articleUpdatedAt:desc',
     'populate': '*',
     'pagination[page]': 1,
     'pagination[pageSize]': 10

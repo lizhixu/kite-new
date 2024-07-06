@@ -18,19 +18,20 @@
         <el-card class="box-card mgt10" v-if="article.attributes.img.length > 0">
           <el-row :gutter="30">
             <el-col :span="7">
-              <router-link :to="'/article_detail/'+article.id">
+              <a :href="'/article_detail/'+article.id" :title="article.attributes.title" target="_blank">
                 <div class="article-list-img">
                   <img class="img article-list-img"
                        :src="article.attributes.img[0]" :alt="article.attributes.title"/>
                 </div>
-              </router-link>
+              </a>
             </el-col>
             <el-col :span="17">
               <div class="start-cover"
-                   :style="{'background-image':`url(${api_url + category.categories[article.attributes.category.data.id].attributes.picture.data.attributes.url})`}"></div>
-              <router-link :to="'/article_detail/'+article.id" class="article-title">
+                   :style="{'background-image':`url(${cdn_domain + category.categories[article.attributes.category.data.id].attributes.picture.data.attributes.url})`}"></div>
+              <a :href="'/article_detail/'+article.id" :title="article.attributes.title" target="_blank"
+                 class="article-title">
                 {{ article.attributes.title }}
-              </router-link>
+              </a>
               <u-fold line="3" class="article-desc">
                 <p>{{ article.attributes.description || fremoveHtmlStyle(md.render(article.attributes.content)) }}</p>
               </u-fold>
@@ -44,16 +45,15 @@
                   <span><View style="width: 1em;"/>{{ article.attributes.views }}阅读</span>
                 </el-col>
                 <el-col :span="5">
-                  <router-link :to="'/article_detail/'+article.id +'#comment'" class="article-detail-a">
+                  <a :href="'/article_detail/'+article.id +'#comment'" target="_blank" class="article-detail-a">
                     <ChatRound style="width: 1em;"/>
                     <span>{{ article.attributes.comments }}评论</span>
-                  </router-link>
+                  </a>
                 </el-col>
                 <el-col :span="8" class="article-author">
-                  <el-avatar style="width: 25px;height: 25px;margin-right: 3px;"
-                             src="//p3-passport.byteimg.com/img/user-avatar/cb1d6d812c74b1540552190d2429e81d~180x180.awebp"
-                  />
-                  <el-link :underline="false">JacyLi</el-link>
+                  <el-link :underline="false">
+                    {{ getAttributes(getAttributes(article, 'author').data, 'username') }}
+                  </el-link>
                 </el-col>
               </el-row>
             </el-col>
@@ -61,10 +61,11 @@
         </el-card>
         <el-card class="box-card mgt10" v-else>
           <div class="start-cover start-cover-2"
-               :style="{'background-image':`url(${api_url + category.categories[article.attributes.category.data.id].attributes.picture.data.attributes.url})`}"></div>
-          <router-link :to="'/article_detail/'+article.id" class="article-title" style="width: 550px">
+               :style="{'background-image':`url(${cdn_domain + category.categories[article.attributes.category.data.id].attributes.picture.data.attributes.url})`}"></div>
+          <a :href="'/article_detail/'+article.id" target="_blank" :title="article.attributes.title"
+             class="article-title" style="width: 550px">
             {{ article.attributes.title }}
-          </router-link>
+          </a>
           <u-fold line="3" class="article-desc">
             <p>{{ article.attributes.description || fremoveHtmlStyle(md.render(article.attributes.content)) }}</p>
           </u-fold>
@@ -78,34 +79,34 @@
               <span><View style="width: 1em;"/>{{ article.attributes.views }}阅读</span>
             </el-col>
             <el-col :span="5">
-              <router-link :to="'/article_detail/'+article.id +'#comment'" class="article-detail-a">
+              <a :href="'/article_detail/'+article.id +'#comment'" target="_blank" class="article-detail-a">
                 <ChatRound style="width: 1em;"/>
                 <span>{{ article.attributes.comments }}评论</span>
-              </router-link>
+              </a>
             </el-col>
             <el-col :span="8" class="article-author">
-              <el-avatar style="width: 25px;height: 25px;margin-right: 3px;"
-                         src="//p3-passport.byteimg.com/img/user-avatar/cb1d6d812c74b1540552190d2429e81d~180x180.awebp"
-              />
-              <el-link :underline="false">JacyLi</el-link>
+              <el-link :underline="false">
+                {{ getAttributes(getAttributes(article, 'author').data, 'username') }}
+              </el-link>
             </el-col>
           </el-row>
         </el-card>
       </template>
     </el-skeleton>
   </div>
+  <el-divider v-if="totalPage -1 === page">到底线了</el-divider>
 </template>
 
 <script setup>
 import {find} from "@/utils/strapi";
-import {onUnmounted, ref} from "vue";
+import {ref} from "vue";
 import _ from 'lodash-es'
-import {extractImagesFromMarkdown, fremoveHtmlStyle} from "@/utils/util";
+import {extractImagesFromMarkdown, fremoveHtmlStyle, getAttributes} from "@/utils/util";
 import MarkdownIt from "markdown-it";
 import {useCategoryStore} from "@/stores/category";
 import dayjs from "dayjs";
 
-const api_url = import.meta.env.VITE_API_URL;
+const cdn_domain = import.meta.env.VITE_CDN_DOMAIN;
 const md = new MarkdownIt()
 
 let loading = ref(true);
@@ -149,7 +150,7 @@ window.addEventListener('scroll', () => {
   // 页面内已经滚动的距离
   let scrollTop = docEl.scrollTop;
   // 页面上滚动到底部的条件
-  if (scrollTop >= docELHeight - clientHeight && !nextLoad) {
+  if (Math.ceil(scrollTop) >= docELHeight - clientHeight && !nextLoad && totalPage - 1 >= page) {
     // 页面内已经滚动的距离 = 页面中内容的总高度 - 浏览器可视部分的高度
     console.log('到达底部了！');
     page++;
@@ -159,9 +160,6 @@ window.addEventListener('scroll', () => {
     }
   }
 });
-onUnmounted(() => {
-  console.log(1)
-})
 </script>
 <style scoped>
 .article-page {
@@ -223,9 +221,5 @@ onUnmounted(() => {
 
 .article-author {
   text-align: right;
-}
-
-.article-author > a {
-  margin-top: -15px;
 }
 </style>
