@@ -23,13 +23,13 @@
           <template #default>
             <el-col :span="8">
               <span class="hot-list-num" :class="index<4?('hot-list-num'+(index+1)):''">{{ index + 1 }}</span>
-              <router-link :to="`/article_detail/${article.id}`">
+              <a :href="`/article_detail/${article.id}`" :title="getAttributes(article, 'title')" target="_blank">
                 <div class="hot-list-cover">
                   <img class="hot-list-cover img" :src="article.attributes?.img[0]"/>
                 </div>
-              </router-link>
+              </a>
             </el-col>
-            <el-col :span="16">
+            <el-col :span="15" :offset="1">
               <a :href="`/article_detail/${article.id}`" :title="getAttributes(article, 'title')" target="_blank"
                  :underline="false">
                 {{ getAttributes(article, 'title') }}

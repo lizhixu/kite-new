@@ -1,14 +1,16 @@
 <template>
-  <el-card class="box-card" :class="o>1?'mgt10':''" v-for="o in 10" :key="o">
+  <el-card class="box-card" :class="index > 0 ? 'mgt10' : ''"
+           v-for="(article,index) in articleList" :key="article.id">
     <el-row :gutter="30">
       <el-col>
         <div class="start-cover"></div>
-        <router-link :to="'/article_detail/'+o" class="article-title">
-          通过SourceMap还原了Vue前端代码怎么去运行调试和二次开发？
-        </router-link>
+        <a :href="'/article_detail/'" class="article-title">
+          {{ getAttributes(article, 'title') }}
+        </a>
         <u-fold line="2" class="article-desc">
-          <p>
-            每当白日依山尽，夕阳余辉便透过朵朵云层，像万道金光，如霞光万丈，把天空白云染得红彤彤，把大地山河映得金灿灿，仿佛整个世界在那一瞬间都变得金碧辉煌，热情奔放起来</p>
+          <p>{{
+              getAttributes(article, 'description') || fremoveHtmlStyle(md.render(getAttributes(article, 'content')))
+            }}</p>
         </u-fold>
         <el-row :gutter="10" class="article-detail">
           <el-col :span="6">
@@ -18,10 +20,10 @@
             <span><View style="width: 1em;"/>100阅读</span>
           </el-col>
           <el-col :span="5">
-            <router-link :to="'/article_detail/'+o +'#comment'" class="article-detail-a">
+            <a :href="`/article_detail/${article.id}#comment`" class="article-detail-a">
               <ChatRound style="width: 1em;"/>
               <span>100评论</span>
-            </router-link>
+            </a>
           </el-col>
           <el-col :span="8" class="article-author">
             <el-avatar style="width: 25px;height: 25px;margin-right: 3px;"
@@ -39,6 +41,48 @@
 </template>
 
 <script setup>
+import {find} from "@/utils/strapi";
+import _ from "lodash-es";
+import {extractImagesFromMarkdown, fremoveHtmlStyle, getAttributes} from "@/utils/util";
+import {ref} from "vue";
+import MarkdownIt from "markdown-it";
+
+const md = new MarkdownIt()
+const props = defineProps(['id'])
+
+const page = ref(1);
+const totalPage = ref(0);
+const pageSize = 10;
+const articleList = ref(Array(4).fill({}));
+
+function renderArticle(id) {
+  history.pushState({}, '', `/special/${id}`);
+  find('articles', {
+    populate: '*',
+    'filters[[category][id]][$eq]': id,
+    sort: 'articleUpdatedAt:desc',
+    pagination: {start: page.value * pageSize, limit: pageSize}
+  }).then((res) => {
+    const tmpList = _.map(res.data, (data) => {
+      data.attributes.img = extractImagesFromMarkdown(data.attributes.content)
+      return data;
+    })
+    if (tmpList.length === 0) return;
+    if (page.value === 1) {
+      totalPage.value = Math.ceil(res.meta.pagination.total / pageSize);
+      articleList.value = tmpList
+    } else {
+      articleList.value.push(...tmpList);
+    }
+  });
+}
+
+watch(props, (newVal) => {
+  renderArticle(newVal.id)
+})
+onMounted(() => {
+  renderArticle(props.id)
+})
 </script>
 <style scoped>
 .article-page {

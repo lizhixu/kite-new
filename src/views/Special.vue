@@ -4,18 +4,20 @@
       <el-affix :offset="120">
         <el-scrollbar :noresize="true" height="400px" class="special">
           <ul>
-            <li v-for="item in 20" class="special-label" :class="item == 1?'special-label-activate':''">
-              <router-link :to="'/special/'+item">
+            <li v-for="item in categorys" class="special-label"
+                :class="item.id == special_id?'special-label-activate':''">
+              <div @click="renderArticle(item.id)" style="cursor:pointer">
                 <i class="iconfont icon-hashjinghao special-label-i"
-                   :class="item == 1?'special-label-activate-i':''"></i> PHP-{{ item }}
-              </router-link>
+                   :class="item.id == special_id?'special-label-activate-i':''"></i>
+                {{ getAttributes(item, 'name') }}
+              </div>
             </li>
           </ul>
         </el-scrollbar>
       </el-affix>
     </el-col>
     <el-col :span="14" class="content">
-      <CategoryArticle/>
+      <CategoryArticle :id="special_id"/>
     </el-col>
     <el-col :span="6" class="sidebar">
       <div class="sidebar__inner">
@@ -31,6 +33,21 @@ import HotListTp from "@/components/HotListTp.vue";
 import CategoryLabel from "@/components/CategoryLabel.vue";
 import StickySidebar from "sticky-sidebar-v2";
 import CategoryArticle from "@/components/CategoryArticle.vue";
+import {useCategoryStore} from "@/stores/category";
+import {extractImagesFromMarkdown, getAttributes} from "../utils/util";
+import {useRoute} from "vue-router";
+import {ref} from "vue";
+import {find} from "@/utils/strapi";
+import _ from "lodash-es";
+
+const params = useRoute().params;
+let special_id = ref(params.special_name);
+const categorys = useCategoryStore().categories;
+
+function renderArticle(id) {
+  special_id.value = id;
+  history.pushState({}, '', `/special/${id}`);
+}
 
 onMounted(() => {
   var sidebar = new StickySidebar('.sidebar', {
