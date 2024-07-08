@@ -32,7 +32,7 @@ const router = createRouter({
             component: () => import('../views/ArticleDetail.vue')
         },
         {
-            path: '/special/:special_name',
+            path: '/special/:id/:page?',
             name: 'special',
             meta: {
                 title: '专题'

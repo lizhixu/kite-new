@@ -5,10 +5,10 @@
         <el-scrollbar :noresize="true" height="400px" class="special">
           <ul>
             <li v-for="item in categorys" class="special-label"
-                :class="item.id == special_id?'special-label-activate':''">
+              :class="item.id == special_id ? 'special-label-activate' : ''">
               <div @click="renderArticle(item.id)" style="cursor:pointer">
                 <i class="iconfont icon-hashjinghao special-label-i"
-                   :class="item.id == special_id?'special-label-activate-i':''"></i>
+                  :class="item.id == special_id ? 'special-label-activate-i' : ''"></i>
                 {{ getAttributes(item, 'name') }}
               </div>
             </li>
@@ -17,31 +17,30 @@
       </el-affix>
     </el-col>
     <el-col :span="14" class="content">
-      <CategoryArticle :id="special_id"/>
+      <CategoryArticle :id="special_id" :cur_page="cur_page" />
     </el-col>
     <el-col :span="6" class="sidebar">
       <div class="sidebar__inner">
-        <CategoryLabel/>
-        <HotListTp class="mgt10"/>
+        <CategoryLabel />
+        <HotListTp class="mgt10" />
       </div>
     </el-col>
   </el-row>
 </template>
 
 <script setup>
-import HotListTp from "@/components/HotListTp.vue";
-import CategoryLabel from "@/components/CategoryLabel.vue";
-import StickySidebar from "sticky-sidebar-v2";
 import CategoryArticle from "@/components/CategoryArticle.vue";
-import {useCategoryStore} from "@/stores/category";
-import {extractImagesFromMarkdown, getAttributes} from "../utils/util";
-import {useRoute} from "vue-router";
-import {ref} from "vue";
-import {find} from "@/utils/strapi";
-import _ from "lodash-es";
+import CategoryLabel from "@/components/CategoryLabel.vue";
+import HotListTp from "@/components/HotListTp.vue";
+import { useCategoryStore } from "@/stores/category";
+import StickySidebar from "sticky-sidebar-v2";
+import { ref } from "vue";
+import { useRoute } from "vue-router";
+import { getAttributes } from "../utils/util";
 
 const params = useRoute().params;
-let special_id = ref(params.special_name);
+const special_id = ref(params.id);
+const cur_page = ref(params.page);
 const categorys = useCategoryStore().categories;
 
 function renderArticle(id) {
@@ -60,8 +59,7 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.special {
-}
+.special {}
 
 .special-label {
   padding: 10px;
@@ -78,7 +76,7 @@ onMounted(() => {
   border-radius: 0.25rem;
 }
 
-.special-label-activate > a {
+.special-label-activate>a {
   color: #fff;
 }
 
