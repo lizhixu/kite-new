@@ -33,10 +33,9 @@ const toolbarConfig = {
     menuKeys: ["through", "code", "clearStyle"] // 下级菜单 key ，必填
   }]
 };
-const editorConfig = {placeholder: '请输入评论内容...'};
+const editorConfig = {placeholder: '请输入评论内容...', autoFocus: false};
 const mode = 'simple'; // or 'simple'
 function handleCreated(editor) {
-  editor.blur()
   editorRef.value = editor // 记录 editor 实例，重要！
 }
 

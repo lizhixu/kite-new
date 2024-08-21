@@ -5,10 +5,10 @@
         <el-scrollbar :noresize="true" height="400px" class="special">
           <ul>
             <li v-for="item in categorys" class="special-label"
-              :class="item.id == special_id ? 'special-label-activate' : ''">
+                :class="item.id == special_id ? 'special-label-activate' : ''">
               <div @click="renderArticle(item.id)" style="cursor:pointer">
                 <i class="iconfont icon-hashjinghao special-label-i"
-                  :class="item.id == special_id ? 'special-label-activate-i' : ''"></i>
+                   :class="item.id == special_id ? 'special-label-activate-i' : ''"></i>
                 {{ getAttributes(item, 'name') }}
               </div>
             </li>
@@ -17,12 +17,12 @@
       </el-affix>
     </el-col>
     <el-col :span="14" class="content">
-      <CategoryArticle :id="special_id" :cur_page="cur_page" />
+      <CategoryArticle :id="special_id" :cur_page="cur_page"/>
     </el-col>
     <el-col :span="6" class="sidebar">
       <div class="sidebar__inner">
-        <CategoryLabel />
-        <HotListTp class="mgt10" />
+        <CategoryLabel/>
+        <HotListTp class="mgt10"/>
       </div>
     </el-col>
   </el-row>
@@ -32,11 +32,11 @@
 import CategoryArticle from "@/components/CategoryArticle.vue";
 import CategoryLabel from "@/components/CategoryLabel.vue";
 import HotListTp from "@/components/HotListTp.vue";
-import { useCategoryStore } from "@/stores/category";
+import {useCategoryStore} from "@/stores/category";
 import StickySidebar from "sticky-sidebar-v2";
-import { ref } from "vue";
-import { useRoute } from "vue-router";
-import { getAttributes } from "../utils/util";
+import {onMounted, ref} from "vue";
+import {useRoute} from "vue-router";
+import {getAttributes} from "../utils/util";
 
 const params = useRoute().params;
 const special_id = ref(params.id);
@@ -46,6 +46,7 @@ const categorys = useCategoryStore().categories;
 function renderArticle(id) {
   special_id.value = id;
   history.pushState({}, '', `/special/${id}`);
+  document.documentElement.scrollTop = 0;
 }
 
 onMounted(() => {
@@ -59,7 +60,8 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.special {}
+.special {
+}
 
 .special-label {
   padding: 10px;
@@ -76,7 +78,7 @@ onMounted(() => {
   border-radius: 0.25rem;
 }
 
-.special-label-activate>a {
+.special-label-activate > a {
   color: #fff;
 }
 
