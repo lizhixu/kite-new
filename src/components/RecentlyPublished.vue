@@ -21,29 +21,33 @@
 </template>
 
 <script lang="ts" setup>
-import {onUpdated, ref} from "vue";
+import {ref, watch} from "vue";
 import {find} from "@/utils/strapi";
 import {getAttributes} from "@/utils/util";
 import dayjs from "dayjs";
+import {isEmpty} from "lodash-es";
 
 const props = defineProps(['tags', 'id']);
 //相关推荐
 const related = ref();
-onUpdated(() => {
+watch(props, () => {
   const tags = props.tags?.map?.((item) => {
     return item.id;
   })
-  find('articles', {
-    'filters[tags][$in]': tags,
-    'filters[id][$ne]': props.id,
-    'sort[0]': 'articleUpdatedAt:desc',
-    'populate': '*',
-    'pagination[page]': 1,
-    'pagination[pageSize]': 10
-  }).then((res) => {
-    if (res.data.length > 0) {
-      related.value = res.data;
-    }
-  })
+
+  if (!isEmpty(tags)){
+    find('articles', {
+      'filters[tags][$in]': tags,
+      'filters[id][$ne]': props.id,
+      'sort[0]': 'articleUpdatedAt:desc',
+      'populate': '*',
+      'pagination[page]': 1,
+      'pagination[pageSize]': 10
+    }).then((res) => {
+      if (res.data.length > 0) {
+        related.value = res.data;
+      }
+    })
+  }
 })
 </script>
