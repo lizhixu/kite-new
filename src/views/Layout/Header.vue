@@ -38,7 +38,7 @@
     <el-sub-menu v-else index="avatar" popper-class="k-avatar-sub">
       <template #title>
         <el-avatar
-            :src="me && ((me?.avatar)?(cdn_path + me.avatar.url):(multiavatar_path + me?.username))"></el-avatar>
+            :src="me?.avatar_url"></el-avatar>
       </template>
       <el-menu-item index="avatar-1" @click="signOut()">退出</el-menu-item>
     </el-sub-menu>
@@ -52,6 +52,7 @@
 import {inject, onMounted, ref} from 'vue'
 import {useCategoryStore} from "@/stores/category";
 import {ElNotification} from "element-plus";
+import {cdn_path} from "@/utils/util";
 
 const token = inject('token');
 const me = inject('me');
@@ -64,8 +65,6 @@ const handleSelect = (key, keyPath) => {
   }
 }
 const category = useCategoryStore();
-const cdn_path = import.meta.env.VITE_CDN_DOMAIN;
-const multiavatar_path = import.meta.env.VITE_DICEBEAR_DOMAIN;
 
 function signOut() {
   localStorage.removeItem('token');

@@ -1,5 +1,8 @@
 <script setup lang="ts">
+import {inject} from "vue";
 
+const me = inject('me');
+console.log(me)
 </script>
 
 <template>

@@ -197,6 +197,8 @@ window.addEventListener('scroll', () => {
 
 .article-desc {
   line-height: 28px;
+  text-align:justify;
+  text-align-last:left;
 }
 
 .start-cover {

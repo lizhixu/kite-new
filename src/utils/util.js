@@ -1,5 +1,7 @@
 import _ from "lodash-es";
 
+export const cdn_path = import.meta.env.VITE_CDN_DOMAIN;
+export const multiavatar_path = import.meta.env.VITE_DICEBEAR_DOMAIN;
 /**
  * 移除dom
  * @param html
@@ -105,4 +107,14 @@ export function findHTags(node) {
         }
     })
     return hTag;
+}
+
+/**
+ * 组装用户头像
+ * @param user
+ * @returns {*}
+ */
+export function assembleTheAvatar(user) {
+    user.avatar_url = user?.avatar?(cdn_path + user.avatar.url):(multiavatar_path + user?.username);
+    return user;
 }

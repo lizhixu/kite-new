@@ -15,7 +15,7 @@
 import {RouterView, useRoute} from 'vue-router'
 import Header from "@/views/Layout/Header.vue";
 import {useConfigStore} from "@/stores/config";
-import {loadJs} from "@/utils/util";
+import {assembleTheAvatar, loadJs} from "@/utils/util";
 import {onMounted, provide} from "vue";
 import {useStarLink} from "@/hooks/background/useStarLink";
 import {findOne} from "@/utils/strapi";
@@ -41,7 +41,7 @@ watch(token, (newVal) => {
   if (!newVal) return
   const id = jwtDecode(newVal)?.id;
   findOne('users', id, {populate: '*'}).then((res) => {
-    me.value = res;
+    me.value = assembleTheAvatar(res);
   })
 })
 </script>

@@ -85,7 +85,7 @@
           <div class="comment-view-title">评论</div>
           <el-row>
             <el-col :span="2">
-              <el-avatar shape="circle" :size="50" src="">登录</el-avatar>
+              <el-avatar shape="circle" :size="50" :src="me?.avatar_url">登录</el-avatar>
             </el-col>
             <el-col :span="22">
               <UEditor/>
@@ -135,6 +135,7 @@ import _ from 'lodash-es'
 import UEditor from "@/components/common/UEditor.vue";
 import Comment from "@/components/Comment.vue";
 
+const me = inject('me');
 const md = new MarkdownIt({
   html: true,
   linkify: true,
