@@ -93,7 +93,9 @@
             </el-col>
           </el-row>
           <!--          <el-empty description="暂无评论数据" image="//images.lizhixu.cn/i/2024/06/21/voxri.png"/>-->
-          <Comment class="mgb50"/>
+          <div class="mgb10">
+            <Comment/>
+          </div>
         </div>
       </div>
     </el-col>

@@ -9,7 +9,7 @@
     <Editor
         :style="editorStyle"
         v-model="valueHtml"
-        :defaultConfig="editorConfig"
+        :defaultConfig="props.editorConfig"
         :mode="mode"
         @onFocus="editorFocus"
         @onBlur="editorStyle.height = '100px';toolbarStyle.border = '1px solid #ccc'"
@@ -20,8 +20,13 @@
 
 <script setup>
 import {Editor, Toolbar} from '@wangeditor/editor-for-vue'
-import {onBeforeUnmount, ref, shallowRef} from "vue";
-
+import {onBeforeUnmount, onMounted, ref, shallowRef} from "vue";
+const props = defineProps({
+  editorConfig: {
+    type: Object,
+    default: {placeholder: '请输入评论内容...', autoFocus: false}
+  }
+})
 const editorStyle = ref({height: '100px', overflowY: 'hidden'});
 const toolbarStyle = ref({border: '1px solid #ccc'});
 const editorRef = shallowRef();
@@ -33,7 +38,6 @@ const toolbarConfig = {
     menuKeys: ["through", "code", "clearStyle"] // 下级菜单 key ，必填
   }]
 };
-const editorConfig = {placeholder: '请输入评论内容...', autoFocus: false};
 const mode = 'simple'; // or 'simple'
 function handleCreated(editor) {
   editorRef.value = editor // 记录 editor 实例，重要！

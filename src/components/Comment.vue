@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import {inject} from "vue";
+import {ref} from "vue";
+import UEditor from "@/components/common/UEditor.vue";
 
-const me = inject('me');
-console.log(me)
+const childCommentVisible = ref(false)
 </script>
 
 <template>
@@ -16,7 +16,7 @@ console.log(me)
         <div class="mgt10">有对象先买房，没对象先买车，买完车就有对象</div>
         <div class="comment mgt10">
           <span class="mgr20">2021-01-01 12:00</span>
-          <el-link :underline="false">
+          <el-link :underline="false" @click="childCommentVisible = true">
             <el-icon>
               <ChatLineSquare/>
             </el-icon>
@@ -48,10 +48,24 @@ console.log(me)
       </div>
     </el-col>
   </el-row>
+  <el-dialog v-model="childCommentVisible" title="回复@xxx" width="700" :draggable="true" style="border-radius: 10px;">
+    <UEditor :editorConfig="{placeholder: '请输入回复内容...', autoFocus: true}"/>
+    <template #footer>
+      <div class="dialog-footer">
+        <el-button @click="childCommentVisible = false">取消</el-button>
+        <el-button type="primary" @click="childCommentVisible = false">
+          回复
+        </el-button>
+      </div>
+    </template>
+  </el-dialog>
 </template>
 
 <style scoped>
 .comment {
   color: #515767;
+}
+.el-dialog{
+
 }
 </style>
