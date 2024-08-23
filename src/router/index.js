@@ -40,6 +40,14 @@ const router = createRouter({
             component: () => import('../views/Special.vue')
         },
         {
+            path: '/translate',
+            name: 'translate',
+            meta: {
+                title: '翻译'
+            },
+            component: () => import('../views/Translation.vue')
+        },
+        {
             path: '/about',
             name: 'about',
             meta: {
