@@ -80,22 +80,10 @@
           </el-col>
         </el-row>
       </el-card>
-      <div class="mgt10 mgb10 article-detail-comment">
+      <div class="mgt10 mgb50 article-detail-comment">
         <div class="comment-view" style="padding: 0px;z-index: 999;">
           <div class="comment-view-title">评论</div>
-          <el-row>
-            <el-col :span="2">
-              <el-avatar shape="circle" :size="50" :src="me?.avatar_url">登录</el-avatar>
-            </el-col>
-            <el-col :span="22">
-              <UEditor/>
-              <el-button size="large" type="primary" class="mgt10" style="float:right;">提交</el-button>
-            </el-col>
-          </el-row>
-          <!--          <el-empty description="暂无评论数据" image="//images.lizhixu.cn/i/2024/06/21/voxri.png"/>-->
-          <div class="mgb10">
-            <Comment/>
-          </div>
+          <div id="SOHUCS" :sid="id"></div>
         </div>
       </div>
     </el-col>
@@ -126,16 +114,14 @@ import router from "@/router";
 import {find, findOne, update} from "@/utils/strapi";
 import MarkdownIt from "markdown-it";
 import dayjs from "dayjs";
-import {inject, onMounted, ref} from "vue";
+import {inject, nextTick, onMounted, ref} from "vue";
 import hljs from 'highlight.js';
 import 'highlight.js/styles/stackoverflow-light.css';
 import MarkdownItGithubHeadings from '@gerhobbelt/markdown-it-github-headings'
 import MarkdownItCopy from 'markdown-it-code-copy'
-import {findHTags, fremoveHtmlStyle, getAttributes} from "@/utils/util";
+import {findHTags, fremoveHtmlStyle, getAttributes, loadJs} from "@/utils/util";
 import {useHead} from "@/hooks/useHead";
 import _ from 'lodash-es'
-import UEditor from "@/components/common/UEditor.vue";
-import Comment from "@/components/Comment.vue";
 
 const me = inject('me');
 const md = new MarkdownIt({
@@ -247,6 +233,17 @@ function renderPre() {
     next.value = res.data[0];
   })
 }
+
+nextTick(() => {
+  window.changyan = undefined;
+  window.cyan = undefined;
+  loadJs("https://changyan.sohu.com/upload/changyan.js", () => {
+    window.changyan.api.config({
+      appid: 'cyx6aSIDq',
+      conf: 'prod_f539c5de4359f3e1215cfc4e744b2604'
+    });
+  })
+})
 </script>
 
 <style scoped>

@@ -15,11 +15,12 @@
 import {RouterView, useRoute} from 'vue-router'
 import Header from "@/views/Layout/Header.vue";
 import {useConfigStore} from "@/stores/config";
-import {assembleTheAvatar, loadJs} from "@/utils/util";
+import {api_path, assembleTheAvatar, loadJs} from "@/utils/util";
 import {onMounted, provide} from "vue";
 import {useStarLink} from "@/hooks/background/useStarLink";
 import {findOne} from "@/utils/strapi";
 import {jwtDecode} from "jwt-decode";
+import Cookies from 'js-cookie'
 
 const token = ref('');
 const me = ref();
@@ -39,6 +40,7 @@ onMounted(() => {
 
 watch(token, (newVal) => {
   if (!newVal) return
+  Cookies.set('token', newVal, {expires: 7, path: api_path.replace('https://', '')})
   const id = jwtDecode(newVal)?.id;
   findOne('users', id, {populate: '*'}).then((res) => {
     me.value = assembleTheAvatar(res);

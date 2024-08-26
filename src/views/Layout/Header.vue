@@ -77,6 +77,7 @@ function signOut() {
 }
 
 const dialogLoginVisible = ref(false)
+top.window.Login = () => dialogLoginVisible.value = true;
 
 const lastScrollTop = ref(0);
 onMounted(() => {

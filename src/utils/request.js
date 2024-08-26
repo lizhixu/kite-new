@@ -1,7 +1,8 @@
 import Axios from 'axios'
+import {api_path} from "./util";
 
 const axios = Axios;
-const baseURL = import.meta.env.MODE === 'development' ? '' : import.meta.env.VITE_API_URL;
+const baseURL = import.meta.env.MODE === 'development' ? '' : api_path;
 const service = Axios.create({
     baseURL: baseURL + '/api',
     headers: {'Content-Type': 'application/json'},

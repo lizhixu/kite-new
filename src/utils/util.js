@@ -1,5 +1,6 @@
 import _ from "lodash-es";
 
+export const api_path = import.meta.env.VITE_API_URL;
 export const cdn_path = import.meta.env.VITE_CDN_DOMAIN;
 export const multiavatar_path = import.meta.env.VITE_DICEBEAR_DOMAIN;
 /**
@@ -115,6 +116,6 @@ export function findHTags(node) {
  * @returns {*}
  */
 export function assembleTheAvatar(user) {
-    user.avatar_url = user?.avatar?(cdn_path + user.avatar.url):(multiavatar_path + user?.username);
+    user.avatar_url = user?.avatar ? (cdn_path + user.avatar.url) : (multiavatar_path + user?.username);
     return user;
 }
