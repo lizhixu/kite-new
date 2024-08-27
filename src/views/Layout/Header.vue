@@ -53,6 +53,7 @@ import {inject, onMounted, ref} from 'vue'
 import {useCategoryStore} from "@/stores/category";
 import {ElNotification} from "element-plus";
 import {cdn_path} from "@/utils/util";
+import Cookies from "js-cookie";
 
 const token = inject('token');
 const me = inject('me');
@@ -68,6 +69,9 @@ const category = useCategoryStore();
 
 function signOut() {
   localStorage.removeItem('token');
+  Cookies.remove('token');
+  let img = new Image();
+  img.src='https://changyan.sohu.com/api/2/sso/logout?client_id=cyx6aSIDq';
   token.value = '';
   ElNotification({
     duration: 2000,

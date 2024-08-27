@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import ErrorView from '../views/ErrorView.vue'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
+import Cookies from "js-cookie";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -48,6 +49,13 @@ const router = createRouter({
             component: () => import('../views/Translation.vue')
         },
         {
+            path: '/logout',
+            name: 'logout',
+            meta: {
+                title: '退出'
+            }
+        },
+        {
             path: '/about',
             name: 'about',
             meta: {
@@ -60,15 +68,6 @@ const router = createRouter({
         }
     ]
 })
-router.beforeEach((to, from, next) => {
-    // 让页面回到顶部
-    document.documentElement.scrollTop = 0;
-    if (to.matched.length === 0) {  //如果未匹配到路由
-        from.name ? next({name: from.name}) : next('/404');   //如果上级也未匹配到路由则跳转登录页面，如果上级能匹配到则转上级路由
-    } else {
-        next();    //如果匹配到正确跳转
-    }
-});
 
 NProgress.configure({
     easing: 'ease',  // 动画方式
@@ -84,8 +83,19 @@ router.beforeEach((to, from, next) => {
         //锚点不执行跳转
         return
     }
-    NProgress.start()
-    next()
+    if (to.path === '/logout') {
+        localStorage.removeItem('token');
+        Cookies.remove('token');
+        return
+    }
+    // 让页面回到顶部
+    document.documentElement.scrollTop = 0;
+    if (to.matched.length === 0) {  //如果未匹配到路由
+        from.name ? next({name: from.name}) : next('/404');   //如果上级也未匹配到路由则跳转登录页面，如果上级能匹配到则转上级路由
+    } else {
+        NProgress.start()
+        next();    //如果匹配到正确跳转
+    }
 });
 
 //在路由跳转后用NProgress.done()标记下结束
