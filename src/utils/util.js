@@ -1,5 +1,6 @@
 import _ from "lodash-es";
 
+export const app_path = import.meta.env.VITE_APP_URL;
 export const api_path = import.meta.env.VITE_API_URL;
 export const cdn_path = import.meta.env.VITE_CDN_DOMAIN;
 export const multiavatar_path = import.meta.env.VITE_DICEBEAR_DOMAIN;
