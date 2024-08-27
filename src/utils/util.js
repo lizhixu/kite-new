@@ -1,4 +1,5 @@
 import _ from "lodash-es";
+import Cookies from "js-cookie";
 
 export const app_path = import.meta.env.VITE_APP_URL;
 export const api_path = import.meta.env.VITE_API_URL;
@@ -119,4 +120,14 @@ export function findHTags(node) {
 export function assembleTheAvatar(user) {
     user.avatar_url = user?.avatar ? (cdn_path + user.avatar.url) : (multiavatar_path + user?.username);
     return user;
+}
+
+/**
+ * 清除缓存
+ */
+export function deleteCache() {
+    const domain = import.meta.env.MODE === 'development' ? '' : app_path.replace('https://', '.');
+    const api = Cookies.withAttributes({path: '/', domain: domain})
+    localStorage.removeItem('token');
+    api.remove('token');
 }

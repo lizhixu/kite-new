@@ -4,6 +4,7 @@ import ErrorView from '../views/ErrorView.vue'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import Cookies from "js-cookie";
+import {deleteCache} from "../utils/util";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -84,8 +85,7 @@ router.beforeEach((to, from, next) => {
         return
     }
     if (to.path === '/logout') {
-        localStorage.removeItem('token');
-        Cookies.remove('token');
+        deleteCache();
         return
     }
     // 让页面回到顶部

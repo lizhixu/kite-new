@@ -52,8 +52,7 @@
 import {inject, onMounted, ref} from 'vue'
 import {useCategoryStore} from "@/stores/category";
 import {ElNotification} from "element-plus";
-import {cdn_path} from "@/utils/util";
-import Cookies from "js-cookie";
+import {cdn_path, deleteCache} from "@/utils/util";
 
 const token = inject('token');
 const me = inject('me');
@@ -68,8 +67,7 @@ const handleSelect = (key, keyPath) => {
 const category = useCategoryStore();
 
 function signOut() {
-  localStorage.removeItem('token');
-  Cookies.remove('token');
+  deleteCache();
   let img = new Image();
   img.src='https://changyan.sohu.com/api/2/sso/logout?client_id=cyx6aSIDq';
   token.value = '';
