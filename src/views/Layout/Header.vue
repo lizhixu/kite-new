@@ -40,7 +40,7 @@
         <el-avatar
             :src="me?.avatar_url"></el-avatar>
       </template>
-      <el-menu-item index="avatar-1" @click="signOut()">退出</el-menu-item>
+      <el-menu-item @click="signOut()">退出</el-menu-item>
     </el-sub-menu>
   </el-menu>
   <el-dialog v-model="dialogLoginVisible" width="800px" align-center>
