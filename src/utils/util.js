@@ -5,6 +5,7 @@ export const app_path = import.meta.env.VITE_APP_URL;
 export const api_path = import.meta.env.VITE_API_URL;
 export const cdn_path = import.meta.env.VITE_CDN_DOMAIN;
 export const multiavatar_path = import.meta.env.VITE_DICEBEAR_DOMAIN;
+
 /**
  * 移除dom
  * @param html
@@ -55,14 +56,14 @@ export function getAttributes(data, name) {
     return '';
 }
 
-export function loadJs(url, cb) {
+export function loadJs(url, cb, id) {
     try {
         const c = document.getElementsByTagName("head")[0] || document.head || document.documentElement;
         const b = document.createElement("script");
         b.setAttribute("type", "text/javascript");
         b.setAttribute("charset", "UTF-8");
         b.setAttribute("src", url);
-        b.setAttribute("id", 'changyan_pc_js');
+        id && b.setAttribute("id", id);
         if (window.attachEvent) {
             b.onreadystatechange = function () {
                 const e = b.readyState;

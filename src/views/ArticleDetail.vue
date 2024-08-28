@@ -122,6 +122,7 @@ import MarkdownItCopy from 'markdown-it-code-copy'
 import {findHTags, fremoveHtmlStyle, getAttributes, loadJs} from "@/utils/util";
 import {useHead} from "@/hooks/useHead";
 import _ from 'lodash-es'
+import {changyan_config} from "@/utils/changyan";
 
 const me = inject('me');
 const md = new MarkdownIt({
@@ -238,11 +239,8 @@ nextTick(() => {
   window.changyan = undefined;
   window.cyan = undefined;
   loadJs("https://changyan.sohu.com/upload/changyan.js", () => {
-    window.changyan.api.config({
-      appid: 'cyx6aSIDq',
-      conf: 'prod_f539c5de4359f3e1215cfc4e744b2604'
-    });
-  })
+    window.changyan.api.config(changyan_config);
+  }, 'changyan_pc_js')
 })
 </script>
 
@@ -321,5 +319,9 @@ nextTick(() => {
 
 .create-desc {
   color: #666666;
+}
+
+#SOHUCS #SOHU_MAIN img {
+  overflow: hidden !important;
 }
 </style>

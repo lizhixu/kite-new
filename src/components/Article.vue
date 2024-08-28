@@ -27,7 +27,7 @@
             </el-col>
             <el-col :span="17">
               <div class="start-cover"
-                   :style="{'background-image':`url(${cdn_domain + category.categories[article.attributes.category.data.id].attributes.picture.data.attributes.url})`}"></div>
+                   :style="{'background-image':`url(${cdn_path + category.categories[article.attributes.category.data.id].attributes.picture.data.attributes.url})`}"></div>
               <a :href="'/article_detail/'+article.id" :title="article.attributes.title" target="_blank"
                  class="article-title">
                 {{ article.attributes.title }}
@@ -47,7 +47,8 @@
                 <el-col :span="5">
                   <a :href="'/article_detail/'+article.id +'#comment'" target="_blank" class="article-detail-a">
                     <ChatRound style="width: 1em;"/>
-                    <span>{{ article.attributes.comments }}评论</span>
+                    <span :id="`sourceId::${article.id}`" class="cy_cmt_count"></span>
+                    <span>评论</span>
                   </a>
                 </el-col>
                 <el-col :span="8" class="article-author">
@@ -61,7 +62,7 @@
         </el-card>
         <el-card class="box-card mgt10" v-else>
           <div class="start-cover start-cover-2"
-               :style="{'background-image':`url(${cdn_domain + category.categories[article.attributes.category.data.id].attributes.picture.data.attributes.url})`}"></div>
+               :style="{'background-image':`url(${cdn_path + category.categories[article.attributes.category.data.id].attributes.picture.data.attributes.url})`}"></div>
           <a :href="'/article_detail/'+article.id" target="_blank" :title="article.attributes.title"
              class="article-title" style="width: 550px">
             {{ article.attributes.title }}
@@ -81,7 +82,8 @@
             <el-col :span="5">
               <a :href="'/article_detail/'+article.id +'#comment'" target="_blank" class="article-detail-a">
                 <ChatRound style="width: 1em;"/>
-                <span>{{ article.attributes.comments }}评论</span>
+                <span :id="`sourceId::${article.id}`" class="cy_cmt_count"></span>
+                <span>评论</span>
               </a>
             </el-col>
             <el-col :span="8" class="article-author">
@@ -99,14 +101,14 @@
 
 <script setup>
 import {find} from "@/utils/strapi";
-import {ref} from "vue";
+import {nextTick, onMounted, ref} from "vue";
 import _ from 'lodash-es'
-import {extractImagesFromMarkdown, fremoveHtmlStyle, getAttributes} from "@/utils/util";
+import {cdn_path, extractImagesFromMarkdown, fremoveHtmlStyle, getAttributes, loadJs} from "@/utils/util";
 import MarkdownIt from "markdown-it";
 import {useCategoryStore} from "@/stores/category";
 import dayjs from "dayjs";
+import {changyan_config} from "@/utils/changyan";
 
-const cdn_domain = import.meta.env.VITE_CDN_DOMAIN;
 const md = new MarkdownIt()
 
 let loading = ref(true);
@@ -135,6 +137,10 @@ function getArticle() {
     }
     loading.value = false;
     nextLoad = false;
+
+    nextTick(() => {
+      loadJs(`https://cy-cdn.kuaizhan.com/upload/plugins/plugins.list.count.js?clientId=${changyan_config.appid}`, null, 'cy_cmt_num')
+    })
   });
 }
 
@@ -197,8 +203,8 @@ window.addEventListener('scroll', () => {
 
 .article-desc {
   line-height: 28px;
-  text-align:justify;
-  text-align-last:left;
+  text-align: justify;
+  text-align-last: left;
 }
 
 .start-cover {
