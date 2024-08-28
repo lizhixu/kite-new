@@ -53,6 +53,7 @@ import {inject, onMounted, ref} from 'vue'
 import {useCategoryStore} from "@/stores/category";
 import {ElNotification} from "element-plus";
 import {cdn_path, deleteCache} from "@/utils/util";
+import {ssoLogout} from "@/utils/changyan";
 
 const token = inject('token');
 const me = inject('me');
@@ -68,8 +69,7 @@ const category = useCategoryStore();
 
 function signOut() {
   deleteCache();
-  let img = new Image();
-  img.src='https://changyan.sohu.com/api/2/sso/logout?client_id=cyx6aSIDq';
+  ssoLogout();
   token.value = '';
   ElNotification({
     duration: 2000,
