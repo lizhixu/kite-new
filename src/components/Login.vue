@@ -1,9 +1,13 @@
 <script setup>
 import "@lottiefiles/lottie-player";
-import {inject, reactive, ref} from 'vue'
+import {inject, nextTick, reactive, ref} from 'vue'
 import {Lock, User} from "@element-plus/icons-vue";
 import {login, register} from "@/utils/strapi";
 import {ElNotification} from "element-plus";
+import {useRoute} from "vue-router";
+import {loadComment} from "@/utils/changyan";
+
+const route = useRoute();
 
 const token = inject('token');
 const emit = defineEmits(['close-dialog'])
@@ -74,6 +78,9 @@ const submitForm = (formEl) => {
         login(formData).then((res) => {
           localStorage.setItem('token', res.jwt);
           token.value = res.jwt;
+          if (route.name === 'article_detail') {
+            loadComment()
+          }
           ElNotification({
             duration: 2000,
             dangerouslyUseHTMLString: true,

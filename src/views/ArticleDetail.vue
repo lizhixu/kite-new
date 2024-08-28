@@ -119,12 +119,11 @@ import hljs from 'highlight.js';
 import 'highlight.js/styles/stackoverflow-light.css';
 import MarkdownItGithubHeadings from '@gerhobbelt/markdown-it-github-headings'
 import MarkdownItCopy from 'markdown-it-code-copy'
-import {findHTags, fremoveHtmlStyle, getAttributes, loadJs} from "@/utils/util";
+import {findHTags, fremoveHtmlStyle, getAttributes} from "@/utils/util";
 import {useHead} from "@/hooks/useHead";
 import _ from 'lodash-es'
-import {changyan_config} from "@/utils/changyan";
+import {loadComment} from "@/utils/changyan";
 
-const me = inject('me');
 const md = new MarkdownIt({
   html: true,
   linkify: true,
@@ -235,13 +234,7 @@ function renderPre() {
   })
 }
 
-nextTick(() => {
-  window.changyan = undefined;
-  window.cyan = undefined;
-  loadJs("https://changyan.sohu.com/upload/changyan.js", () => {
-    window.changyan.api.config(changyan_config);
-  }, 'changyan_pc_js')
-})
+nextTick(() => loadComment())
 </script>
 
 <style scoped>

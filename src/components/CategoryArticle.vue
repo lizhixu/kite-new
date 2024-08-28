@@ -50,7 +50,8 @@
                 </el-col>
                 <el-col :span="8" class="article-author">
                   <el-link :underline="false">
-                    {{ getAttributes(getAttributes(article, 'author').data, 'username') }}</el-link>
+                    {{ getAttributes(getAttributes(article, 'author').data, 'username') }}
+                  </el-link>
                 </el-col>
               </el-row>
             </el-col>
@@ -73,12 +74,12 @@
 <script setup>
 import {find} from "@/utils/strapi";
 import _ from "lodash-es";
-import {extractImagesFromMarkdown, fremoveHtmlStyle, getAttributes, loadJs} from "@/utils/util";
+import {extractImagesFromMarkdown, fremoveHtmlStyle, getAttributes} from "@/utils/util";
 import {nextTick, ref} from "vue";
 import MarkdownIt from "markdown-it";
 import UEmpty from "@/components/common/UEmpty.vue";
 import dayjs from "dayjs";
-import {changyan_config} from "@/utils/changyan";
+import {loadCommentCount} from "@/utils/changyan";
 
 const md = new MarkdownIt()
 const props = defineProps(['id', 'cur_page'])
@@ -106,9 +107,7 @@ function renderArticle(id) {
     totalPage.value = Math.ceil(res.meta.pagination.total / pageSize);
     articleList.value = tmpList
 
-    nextTick(() => {
-      loadJs(`https://cy-cdn.kuaizhan.com/upload/plugins/plugins.list.count.js?clientId=${changyan_config.appid}`, null, 'cy_cmt_num')
-    })
+    nextTick(() => loadCommentCount())
   });
 }
 

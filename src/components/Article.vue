@@ -101,13 +101,13 @@
 
 <script setup>
 import {find} from "@/utils/strapi";
-import {nextTick, onMounted, ref} from "vue";
+import {nextTick, ref} from "vue";
 import _ from 'lodash-es'
-import {cdn_path, extractImagesFromMarkdown, fremoveHtmlStyle, getAttributes, loadJs} from "@/utils/util";
+import {cdn_path, extractImagesFromMarkdown, fremoveHtmlStyle, getAttributes} from "@/utils/util";
 import MarkdownIt from "markdown-it";
 import {useCategoryStore} from "@/stores/category";
 import dayjs from "dayjs";
-import {changyan_config} from "@/utils/changyan";
+import {loadCommentCount} from "@/utils/changyan";
 
 const md = new MarkdownIt()
 
@@ -138,9 +138,7 @@ function getArticle() {
     loading.value = false;
     nextLoad = false;
 
-    nextTick(() => {
-      loadJs(`https://cy-cdn.kuaizhan.com/upload/plugins/plugins.list.count.js?clientId=${changyan_config.appid}`, null, 'cy_cmt_num')
-    })
+    nextTick(() => loadCommentCount())
   });
 }
 
