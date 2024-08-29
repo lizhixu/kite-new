@@ -1,6 +1,6 @@
 <script setup>
 import "@lottiefiles/lottie-player";
-import {inject, nextTick, reactive, ref} from 'vue'
+import {inject, reactive, ref} from 'vue'
 import {Lock, User} from "@element-plus/icons-vue";
 import {login, register} from "@/utils/strapi";
 import {ElNotification} from "element-plus";

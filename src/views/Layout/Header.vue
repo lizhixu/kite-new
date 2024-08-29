@@ -53,8 +53,10 @@ import {inject, onMounted, ref} from 'vue'
 import {useCategoryStore} from "@/stores/category";
 import {ElNotification} from "element-plus";
 import {cdn_path, deleteCache} from "@/utils/util";
-import {ssoLogout} from "@/utils/changyan";
+import {loadComment, ssoLogout} from "@/utils/changyan";
+import {useRoute} from "vue-router";
 
+const route = useRoute();
 const token = inject('token');
 const me = inject('me');
 const headerShow = ref(true);
@@ -70,6 +72,9 @@ const category = useCategoryStore();
 function signOut() {
   deleteCache();
   ssoLogout();
+  if (route.name === 'article_detail') {
+    loadComment()
+  }
   token.value = '';
   ElNotification({
     duration: 2000,

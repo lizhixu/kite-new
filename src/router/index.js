@@ -3,8 +3,6 @@ import HomeView from '../views/HomeView.vue'
 import ErrorView from '../views/ErrorView.vue'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
-import Cookies from "js-cookie";
-import {deleteCache} from "../utils/util";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -54,7 +52,8 @@ const router = createRouter({
             name: 'logout',
             meta: {
                 title: '退出'
-            }
+            },
+            component: () => import('../views/LogoutView.vue')
         },
         {
             path: '/about',
@@ -82,10 +81,6 @@ NProgress.configure({
 router.beforeEach((to, from, next) => {
     if (to.name === from.name && to.hash) {
         //锚点不执行跳转
-        return
-    }
-    if (to.path === '/logout') {
-        deleteCache();
         return
     }
     // 让页面回到顶部
