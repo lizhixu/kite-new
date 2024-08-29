@@ -10,8 +10,9 @@ const route = useRoute();
 const query = route.query;
 const token = inject('token');
 
-window[query.callback] = () => {
+const logout = () => {
   deleteCache();
+  console.log('logout')
   if (route.name === 'article_detail') {
     loadComment()
   }
@@ -20,6 +21,8 @@ window[query.callback] = () => {
 
 const speed = ref(3);
 onMounted(() => {
+  logout();
+  top.window[query.callback] && top.window[query.callback]({code: 1, reload_page: 0});
   const timer = setInterval(() => {
     if (speed.value === 0) {
       clearInterval(timer);

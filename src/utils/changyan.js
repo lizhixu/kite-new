@@ -8,6 +8,7 @@ export const changyan_config = {
 
 export function ssoLogout() {
     const count_url = `https://changyan.sohu.com/api/2/sso/logout?client_id=${changyan_config.appid}`;
+    loadJs(count_url)
     const img = new Image();
     img.src = count_url;
     return request({
