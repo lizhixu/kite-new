@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import ErrorView from '../views/ErrorView.vue'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
+import {useHead} from "../hooks/useHead";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -35,7 +36,7 @@ const router = createRouter({
             path: '/special/:id/:page?',
             name: 'special',
             meta: {
-                title: '专题'
+                title: '专栏'
             },
             component: () => import('../views/Special.vue')
         },
@@ -43,7 +44,7 @@ const router = createRouter({
             path: '/translate',
             name: 'translate',
             meta: {
-                title: '翻译'
+                title: 'i 翻译'
             },
             component: () => import('../views/Translation.vue')
         },
@@ -95,6 +96,13 @@ router.beforeEach((to, from, next) => {
 
 //在路由跳转后用NProgress.done()标记下结束
 router.afterEach((to, from) => {
+    useHead({
+        title: to.meta.title,
+        meta: [
+            {name: 'description', content: '1111'},
+            {name: 'keywords', content: '1111'},
+        ],
+    })
     NProgress.done()
 })
 export default router

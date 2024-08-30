@@ -1,28 +1,42 @@
 <template>
-  <el-card class="translation-container">
-    <div class="language-bar">
-      <el-select v-model="sourceLanguage" @change="handleTranslate" size="large" class="language-select">
-        <el-option value="auto" label="自动检测" />
-        <el-option v-for="lang in languages" :key="lang.value" :value="lang.value" :label="lang.label" />
+  <div class="translation-container">
+    <div class="top-bar">
+      <el-select v-model="translationEngine" @change="handleEngineChange" size="large" class="select-box">
+        <el-option
+            v-for="engine in translationEngines"
+            :key="engine.value"
+            :value="engine.value"
+            :label="engine.label"
+        >
+          <div class="engine-option">
+            <img :src="engine.logo" :alt="engine.label" class="engine-logo"/>
+            {{ engine.label }}
+          </div>
+        </el-option>
       </el-select>
-      <el-button @click="swapLanguages" :icon="Refresh" circle class="swap-btn" />
-      <el-select v-model="targetLanguage" @change="handleTranslate" size="large" class="language-select">
-        <el-option v-for="lang in languages" :key="lang.value" :value="lang.value" :label="lang.label" />
-      </el-select>
+      <div class="language-bar">
+        <el-select v-model="sourceLanguage" @change="handleTranslate" size="large" class="select-box">
+          <el-option value="auto" label="自动检测"/>
+          <el-option v-for="lang in languages" :key="lang.value" :value="lang.value" :label="lang.label"/>
+        </el-select>
+        <el-button @click="swapLanguages" :icon="Refresh" circle class="swap-btn"/>
+        <el-select v-model="targetLanguage" @change="handleTranslate" size="large" class="select-box">
+          <el-option v-for="lang in languages" :key="lang.value" :value="lang.value" :label="lang.label"/>
+        </el-select>
+      </div>
+      <div class="placeholder"></div>
     </div>
     <div class="translation-content">
       <div class="input-area">
         <el-input
             v-model="inputText"
             type="textarea"
-            :rows="1"
+            :rows="16"
             :placeholder="'请输入要翻译的文本（最多 6000 bytes）'"
             @input="handleInputChange"
             resize="none"
             class="translation-area"
             ref="inputTextarea"
-            :maxlength="6000"
-            show-word-limit
         />
         <el-button
             v-if="inputText"
@@ -47,7 +61,8 @@
         <el-input
             v-model="translatedText"
             type="textarea"
-            :rows="1"
+            :rows="16"
+            :placeholder="'译文'"
             readonly
             resize="none"
             class="translation-area"
@@ -63,32 +78,36 @@
         />
       </div>
     </div>
-  </el-card>
+  </div>
 </template>
 
 <script setup>
-import { ref, watch, computed, nextTick } from 'vue'
-import { ElMessage } from 'element-plus'
-import { Refresh, CopyDocument, Delete } from '@element-plus/icons-vue'
+import {ref, computed} from 'vue'
+import {ElMessage} from 'element-plus'
+import {Refresh, CopyDocument, Delete} from '@element-plus/icons-vue'
 
-const languages = [
-  { value: 'zh', label: '中文' },
-  { value: 'en', label: '英语' },
-  { value: 'es', label: '西班牙语' },
-  { value: 'fr', label: '法语' },
-  { value: 'de', label: '德语' },
-  { value: 'ja', label: '日语' },
+const translationEngines = [
+  {value: 'google', label: 'Google翻译', logo: 'https://www.google.com/favicon.ico'},
+  {value: 'baidu', label: '百度翻译', logo: 'https://www.baidu.com/favicon.ico'},
+  {value: 'youdao', label: '有道翻译', logo: 'https://shared.ydstatic.com/images/favicon.ico'},
 ]
 
+const languages = [
+  {value: 'zh', label: '中文'},
+  {value: 'en', label: '英语'},
+  {value: 'es', label: '西班牙语'},
+  {value: 'fr', label: '法语'},
+  {value: 'de', label: '德语'},
+  {value: 'ja', label: '日语'},
+]
+
+const translationEngine = ref('google')
 const sourceLanguage = ref('auto')
 const targetLanguage = ref('en')
 const inputText = ref('')
 const translatedText = ref('')
 const isTranslating = ref(false)
-const inputTextarea = ref(null)
-const outputTextarea = ref(null)
 
-const MIN_TEXTAREA_HEIGHT = 200
 const MAX_BYTE_LENGTH = 6000
 
 const inputWordCount = computed(() => {
@@ -105,16 +124,25 @@ const byteCountType = computed(() => {
   return 'info'
 })
 
+const truncateInput = (text) => {
+  let truncated = text
+  while (new Blob([truncated]).size > MAX_BYTE_LENGTH) {
+    truncated = truncated.slice(0, -1)
+  }
+  return truncated
+}
+
 const handleInputChange = (value) => {
   if (new Blob([value]).size > MAX_BYTE_LENGTH) {
-    ElMessage.warning('输入已达到最大长度限制')
-    inputText.value = value.slice(0, -1)
-    return
+    const truncatedText = truncateInput(value)
+    inputText.value = truncatedText
+    ElMessage.warning('输入已超过6000字节，内容已自动截取')
   }
   handleTranslate()
-  nextTick(() => {
-    adjustTextareaHeight()
-  })
+}
+
+const handleEngineChange = () => {
+  handleTranslate()
 }
 
 const handleTranslate = () => {
@@ -126,32 +154,9 @@ const handleTranslate = () => {
   isTranslating.value = true
   // 模拟翻译过程
   setTimeout(() => {
-    translatedText.value = `Translated from ${sourceLanguage.value} to ${targetLanguage.value}: ${inputText.value}`
+    translatedText.value = `使用 ${translationEngine.value} 从 ${sourceLanguage.value} 翻译到 ${targetLanguage.value}: ${inputText.value}`
     isTranslating.value = false
-    nextTick(() => {
-      adjustTextareaHeight()
-    })
   }, 1000)
-}
-
-const adjustTextareaHeight = () => {
-  if (inputTextarea.value && outputTextarea.value) {
-    const inputEl = inputTextarea.value.$el.querySelector('textarea')
-    const outputEl = outputTextarea.value.$el.querySelector('textarea')
-
-    // 重置高度
-    inputEl.style.height = 'auto'
-    outputEl.style.height = 'auto'
-
-    // 获取内容高度
-    const inputHeight = inputEl.scrollHeight
-    const outputHeight = outputEl.scrollHeight
-
-    // 设置为较大的高度，但不小于最小高度
-    const maxHeight = Math.max(inputHeight, outputHeight, MIN_TEXTAREA_HEIGHT)
-    inputEl.style.height = `${maxHeight}px`
-    outputEl.style.height = `${maxHeight}px`
-  }
 }
 
 const swapLanguages = () => {
@@ -173,17 +178,7 @@ const copyTranslation = () => {
 const clearInput = () => {
   inputText.value = ''
   translatedText.value = ''
-  nextTick(() => {
-    adjustTextareaHeight()
-  })
 }
-
-watch([sourceLanguage, targetLanguage], handleTranslate)
-
-// 初始调整
-nextTick(() => {
-  adjustTextareaHeight()
-})
 </script>
 
 <style scoped>
@@ -193,16 +188,26 @@ nextTick(() => {
   font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', '微软雅黑', Arial, sans-serif;
 }
 
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
 .language-bar {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 20px;
-  margin-bottom: 20px;
 }
 
-.language-select {
-  width: 160px;
+.select-box {
+  width: 220px;
+}
+
+.placeholder {
+  width: 220px; /* 与 select-box 宽度相同，用于保持对称 */
 }
 
 .swap-btn {
@@ -222,7 +227,7 @@ nextTick(() => {
 }
 
 .translation-area {
-  flex-grow: 1;
+  height: 450px !important;
 }
 
 .input-info {
@@ -238,7 +243,7 @@ nextTick(() => {
 .copy-btn, .clear-btn {
   position: absolute;
   right: 10px;
-  bottom: 10px;
+  bottom: 30px;
   opacity: 0.7;
   transition: opacity 0.3s;
 }
@@ -247,14 +252,10 @@ nextTick(() => {
   opacity: 1;
 }
 
-.clear-btn {
-  bottom: 50px; /* 将清空按钮放在复制按钮上方 */
-}
-
 :deep(.el-textarea__inner) {
   font-size: 16px;
   line-height: 1.5;
-  min-height: 200px !important;
+  height: 450px !important;
   padding: 15px;
 }
 
@@ -269,5 +270,96 @@ nextTick(() => {
 
 .clear-btn:hover, .copy-btn:hover {
   transform: scale(1.1);
+}
+
+/* 自定义下拉框样式 */
+:deep(.el-select) {
+  width: 220px;
+}
+
+:deep(.el-select .el-input__inner) {
+  text-align: center;
+  padding-left: 30px; /* 为选中后的图标留出空间 */
+}
+
+:deep(.el-select-dropdown__item) {
+  text-align: center;
+}
+
+:deep(.el-select-dropdown__wrap) {
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+/* 自定义滚动条样式 */
+:deep(.el-textarea__inner)::-webkit-scrollbar {
+  width: 8px;
+}
+
+:deep(.el-textarea__inner)::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+:deep(.el-textarea__inner)::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+:deep(.el-textarea__inner)::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Firefox */
+:deep(.el-textarea__inner) {
+  scrollbar-width: thin;
+  scrollbar-color: #888 #f1f1f1;
+}
+
+/* 下拉框滚动条样式 */
+:deep(.el-select-dropdown__wrap)::-webkit-scrollbar {
+  width: 6px;
+}
+
+:deep(.el-select-dropdown__wrap)::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+:deep(.el-select-dropdown__wrap)::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 3px;
+}
+
+:deep(.el-select-dropdown__wrap)::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Firefox */
+:deep(.el-select-dropdown__wrap) {
+  scrollbar-width: thin;
+  scrollbar-color: #888 #f1f1f1;
+}
+
+/* 翻译引擎选项样式 */
+.engine-option {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.engine-logo {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  object-fit: contain;
+}
+
+.selected-engine-logo {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
 }
 </style>
