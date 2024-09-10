@@ -15,7 +15,7 @@
 import {RouterView, useRoute} from 'vue-router'
 import Header from "@/views/Layout/Header.vue";
 import {useConfigStore} from "@/stores/config";
-import {api_path, app_path, assembleTheAvatar, loadJs} from "@/utils/util";
+import {app_path, assembleTheAvatar, deleteCache, loadJs} from "@/utils/util";
 import {onMounted, provide, watch} from "vue";
 import {useStarLink} from "@/hooks/background/useStarLink";
 import {findOne} from "@/utils/strapi";
@@ -36,6 +36,10 @@ loadJs('//sdk.51.la/js-sdk-pro.min.js', () => {
 onMounted(() => {
   useStarLink().init();
   token.value = localStorage.getItem('token');
+  window.deleteCache = () => {
+    deleteCache();
+    token.value = '';
+  };
 })
 
 watch(token, (newVal) => {
