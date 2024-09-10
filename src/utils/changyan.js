@@ -22,6 +22,13 @@ export function loadComment() {
     window.cyan = undefined;
     loadJs("https://changyan.sohu.com/upload/changyan.js", () => {
         window.changyan.api.config(changyan_config);
+        const style = document.createElement('style')
+        style.type = 'text/css'
+        style.appendChild(document.createTextNode('#SOHUCS #SOHU_MAIN img{\n' +
+            'overflow: hidden !important;\n' +
+            '}'))
+        const head = document.getElementsByTagName('head')[0]
+        head.appendChild(style)
     }, 'changyan_pc_js')
 }
 
