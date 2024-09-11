@@ -201,6 +201,10 @@ findOne('articles', id, {populate: '*'}).then((res) => {
       {name: 'keywords', content: () => _.map(article.value.tags.data, (item) => getAttributes(item, 'name')).join(',')}
     ],
   })
+  if (!token.value) {
+    ssoLogout();
+    loadComment()
+  }
   renderPre();
 })
 watch(article, (newValue) => {
@@ -237,9 +241,6 @@ function renderPre() {
 
 nextTick(() => {
   loadComment()
-  if (!token.value) {
-    ssoLogout();
-  }
 })
 </script>
 
