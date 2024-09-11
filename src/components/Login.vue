@@ -81,15 +81,13 @@ const submitForm = (formEl) => {
           if (route.name === 'article_detail') {
             loadComment()
           }
+          resetForm(formEl);
+          emit('close-dialog')
           ElNotification({
             duration: 2000,
             dangerouslyUseHTMLString: true,
             message: '登录成功！！',
             type: 'success',
-            onClose: () => {
-              resetForm(formEl);
-              emit('close-dialog')
-            }
           })
         }).catch((error) => {
           ElNotification({
@@ -100,6 +98,8 @@ const submitForm = (formEl) => {
         });
       } else {
         register(formData).then((res) => {
+          resetForm(formEl);
+          emit('close-dialog')
           ElNotification({
             title: '验证电子邮箱',
             duration: 6000,
@@ -109,11 +109,7 @@ const submitForm = (formEl) => {
                 <el-link type="primary">${registerForm.email}</el-link>
                 发送电子邮件以确保你拥有它，请查看你的收件箱并确认信息。
               </p>`,
-            type: 'success',
-            onClose: () => {
-              resetForm(formEl);
-              emit('close-dialog')
-            }
+            type: 'success'
           })
         }).catch((error) => {
           ElNotification({
