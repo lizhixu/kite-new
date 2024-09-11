@@ -246,7 +246,7 @@ nextTick(() => {
       loadComment()
       loadingSSO.close();
       localStorage.removeItem('is_out');
-    }, 2000)
+    }, 5000)
   }
 })
 </script>
