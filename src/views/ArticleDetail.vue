@@ -119,7 +119,7 @@ import hljs from 'highlight.js';
 import 'highlight.js/styles/stackoverflow-light.css';
 import MarkdownItGithubHeadings from '@gerhobbelt/markdown-it-github-headings'
 import MarkdownItCopy from 'markdown-it-code-copy'
-import {findHTags, fremoveHtmlStyle, getAttributes} from "@/utils/util";
+import {deleteCache, findHTags, fremoveHtmlStyle, getAttributes} from "@/utils/util";
 import {useHead} from "@/hooks/useHead";
 import _ from 'lodash-es'
 import {loadComment, ssoLogout} from "@/utils/changyan";
@@ -242,6 +242,7 @@ nextTick(() => {
     const loadingSSO = ElLoading.service({ fullscreen: true,text:'正在退出畅言评论，请稍等！' })
 
     setTimeout(() => {
+      deleteCache();
       ssoLogout();
       loadComment()
       loadingSSO.close();
