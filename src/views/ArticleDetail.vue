@@ -123,6 +123,7 @@ import {findHTags, fremoveHtmlStyle, getAttributes} from "@/utils/util";
 import {useHead} from "@/hooks/useHead";
 import _ from 'lodash-es'
 import {loadComment, ssoLogout} from "@/utils/changyan";
+import {ElLoading} from "element-plus";
 
 const md = new MarkdownIt({
   html: true,
@@ -201,10 +202,6 @@ findOne('articles', id, {populate: '*'}).then((res) => {
       {name: 'keywords', content: () => _.map(article.value.tags.data, (item) => getAttributes(item, 'name')).join(',')}
     ],
   })
-  if (!token.value) {
-    ssoLogout();
-    loadComment()
-  }
   renderPre();
 })
 watch(article, (newValue) => {
@@ -241,6 +238,16 @@ function renderPre() {
 
 nextTick(() => {
   loadComment()
+  if (localStorage.getItem('is_out')) {
+    const loadingSSO = ElLoading.service({ fullscreen: true,text:'正在退出畅言评论，请稍等！' })
+
+    setTimeout(() => {
+      ssoLogout();
+      loadComment()
+      loadingSSO.close();
+      localStorage.removeItem('is_out');
+    }, 2000)
+  }
 })
 </script>
 

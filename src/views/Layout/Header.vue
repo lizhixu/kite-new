@@ -72,6 +72,7 @@ const category = useCategoryStore();
 function signOut() {
   deleteCache();
   ssoLogout();
+  localStorage.setItem('is_out', '1');
   if (route.name === 'article_detail') {
     loadComment()
   }
