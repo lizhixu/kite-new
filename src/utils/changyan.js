@@ -7,7 +7,7 @@ export const changyan_config = {
 }
 
 export function ssoLogout() {
-    const count_url = `https://changyan.kuaizhan.com/api/2/sso/logout?callback=changyanLogout&client_id=${changyan_config.appid}&_=${new Date().getTime()}`;
+    const count_url = `https://changyan.sohu.com/api/2/sso/logout?callback=changyanLogout&client_id=${changyan_config.appid}&_=${new Date().getTime()}`;
     loadJs(count_url)
     const img = new Image();
     img.src = count_url;
@@ -20,7 +20,7 @@ export function ssoLogout() {
 export function loadComment() {
     window.changyan = undefined;
     window.cyan = undefined;
-    loadJs("https://changyan.kuaizhan.com/upload/changyan.js", () => {
+    loadJs("https://changyan.sohu.com/upload/changyan.js", () => {
         window.changyan.api.config(changyan_config);
         const style = document.createElement('style')
         style.type = 'text/css'
