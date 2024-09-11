@@ -72,6 +72,9 @@ const category = useCategoryStore();
 function signOut() {
   deleteCache();
   ssoLogout();
+  if (route.name === 'article_detail') {
+    loadComment()
+  }
   token.value = '';
   ElNotification({
     duration: 2000,
