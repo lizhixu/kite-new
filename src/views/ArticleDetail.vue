@@ -122,7 +122,7 @@ import MarkdownItCopy from 'markdown-it-code-copy'
 import {findHTags, fremoveHtmlStyle, getAttributes} from "@/utils/util";
 import {useHead} from "@/hooks/useHead";
 import _ from 'lodash-es'
-import {loadComment} from "@/utils/changyan";
+import {loadComment, ssoLogout} from "@/utils/changyan";
 
 const md = new MarkdownIt({
   html: true,
@@ -154,6 +154,7 @@ md.renderer.rules.link_open = function (tokens, idx, options, env, self) {
   return defaultRender(tokens, idx, options, env, self);
 };
 
+const token = inject('token');
 const route = useRoute();
 const loading = ref(true);
 const blogConfig = inject('blogConfig');
@@ -234,7 +235,12 @@ function renderPre() {
   })
 }
 
-nextTick(() => loadComment())
+nextTick(() => {
+  loadComment()
+  if (!token.value) {
+    ssoLogout();
+  }
+})
 </script>
 
 <style scoped>
