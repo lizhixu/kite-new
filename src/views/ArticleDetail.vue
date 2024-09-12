@@ -238,17 +238,6 @@ function renderPre() {
 
 nextTick(() => {
   loadComment()
-  if (localStorage.getItem('is_out')) {
-    const loadingSSO = ElLoading.service({ fullscreen: true,text:'正在退出畅言评论，请稍等！' })
-
-    setTimeout(() => {
-      deleteCache();
-      ssoLogout();
-      loadComment()
-      loadingSSO.close();
-      localStorage.removeItem('is_out');
-    }, 5000)
-  }
 })
 </script>
 

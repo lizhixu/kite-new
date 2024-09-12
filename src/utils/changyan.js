@@ -7,10 +7,9 @@ export const changyan_config = {
 }
 
 export function ssoLogout() {
-    const count_url = `https://changyan.sohu.com/api/2/sso/logout?callback=changyanLogout&client_id=${changyan_config.appid}&_=${new Date().getTime()}`;
+    const count_url = `https://changyan.sohu.com/api/2/sso/logout?client_id=${changyan_config.appid}&_=${new Date().getTime()}`;
     loadJs(count_url)
-    const img = new Image();
-    img.src = count_url;
+    localStorage.removeItem('cy_lt');
     return request({
         url: count_url,
         method: 'get',
