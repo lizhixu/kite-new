@@ -6,9 +6,9 @@
       </div>
     </template>
     <div class="category-label">
-      <el-tag class="category-label-tag" type="success" v-for="o in 10">
-        <router-link to="" style="color: #00965e">
-          Tag {{ o }}
+      <el-tag class="category-label-tag" type="success" v-for="tag in tags" :key="tag.id">
+        <router-link :to="`/tags?name=${getAttributes(tag, 'name')}&id=${tag.id}`" style="color: #00965e">
+          {{ getAttributes(tag, 'name') }}
         </router-link>
       </el-tag>
     </div>
@@ -16,6 +16,17 @@
 </template>
 
 <script setup>
+import {find} from "@/utils/strapi";
+import {getAttributes} from "../utils/util";
+import {ref} from "vue";
+
+const tags = ref();
+find('tags', {
+  populate: '*', random: true,
+  pagination: {start: 0, limit: 14}
+}).then((res) => {
+  tags.value = res.data;
+})
 </script>
 
 <style scoped>

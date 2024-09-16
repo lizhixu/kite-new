@@ -41,6 +41,14 @@ const router = createRouter({
             component: () => import('../views/Special.vue')
         },
         {
+            path: '/tags',
+            name: 'tags',
+            meta: {
+                title: '标签'
+            },
+            component: () => import('../views/TagsView.vue')
+        },
+        {
             path: '/translate',
             name: 'translate',
             meta: {
