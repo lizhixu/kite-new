@@ -58,7 +58,7 @@
           </el-row>
         </el-card>
         <div class="mgt10 mgb10 article-page">
-          <el-pagination :page-size="pageSize" :page-count="totalPage" :current-page="page" :hide-on-single-page="true"
+          <el-pagination :page-size="pageSize" :page-count="totalPage" :current-page="Number(page)" :hide-on-single-page="true"
                          @size-change="handleSizeChange" @current-change="handleCurrentChange" background
                          layout="prev, pager, next"
                          style="align-self: center;"/>

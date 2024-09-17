@@ -21,12 +21,44 @@ import {getAttributes} from "../utils/util";
 import {ref} from "vue";
 
 const tags = ref();
+const total = ref(0)
+const randomNumbers = ref([]);
 find('tags', {
-  populate: '*', random: true,
-  pagination: {start: 0, limit: 14}
+  pagination: {start: 0, limit: 1}
 }).then((res) => {
-  tags.value = res.data;
+  total.value = res.meta.pagination.total;
+  generateRandomNumbers();
+
+  find('tags', {
+    populate: '*',
+    filters: {'id': {'$in': randomNumbers.value}}
+  }).then((res) => {
+    tags.value = res.data;
+  })
 })
+
+const generateRandomNumbers = () => {
+  randomNumbers.value = [];
+
+  // 生成一个包含所有可能值的数组
+  const possibleValues = Array.from({length: total.value}, (_, i) => i + 1);
+
+  // 打乱这个数组
+  shuffleArray(possibleValues);
+
+  // 取前10个值
+  for (let i = 0; i < 10; i++) {
+    randomNumbers.value.push(possibleValues[i]);
+  }
+};
+
+// Fisher-Yates 洗牌算法
+const shuffleArray = (array) => {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+};
 </script>
 
 <style scoped>
