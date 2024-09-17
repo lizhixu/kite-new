@@ -49,19 +49,20 @@
 </template>
 
 <script setup>
-import {inject, onMounted, ref} from 'vue'
+import {inject, onMounted, ref, watch} from 'vue'
 import {useCategoryStore} from "@/stores/category";
 import {ElNotification} from "element-plus";
 import {cdn_path, deleteCache} from "@/utils/util";
 import {loadComment, ssoLogout} from "@/utils/changyan";
 import {useRoute} from "vue-router";
+import router from "@/router";
 
 const route = useRoute();
 const token = inject('token');
 const me = inject('me');
 const headerShow = ref(true);
 const blogConfig = inject('blogConfig');
-const activeIndex = ref('/')
+const activeIndex = ref('')
 const handleSelect = (key, keyPath) => {
   if (key === 3) {
     return
@@ -96,6 +97,14 @@ onMounted(() => {
     lastScrollTop.value = window.pageYOffset;
   })
 })
+watch(
+    () => router.currentRoute.value,
+    (newRoute) => {
+      // 这里已拿到最新的路由地址，可将其设置给 el-menu 的 default-active 属性
+      activeIndex.value = newRoute.path;
+    },
+    {immediate: true}
+)
 </script>
 
 <style>

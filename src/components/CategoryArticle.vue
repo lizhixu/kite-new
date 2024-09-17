@@ -91,7 +91,7 @@ const pageSize = 20;
 const articleList = ref();
 
 function renderArticle(id) {
-  history.pushState({}, '', `/special/${id}/${page.value}`);
+  history.pushState({}, '', `/special/${id}?page=${page.value}`);
   find('articles', {
     populate: '*',
     'filters[category][id][$eq]': id,
