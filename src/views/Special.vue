@@ -36,12 +36,16 @@ import {useCategoryStore} from "@/stores/category";
 import StickySidebar from "sticky-sidebar-v2";
 import {onMounted, ref} from "vue";
 import {useRoute} from "vue-router";
-import {getAttributes} from "../utils/util";
+import {fremoveHtmlStyle, getAttributes} from "../utils/util";
+import _, {findKey} from "lodash-es";
+import {useHead} from "@/hooks/useHead";
 
-const params = useRoute().params;
+const route = useRoute();
+const params = route.params;
 const special_id = ref(params.id);
 const cur_page = ref(params.page);
 const categorys = useCategoryStore().categories;
+const curSpecial = categorys[findKey(categorys, item => item.id == special_id.value)];
 
 function renderArticle(id) {
   special_id.value = id;
@@ -56,6 +60,15 @@ onMounted(() => {
     containerSelector: '.main-content',
     scrollContainer: '#main-viewport'
   });
+  const name = getAttributes(curSpecial, 'name');
+  const describe = getAttributes(curSpecial, 'describe');
+  useHead({
+    title: name + route.meta.title,
+    meta: [
+      {name: 'description', content: describe},
+      {name: 'keywords', content: name}
+    ],
+  })
 })
 </script>
 

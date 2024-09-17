@@ -18,7 +18,7 @@
     <el-sub-menu index="2" popper-class="k-avatar-sub">
       <template #title>专栏</template>
       <template v-for="cate in category.categories">
-        <el-menu-item :index="'/special/'+cate.id" v-if="cate.attributes.status">{{
+        <el-menu-item :index="`/special/${cate.id}`" v-if="cate.attributes.status">{{
             cate.attributes.name
           }}
         </el-menu-item>
