@@ -138,6 +138,11 @@ export default defineConfig({
                 changeOrigin: true,
                 // rewrite: (path) => path.replace(/^\/api/, ""),
             },
+            "/baike": {
+                target: "https://baike.baidu.com/api/openapi",
+                changeOrigin: true,
+                // rewrite: (path) => path.replace(/^\/api/, ""),
+            },
         },
     }
 })

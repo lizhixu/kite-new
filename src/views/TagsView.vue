@@ -3,6 +3,7 @@ import CategoryLabel from "@/components/CategoryLabel.vue";
 import {Watermark} from '@watermarkify/vue-watermark'
 import {ref} from "vue";
 import {useRoute} from "vue-router";
+import {getBaikeItem} from "@/utils/baike.js"
 
 const route = useRoute();
 const query = route.query;
@@ -13,6 +14,7 @@ const watermarkOptions = ref({
   zIndex: 5,
   rotate: -20,
 })
+getBaikeItem(query.name)
 </script>
 
 <template>
