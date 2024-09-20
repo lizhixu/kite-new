@@ -1,9 +1,9 @@
-<script setup lang="ts">
+<script setup>
 import CategoryLabel from "@/components/CategoryLabel.vue";
 import {Watermark} from '@watermarkify/vue-watermark'
 import {ref} from "vue";
 import {useRoute} from "vue-router";
-import {getBaikeItem} from "@/utils/baike.js"
+import {getBaikeItem} from "@/utils/toolkit"
 
 const route = useRoute();
 const query = route.query;
