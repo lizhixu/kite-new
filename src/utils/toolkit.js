@@ -1,8 +1,8 @@
 import Axios from 'axios'
 
-const baseURL = import.meta.env.MODE === 'development' ? '' : import.meta.env.VITE_BAIKE_API_URL;
+const baseURL = import.meta.env.MODE === 'development' ? '/toolkit' : import.meta.env.VITE_TK_API_URL;
 const service = Axios.create({
-    baseURL: baseURL + '/toolkit',
+    baseURL,
     headers: {'Content-Type': 'application/json'},
 });
 
