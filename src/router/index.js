@@ -88,7 +88,7 @@ NProgress.configure({
 
 //在路由跳转前用NProgress.start()标记下进度条开始
 router.beforeEach((to, from, next) => {
-    if (to.name === from.name && to.hash) {
+    if (to.name === from.name && to.hash && to.name === 'article_detail') {
         //锚点不执行跳转
         return
     }

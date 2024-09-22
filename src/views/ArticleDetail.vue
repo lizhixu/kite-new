@@ -24,7 +24,9 @@
           <template #default>
             <el-breadcrumb :separator-icon="ArrowRight">
               <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-              <el-breadcrumb-item>{{ article?.category.data.attributes.name }}</el-breadcrumb-item>
+              <el-breadcrumb-item :to="{ path: `/special/${article?.category.data.id}`}">
+                {{ article?.category.data.attributes.name }}
+              </el-breadcrumb-item>
               <el-breadcrumb-item>正文</el-breadcrumb-item>
             </el-breadcrumb>
             <div class="article-detail">
@@ -205,6 +207,7 @@ findOne('articles', id, {populate: '*'}).then((res) => {
   renderPre();
 })
 watch(article, (newValue) => {
+  console.log(article.value.category)
   update('articles', id, {views: article.value.views + 1})
 })
 

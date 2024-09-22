@@ -45,10 +45,12 @@ const params = route.params;
 const special_id = ref(params.id);
 const cur_page = ref(params.page);
 const categorys = useCategoryStore().categories;
-const curSpecial = categorys[findKey(categorys, item => item.id == special_id.value)];
+let curSpecial = categorys[findKey(categorys, item => item.id == special_id.value)];
 
 function renderArticle(id) {
   special_id.value = id;
+  curSpecial = categorys[findKey(categorys, item => item.id == special_id.value)];
+  updateHead();
   history.pushState({}, '', `/special/${id}`);
   document.documentElement.scrollTop = 0;
 }
@@ -60,6 +62,10 @@ onMounted(() => {
     containerSelector: '.main-content',
     scrollContainer: '#main-viewport'
   });
+  updateHead();
+})
+
+function updateHead() {
   const name = getAttributes(curSpecial, 'name');
   const describe = getAttributes(curSpecial, 'describe');
   useHead({
@@ -69,7 +75,7 @@ onMounted(() => {
       {name: 'keywords', content: name}
     ],
   })
-})
+}
 </script>
 
 <style scoped>

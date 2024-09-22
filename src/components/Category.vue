@@ -6,7 +6,9 @@
       </div>
     </template>
     <div class="category">
-      <el-button round v-for="(tag,index) in tags" :key="index">{{ getAttributes(tag, 'name')}}</el-button>
+      <el-button round v-for="(tag,index) in tags" :key="index" @click="jumpTag(tag)">
+        {{ getAttributes(tag, 'name') }}
+      </el-button>
     </div>
   </el-card>
 </template>
@@ -15,6 +17,10 @@
 import {getAttributes} from "@/utils/util";
 
 const props = defineProps(['tags']);
+
+function jumpTag(tag) {
+  window.open(`${window.location.origin}/tags?name=${getAttributes(tag, 'name')}&id=${tag.id}`, '_blank')
+}
 </script>
 
 <style scoped>

@@ -1,4 +1,5 @@
 <template>
+  <el-button class="mgt10" v-show="showTotal">共 {{ total }} 篇文章</el-button>
   <div v-for="(article,index) in articleList" :key="index">
     <el-skeleton style="width: 800px" :loading="loading" animated :rows="3">
       <template #template>
@@ -102,27 +103,39 @@
 <script setup>
 import {find} from "@/utils/strapi";
 import {nextTick, ref} from "vue";
-import _ from 'lodash-es'
+import _, {debounce} from 'lodash-es'
 import {cdn_path, extractImagesFromMarkdown, fremoveHtmlStyle, getAttributes} from "@/utils/util";
 import MarkdownIt from "markdown-it";
 import {useCategoryStore} from "@/stores/category";
 import dayjs from "dayjs";
-import {loadCommentCount} from "@/utils/changyan";
 
 const md = new MarkdownIt()
 
+const props = defineProps({
+  showTotal: {
+    type: Boolean,
+    default: false
+  },
+  articleParams: {
+    type: Object,
+    default: {
+      populate: '*',
+      filters: {},
+      sort: 'articleUpdatedAt:desc'
+    }
+  }
+});
 let loading = ref(true);
 const articleList = ref(Array(4).fill({}));
 let page = 0;
 const pageSize = 10;
 let totalPage = 1;
+let total = ref(0);
 
-function getArticle() {
+const getArticle = debounce(() => {
   find('articles', {
-    populate: '*',
-    filters: {},
-    sort: 'articleUpdatedAt:desc',
-    pagination: {start: page * pageSize, limit: pageSize}
+    ...props.articleParams,
+    ...{pagination: {start: page * pageSize, limit: pageSize}}
   }).then((res) => {
     const tmpList = _.map(res.data, (data) => {
       data.attributes.img = extractImagesFromMarkdown(data.attributes.content)
@@ -130,6 +143,7 @@ function getArticle() {
     })
     if (tmpList.length === 0) return;
     if (page === 0) {
+      total.value = res.meta.pagination.total;
       totalPage = Math.ceil(res.meta.pagination.total / pageSize);
       articleList.value = tmpList
     } else {
@@ -137,12 +151,19 @@ function getArticle() {
     }
     loading.value = false;
     nextLoad = false;
-
-    nextTick(() => loadCommentCount())
   });
+})
+
+function refresh() {
+  loading.value = true;
+  page = 0;
+  totalPage = 1;
+  articleList.value = Array(4).fill({})
+  getArticle();
 }
 
-getArticle();
+watch(() => props.articleParams, () => refresh())
+onMounted(() => getArticle())
 const category = useCategoryStore();
 let docEl = document.documentElement;
 // 浏览器可视部分的高度
@@ -164,6 +185,7 @@ window.addEventListener('scroll', () => {
     }
   }
 });
+defineExpose({getArticle})
 </script>
 <style scoped>
 .article-page {
