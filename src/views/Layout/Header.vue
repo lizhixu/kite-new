@@ -26,6 +26,7 @@
     </el-sub-menu>
     <!--    <el-menu-item index="3">Tool</el-menu-item>-->
     <div class="flex-grow"/>
+<!--    <el-menu-item index="search"><el-icon><Search /></el-icon></el-menu-item>-->
     <el-menu-item class="k-avatar" v-if="!token" @click="dialogLoginVisible = true">
       <template #title>
         <el-icon>
