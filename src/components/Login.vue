@@ -12,6 +12,7 @@ const route = useRoute();
 const token = inject('token');
 const emit = defineEmits(['close-dialog'])
 
+const loading = ref(false);
 const loginFormRef = ref();
 const registerFormRef = ref();
 const isLogin = ref(true);
@@ -97,8 +98,9 @@ const submitForm = (formEl) => {
           })
         });
       } else {
+        loading.value = true;
         register(formData).then((res) => {
-          resetForm(formEl);
+          loading.value = false;
           emit('close-dialog')
           ElNotification({
             title: '验证电子邮箱',
@@ -106,12 +108,14 @@ const submitForm = (formEl) => {
             dangerouslyUseHTMLString: true,
             message: `
               <p>我们已向
-                <el-link type="primary">${registerForm.email}</el-link>
+                <el-link type="primary">${formData.email}</el-link>
                 发送电子邮件以确保你拥有它，请查看你的收件箱并确认信息。
               </p>`,
             type: 'success'
           })
+          resetForm(formEl);
         }).catch((error) => {
+          loading.value = false;
           ElNotification({
             duration: 5000,
             message: error.response.data.error.message,
@@ -193,6 +197,8 @@ const resetForm = (formEl) => {
                status-icon
                :rules="rules"
                class="registerForm"
+               v-loading="loading"
+               element-loading-text="注册中..."
       >
         <el-form-item prop="username">
           <el-input v-model="registerForm.username" placeholder="请输入用户名">
