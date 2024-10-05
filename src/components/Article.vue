@@ -108,6 +108,7 @@ import {cdn_path, extractImagesFromMarkdown, fremoveHtmlStyle, getAttributes} fr
 import MarkdownIt from "markdown-it";
 import {useCategoryStore} from "@/stores/category";
 import dayjs from "dayjs";
+import {loadCommentCount} from "@/utils/changyan";
 
 const md = new MarkdownIt()
 
@@ -151,6 +152,7 @@ const getArticle = debounce(() => {
     }
     loading.value = false;
     nextLoad = false;
+    nextTick(() => loadCommentCount())
   });
 })
 
