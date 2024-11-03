@@ -83,14 +83,12 @@
 
 <script setup>
 import {ref, computed} from 'vue'
+import {find} from "@/utils/strapi";
 import {ElMessage} from 'element-plus'
 import {Refresh, CopyDocument, Delete} from '@element-plus/icons-vue'
+import {getAttributesImg} from "@/utils/util";
 
-const translationEngines = [
-  {value: 'google', label: 'Google翻译', logo: 'https://www.google.com/favicon.ico'},
-  {value: 'baidu', label: '百度翻译', logo: 'https://www.baidu.com/favicon.ico'},
-  {value: 'youdao', label: '有道翻译', logo: 'https://shared.ydstatic.com/images/favicon.ico'},
-]
+const translationEngines = ref([]);
 
 const languages = [
   {value: 'zh', label: '中文'},
@@ -101,7 +99,7 @@ const languages = [
   {value: 'ja', label: '日语'},
 ]
 
-const translationEngine = ref('google')
+const translationEngine = ref('')
 const sourceLanguage = ref('auto')
 const targetLanguage = ref('en')
 const inputText = ref('')
@@ -179,6 +177,25 @@ const clearInput = () => {
   inputText.value = ''
   translatedText.value = ''
 }
+
+async function getTranslationEngines() {
+  const data = await find('translate-configs', {populate: '*'});
+  translationEngines.value.push(...data.data.map(item => {
+    const {attributes} = item;
+    translationEngine.value = attributes.default ? attributes.key : '';
+    return {
+      label: attributes.name,
+      logo: getAttributesImg(item, 'logo'),
+      key: attributes.key,
+      value: attributes.key,
+      default: attributes.default
+    }
+  }));
+}
+
+onMounted(() => {
+  getTranslationEngines()
+})
 </script>
 
 <style scoped>

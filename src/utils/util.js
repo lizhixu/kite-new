@@ -132,3 +132,14 @@ export function deleteCache() {
     localStorage.removeItem('token');
     api.remove('token');
 }
+
+/**
+ * 获取 attributes img信息
+ * @param data
+ * @param name
+ * @returns {*|string}
+ */
+export function getAttributesImg(data, name) {
+    const cdn_domain = import.meta.env.VITE_CDN_DOMAIN;
+    return cdn_domain + getAttributes(getAttributes(data, name).data, 'url');
+}
