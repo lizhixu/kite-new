@@ -26,3 +26,7 @@ service.interceptors.response.use(
 export function getBaikeItem(bk_key) {
     return service.get(`/baike/item/` + bk_key);
 }
+
+export function getItem(config) {
+    return service.request(config);
+}

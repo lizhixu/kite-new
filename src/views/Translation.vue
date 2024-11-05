@@ -16,12 +16,13 @@
       </el-select>
       <div class="language-bar">
         <el-select v-model="sourceLanguage" @change="handleTranslate" size="large" class="select-box">
-          <el-option value="auto" label="自动检测"/>
           <el-option v-for="lang in languages" :key="lang.value" :value="lang.value" :label="lang.label"/>
         </el-select>
         <el-button @click="swapLanguages" :icon="Refresh" circle class="swap-btn"/>
         <el-select v-model="targetLanguage" @change="handleTranslate" size="large" class="select-box">
-          <el-option v-for="lang in languages" :key="lang.value" :value="lang.value" :label="lang.label"/>
+          <template v-for="lang in languages">
+            <el-option v-if="lang.value !== 'auto'" :value="lang.value" :label="lang.label"/>
+          </template>
         </el-select>
       </div>
       <div class="placeholder"></div>
@@ -53,7 +54,7 @@
               size="small"
               :type="byteCountType"
           >
-            {{ inputByteCount }} / 6000 bytes
+            {{ inputByteCount }} / {{ MAX_BYTE_LENGTH }} bytes
           </el-text>
         </div>
       </div>
@@ -82,31 +83,28 @@
 </template>
 
 <script setup>
-import {ref, computed} from 'vue'
+import {computed, ref} from 'vue'
 import {find} from "@/utils/strapi";
 import {ElMessage} from 'element-plus'
-import {Refresh, CopyDocument, Delete} from '@element-plus/icons-vue'
+import {CopyDocument, Delete, Refresh} from '@element-plus/icons-vue'
 import {getAttributesImg} from "@/utils/util";
+import {getItem} from "@/utils/toolkit";
+import {debounce} from "lodash-es";
 
 const translationEngines = ref([]);
 
-const languages = [
-  {value: 'zh', label: '中文'},
-  {value: 'en', label: '英语'},
-  {value: 'es', label: '西班牙语'},
-  {value: 'fr', label: '法语'},
-  {value: 'de', label: '德语'},
-  {value: 'ja', label: '日语'},
-]
+const languages = ref();
 
 const translationEngine = ref('')
-const sourceLanguage = ref('auto')
-const targetLanguage = ref('en')
+const sourceLanguage = ref('')
+const targetLanguage = ref('')
 const inputText = ref('')
 const translatedText = ref('')
 const isTranslating = ref(false)
 
-const MAX_BYTE_LENGTH = 6000
+const MAX_BYTE_LENGTH = ref(6000)
+
+const translateUri = ref();
 
 const inputWordCount = computed(() => {
   return inputText.value.trim().length
@@ -117,24 +115,24 @@ const inputByteCount = computed(() => {
 })
 
 const byteCountType = computed(() => {
-  if (inputByteCount.value > MAX_BYTE_LENGTH * 0.9) return 'danger'
-  if (inputByteCount.value > MAX_BYTE_LENGTH * 0.7) return 'warning'
+  if (inputByteCount.value > MAX_BYTE_LENGTH.value * 0.9) return 'danger'
+  if (inputByteCount.value > MAX_BYTE_LENGTH.value * 0.7) return 'warning'
   return 'info'
 })
 
 const truncateInput = (text) => {
   let truncated = text
-  while (new Blob([truncated]).size > MAX_BYTE_LENGTH) {
+  while (new Blob([truncated]).size > MAX_BYTE_LENGTH.value) {
     truncated = truncated.slice(0, -1)
   }
   return truncated
 }
 
 const handleInputChange = (value) => {
-  if (new Blob([value]).size > MAX_BYTE_LENGTH) {
+  if (new Blob([value]).size > MAX_BYTE_LENGTH.value) {
     const truncatedText = truncateInput(value)
     inputText.value = truncatedText
-    ElMessage.warning('输入已超过6000字节，内容已自动截取')
+    ElMessage.warning(`输入已超过${MAX_BYTE_LENGTH.value}字节，内容已自动截取`)
   }
   handleTranslate()
 }
@@ -143,19 +141,23 @@ const handleEngineChange = () => {
   handleTranslate()
 }
 
-const handleTranslate = () => {
+const handleTranslate = debounce(() => {
   if (inputText.value.trim() === '') {
     translatedText.value = ''
     return
   }
 
   isTranslating.value = true
-  // 模拟翻译过程
-  setTimeout(() => {
-    translatedText.value = `使用 ${translationEngine.value} 从 ${sourceLanguage.value} 翻译到 ${targetLanguage.value}: ${inputText.value}`
+  const origin_data = translateUri.value.data;
+  const data = {};
+  Object.keys(origin_data).forEach(index => {
+    data[index] = origin_data[index].replace('{from_txt}', sourceLanguage.value).replace('{to_txt}', targetLanguage.value).replace('{query}', inputText.value)
+  })
+  getItem({...translateUri.value, data}).then(res => {
+    translatedText.value = res.data.to_txt
     isTranslating.value = false
-  }, 1000)
-}
+  })
+}, 500)
 
 const swapLanguages = () => {
   if (sourceLanguage.value !== 'auto') {
@@ -178,23 +180,46 @@ const clearInput = () => {
   translatedText.value = ''
 }
 
+/**
+ * 获取翻译引擎
+ * @returns {Promise<void>}
+ */
 async function getTranslationEngines() {
   const data = await find('translate-configs', {populate: '*'});
   translationEngines.value.push(...data.data.map(item => {
     const {attributes} = item;
-    translationEngine.value = attributes.default ? attributes.key : '';
+    if (attributes.default) {
+      translationEngine.value = attributes.key;
+      sourceLanguage.value = attributes.source_language;
+      targetLanguage.value = attributes.target_language;
+      MAX_BYTE_LENGTH.value = attributes.max_byte_length;
+    }
     return {
       label: attributes.name,
       logo: getAttributesImg(item, 'logo'),
       key: attributes.key,
       value: attributes.key,
-      default: attributes.default
+      default: attributes.default,
+      request_uri: attributes.request_uri,
     }
   }));
 }
 
-onMounted(() => {
-  getTranslationEngines()
+async function getLanguages() {
+  const data = translationEngines.value.find(item => item.key === translationEngine.value);
+  const request_uri = data.request_uri;
+  languages.value = (await getItem(request_uri.getLanguageList)).data?.map(item => {
+    return {
+      label: item.title,
+      value: item.sign
+    }
+  })
+  translateUri.value = request_uri.translate;
+}
+
+onMounted(async () => {
+  await getTranslationEngines();
+  await getLanguages();
 })
 </script>
 

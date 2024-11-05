@@ -143,3 +143,26 @@ export function getAttributesImg(data, name) {
     const cdn_domain = import.meta.env.VITE_CDN_DOMAIN;
     return cdn_domain + getAttributes(getAttributes(data, name).data, 'url');
 }
+
+/**
+ * 将字符串中的特殊字符转义
+ *
+ * 此函数用于将字符串中的特殊字符转换成其对应的转义序列
+ * 这在许多场景下都是非常有用的，比如在处理JSON数据、
+ * 正则表达式或者在Web页面中动态生成HTML内容时，确保数据的正确性和安全性
+ *
+ * @param {string} str 需要进行转义处理的字符串
+ * @returns {string} 转义处理后的字符串
+ */
+export function escapeString(str) {
+    // 替换反斜杠为双反斜杠，以避免反斜杠被解释为转义字符
+    return str
+        .replace(/\\/g, '\\\\') // 替换反斜杠
+        .replace(/"/g, '\\"') // 替换双引号，防止在双引号字符串中引起错误
+        .replace(/'/g, "\\'") // 替换单引号，防止在单引号字符串中引起错误
+        .replace(/\n/g, '\\n') // 替换换行符，用于文本数据的正确显示
+        .replace(/\r/g, '\\r') // 替换回车符，与换行符一起用于文本数据的格式化
+        .replace(/\t/g, '\\t') // 替换制表符，用于保持空格的格式
+        .replace(/\f/g, '\\f') // 替换换页符，用于文档打印等场景
+        .replace(/\v/g, '\\v'); // 替换垂直制表符，用于文档格式化
+}
