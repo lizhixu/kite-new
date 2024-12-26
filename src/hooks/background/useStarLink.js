@@ -11,6 +11,7 @@ export function useStarLink() {
 
     // 创建背景画布
     var cvs = document.createElement("canvas");
+    cvs.id = 'bgCanvas';
     cvs.width = window.innerWidth;
     cvs.height = window.innerHeight;
     cvs.style.cssText = "\
@@ -21,6 +22,11 @@ export function useStarLink() {
     opacity:1.0;\
     ";
     document.body.appendChild(cvs);
+
+    const canvas = document.getElementById('bgCanvas');
+    canvas.addEventListener('contextmenu', (event) => {
+        event.preventDefault();
+    });
 
     var ctx = cvs.getContext("2d");
 
