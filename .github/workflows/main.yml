@@ -45,7 +45,7 @@ jobs:
         #同步到腾讯云
       - name: 安装腾讯云依赖
         run: |
-          sudo pip install coscmd
+          sudo pip install https://github.com/tencentyun/coscmd/archive/refs/heads/master.zip
           sudo pip install tccli
       - name: 配置腾讯云依赖
         env:
