@@ -33,15 +33,6 @@ jobs:
         run: |
           yarn install
           yarn build
-        # 同步到又拍云
-      - name: Deploy upyun
-        run: |
-          wget -O upx.tar.gz http://collection.b0.upaiyun.com/softwares/upx/upx_0.3.6_linux_x86_64.tar.gz
-          tar -zxf upx.tar.gz
-          chmod +x upx
-          ./upx login ${{ secrets.UP_BUCKET }} ${{ secrets.UP_OPERATOR }} ${{ secrets.UP_OPERATOR_PASSWORD }}
-          ./upx sync dist/ / --delete
-          ./upx logout
         #同步到腾讯云
       - name: 安装腾讯云依赖
         run: |
