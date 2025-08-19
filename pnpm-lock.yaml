@@ -94,7 +94,7 @@ importers:
         specifier: ^0.19.0
         version: 0.19.0(rollup@4.46.2)(vite@6.3.4(sass@1.90.0)(terser@5.43.1))
       vite-plugin-top-level-await:
-        specifier: ^1.4.1
+        specifier: ^1.6.0
         version: 1.6.0(rollup@4.46.2)(vite@6.3.4(sass@1.90.0)(terser@5.43.1))
 
 packages:
