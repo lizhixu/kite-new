@@ -2,52 +2,34 @@
   <main>
     <div class="main-content">
       <div class="content mgb50" style="width: 800px;display: inline-block">
-        <Featured/>
-        <Article/>
+        <Featured />
+        <Article />
       </div>
       <div class="sidebar" style="width: 300px;float: right">
         <div class="sidebar__inner">
-          <!--          <u-search :config="config" @submit="submit"></u-search>-->
-          <WxCode/>
-          <HotListTp class="mgt10"/>
-          <FriendsChain class="mgt10"/>
-          <Copyright class="mgt10"/>
+          <WxCode />
+          <HotListTp class="mgt10" />
+          <FriendsChain class="mgt10" />
+          <Copyright class="mgt10" />
         </div>
       </div>
     </div>
   </main>
 </template>
 <script setup>
+import Featured from "@/components/Featured.vue";
 import Article from "@/components/Article.vue";
 import HotListTp from "@/components/HotListTp.vue";
 import FriendsChain from "@/components/FriendsChain.vue";
 import Copyright from "@/components/Copyright.vue";
-import StickySidebar from "sticky-sidebar-v2";
 import WxCode from "@/components/WxCode.vue";
-import {ref} from "vue";
-import {useHead} from "@/hooks/useHead";
-import {useRoute} from "vue-router";
+import StickySidebar from "sticky-sidebar-v2";
+import { onMounted, inject } from "vue";
+import { useHead } from "@/hooks/useHead";
+import { useRoute } from "vue-router";
 
 const route = useRoute();
-const config = ref({
-  keywords: ['斗罗大陆', '斗破苍穹', '吞噬星空', '凡人修仙传', '一念永恒'],
-  hotSearchList: [
-    '斗罗大陆',
-    '斗破苍穹',
-    '吞噬星空',
-    '凡人修仙传',
-    '一念永恒',
-    '完美世界',
-    '鬼灭之刃',
-    '间谍过家家',
-    '武动乾坤',
-    '神印王座'
-  ] // top10 热门搜索 最多显示10条数据
-});
-const submit = function (val) {
-  console.log(val);
-  window.open('/all?keyword=' + val);
-};
+
 onMounted(() => {
   new StickySidebar('.sidebar', {
     topSpacing: 20,
@@ -61,8 +43,8 @@ const blogConfig = inject('blogConfig');
 useHead({
   title: route.meta?.title,
   meta: [
-    {name: 'description', content: blogConfig?.seo.description},
-    {name: 'keywords', content: blogConfig?.seo.keywords},
+    { name: 'description', content: blogConfig?.seo.description },
+    { name: 'keywords', content: blogConfig?.seo.keywords },
   ],
 })
 </script>
