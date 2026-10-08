@@ -19,7 +19,7 @@ export function ssoLogout() {
 export function loadComment() {
     window.changyan = undefined;
     window.cyan = undefined;
-    loadJs("https://changyan.kuaizhan.com/upload/changyan.js", () => {
+    loadJs("https://cy-cdn.kuaizhan.com/upload/changyan.js", () => {
         window.changyan.api.config(changyan_config);
         const style = document.createElement('style')
         style.type = 'text/css'
