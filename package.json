@@ -2,8 +2,9 @@
   "name": "kite_new",
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
+    "dev": "node scripts/generate-data.mjs && vite",
+    "generate-data": "node scripts/generate-data.mjs",
+    "build": "node scripts/generate-data.mjs && vite build",
     "preview": "vite preview --port 4173"
   },
   "dependencies": {
@@ -13,12 +14,14 @@
     "axios": "1.11.0",
     "dayjs": "^1.11.10",
     "element-plus": "^2.6.0",
+    "gray-matter": "^4.0.3",
     "highlight.js": "^11.9.0",
     "js-cookie": "^3.0.5",
     "jwt-decode": "^4.0.0",
     "lodash-es": "^4.17.21",
     "markdown-it": "^13.0.2",
     "markdown-it-code-copy": "^0.1.2",
+    "minisearch": "^7.2.0",
     "nprogress": "^0.2.0",
     "pinia": "^2.0.21",
     "sass": "^1.69.7",

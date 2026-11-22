@@ -119,7 +119,8 @@ export function findHTags(node) {
  * @returns {*}
  */
 export function assembleTheAvatar(user) {
-    user.avatar_url = user?.avatar ? (cdn_path + user.avatar.url) : (multiavatar_path + user?.username);
+    if (!user) return {};
+    user.avatar_url = user.avatar_url || (user.avatar ? (cdn_path + user.avatar.url) : (multiavatar_path + (user.username || 'user')));
     return user;
 }
 

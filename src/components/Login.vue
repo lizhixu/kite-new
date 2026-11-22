@@ -1,262 +1,234 @@
-<script setup>
-import "@lottiefiles/lottie-player";
-import {inject, reactive, ref} from 'vue'
-import {Lock, User} from "@element-plus/icons-vue";
-import {login, register} from "@/utils/strapi";
-import {ElNotification} from "element-plus";
-import {useRoute} from "vue-router";
-import {loadComment} from "@/utils/changyan";
-
-const route = useRoute();
-
-const token = inject('token');
-const emit = defineEmits(['close-dialog'])
-
-const loading = ref(false);
-const loginFormRef = ref();
-const registerFormRef = ref();
-const isLogin = ref(true);
-const checkUserName = (rule, value, callback) => {
-  if (!value) {
-    return callback(new Error('请输入用户名'));
-  } else {
-    callback();
-  }
-};
-const checkEmail = (rule, value, callback) => {
-  if (!value) {
-    return callback(new Error('请输入邮箱'));
-  }
-  setTimeout(() => {
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
-      callback(new Error('请输入正确邮箱'));
-    } else {
-      callback();
-    }
-  }, 1000);
-};
-const validatePass = (rule, value, callback) => {
-  if (value === '') {
-    callback(new Error('请输入密码'));
-  } else {
-    callback();
-  }
-};
-const loginForm = reactive({
-  password: '',
-  identifier: '',
-});
-
-const validatePass2 = (rule, value, callback) => {
-  if (value === '') {
-    callback(new Error('请再次输入密码'))
-  } else if (value !== registerForm.password) {
-    callback(new Error("两次输入的密码不一致!"))
-  } else {
-    callback()
-  }
-}
-const registerForm = reactive({
-  username: '',
-  email: '',
-  password: '',
-  checkPass: '',
-});
-const rules = reactive({
-  username: [{validator: checkUserName, trigger: 'blur'}],
-  identifier: [{validator: checkUserName, trigger: 'blur'}],
-  email: [{validator: checkEmail, trigger: 'blur'}],
-  password: [{validator: validatePass, trigger: 'blur'}],
-  checkPass: [{validator: validatePass2, trigger: 'blur'}],
-});
-const submitForm = (formEl) => {
-  if (!formEl)
-    return;
-  formEl.validate((valid) => {
-    if (valid) {
-      const formData = isLogin.value ? loginForm : registerForm;
-      if (isLogin.value) {
-        login(formData).then((res) => {
-          localStorage.setItem('token', res.jwt);
-          token.value = res.jwt;
-          if (route.name === 'article_detail') {
-            loadComment()
-          }
-          resetForm(formEl);
-          emit('close-dialog')
-          ElNotification({
-            duration: 2000,
-            dangerouslyUseHTMLString: true,
-            message: '登录成功！！',
-            type: 'success',
-          })
-        }).catch((error) => {
-          ElNotification({
-            duration: 5000,
-            message: error.response.data.error.message,
-            type: 'error'
-          })
-        });
-      } else {
-        loading.value = true;
-        register(formData).then((res) => {
-          loading.value = false;
-          emit('close-dialog')
-          ElNotification({
-            title: '验证电子邮箱',
-            duration: 6000,
-            dangerouslyUseHTMLString: true,
-            message: `
-              <p>我们已向
-                <el-link type="primary">${formData.email}</el-link>
-                发送电子邮件以确保你拥有它，请查看你的收件箱并确认信息。
-              </p>`,
-            type: 'success'
-          })
-          resetForm(formEl);
-        }).catch((error) => {
-          loading.value = false;
-          ElNotification({
-            duration: 5000,
-            message: error.response.data.error.message,
-            type: 'error'
-          })
-        });
-      }
-    } else {
-      console.log('error submit!');
-    }
-  });
-};
-const resetForm = (formEl) => {
-  if (!formEl)
-    return;
-  formEl.resetFields();
-};
-</script>
-
 <template>
-  <el-row>
-    <el-col :span="12">
+  <el-row class="login-wrapper" align="middle">
+    <el-col :span="12" class="lottie-col">
       <lottie-player
-          autoplay
-          loop
-          mode="normal"
-          src="/animation.json"
-          style="width: 320px"
+        autoplay
+        loop
+        mode="normal"
+        src="/animation.json"
+        style="width: 320px; height: 320px;"
       >
       </lottie-player>
     </el-col>
-    <el-col :span="12">
-      <!--登录-->
-      <el-form v-if="isLogin"
-               ref="loginFormRef"
-               size="large"
-               :model="loginForm"
-               status-icon
-               :rules="rules"
-               class="loginForm"
-      >
-        <el-form-item prop="identifier">
-          <el-input v-model="loginForm.identifier" placeholder="请输入邮箱">
-            <template #suffix>
-              <el-icon class="el-input__icon">
-                <User/>
-              </el-icon>
-            </template>
-          </el-input>
-        </el-form-item>
-        <el-form-item prop="password">
-          <el-input v-model="loginForm.password" type="password" placeholder="请输入密码" autocomplete="off">
-            <template #suffix>
-              <el-icon class="el-input__icon">
-                <Lock/>
-              </el-icon>
-            </template>
-          </el-input>
-        </el-form-item>
-        <el-row>
-          <el-col :span="2">
-            <el-link type="primary" @click="isLogin = !isLogin">注册</el-link>
-          </el-col>
-          <el-col :span="4" :offset="18">
-            <el-link>忘记密码</el-link>
-          </el-col>
-        </el-row>
-        <el-form-item style="margin-top: 10px;">
-          <el-button type="primary" @click="submitForm(loginFormRef)" style="width: 100%;">
-            登录
+    <el-col :span="12" class="login-content-col">
+      <div class="login-box">
+        <h3 class="login-title">第三方开发者快捷登录</h3>
+        <p class="login-subtitle">
+          登录后可同步显示开发者头像并畅享畅言评论；管理员登录后可直接在线编辑文章。
+        </p>
+
+        <div class="oauth-buttons">
+          <el-button
+            class="oauth-btn github-btn"
+            size="large"
+            @click="handleOAuthLogin('github')"
+          >
+            <svg class="oauth-icon" viewBox="0 0 16 16" width="18" height="18" fill="currentColor">
+              <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+            </svg>
+            使用 GitHub 账号登录
           </el-button>
-        </el-form-item>
-      </el-form>
-      <!--注册-->
-      <el-form v-if="!isLogin"
-               ref="registerFormRef"
-               size="large"
-               :model="registerForm"
-               status-icon
-               :rules="rules"
-               class="registerForm"
-               v-loading="loading"
-               element-loading-text="注册中..."
-      >
-        <el-form-item prop="username">
-          <el-input v-model="registerForm.username" placeholder="请输入用户名">
-            <template #suffix>
-              <el-icon class="el-input__icon">
-                <User/>
-              </el-icon>
-            </template>
-          </el-input>
-        </el-form-item>
-        <el-form-item prop="email">
-          <el-input v-model="registerForm.email" placeholder="请输入邮箱">
-            <template #suffix>
-              <el-icon class="el-input__icon">
-                <Message/>
-              </el-icon>
-            </template>
-          </el-input>
-        </el-form-item>
-        <el-form-item prop="password">
-          <el-input v-model="registerForm.password" type="password" placeholder="请输入密码" autocomplete="off">
-            <template #suffix>
-              <el-icon class="el-input__icon">
-                <Lock/>
-              </el-icon>
-            </template>
-          </el-input>
-        </el-form-item>
-        <el-form-item prop="checkPass">
-          <el-input v-model="registerForm.checkPass" type="password" placeholder="请输入确认密码" autocomplete="off">
-            <template #suffix>
-              <el-icon class="el-input__icon">
-                <Lock/>
-              </el-icon>
-            </template>
-          </el-input>
-        </el-form-item>
-        <el-link type="primary" @click="isLogin = !isLogin">登录</el-link>
-        <el-form-item style="margin-top: 10px;">
-          <el-button type="primary" @click="submitForm(registerFormRef)" style="width: 100%;">
-            注册
+
+          <el-button
+            class="oauth-btn gitee-btn"
+            size="large"
+            @click="handleOAuthLogin('gitee')"
+          >
+            <svg class="oauth-icon" viewBox="0 0 1024 1024" width="18" height="18" fill="currentColor">
+              <path d="M512 1024C230.4 1024 0 793.6 0 512S230.4 0 512 0s512 230.4 512 512-230.4 512-512 512z m259.2-569.6H512v128h131.2c-22.4 67.2-86.4 115.2-160 115.2-92.8 0-169.6-76.8-169.6-169.6s76.8-169.6 169.6-169.6c44.8 0 86.4 16 118.4 44.8l92.8-92.8C643.2 268.8 582.4 240 512 240c-150.4 0-272 121.6-272 272s121.6 272 272 272c140.8 0 259.2-108.8 268.8-246.4 3.2-28.8-9.6-54.4-9.6-83.2z"/>
+            </svg>
+            使用 Gitee 账号登录
           </el-button>
-        </el-form-item>
-      </el-form>
+        </div>
+
+        <div class="dev-mock-wrapper">
+          <el-divider content-position="center">
+            <span class="divider-text">本地开发 / 管理员快速模拟</span>
+          </el-divider>
+          <div class="mock-btn-group">
+            <el-button size="small" type="success" plain @click="mockLogin('lizhixu')">
+              快速模拟管理员 (lizhixu)
+            </el-button>
+            <el-button size="small" plain @click="mockLogin('guest_developer')">
+              模拟普通访客
+            </el-button>
+          </div>
+        </div>
+      </div>
     </el-col>
   </el-row>
 </template>
 
+<script setup>
+import '@lottiefiles/lottie-player';
+import { inject } from 'vue';
+import { ElNotification } from 'element-plus';
+import { useRoute } from 'vue-router';
+import { loadComment } from '@/utils/changyan';
+
+const route = useRoute();
+const token = inject('token');
+const blogConfig = inject('blogConfig');
+const emit = defineEmits(['close-dialog']);
+
+function handleOAuthLogin(provider) {
+  const currentOrigin = window.location.origin;
+  const redirectUri = encodeURIComponent(`${currentOrigin}/api/auth/${provider}/callback`);
+  const oauthConfig = blogConfig?.oauth || {};
+
+  if (provider === 'github') {
+    const clientId = oauthConfig.github_client_id;
+    if (!clientId || clientId.includes('...')) {
+      ElNotification({
+        title: 'OAuth 提示',
+        message: '未配置线上 GitHub Client ID，已为你提供下方“快速模拟”以便本地直接体验。',
+        type: 'info',
+        duration: 4000,
+      });
+      return;
+    }
+    const authUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=read:user,user:email`;
+    window.location.href = authUrl;
+  } else if (provider === 'gitee') {
+    const clientId = oauthConfig.gitee_client_id;
+    if (!clientId || clientId.includes('...')) {
+      ElNotification({
+        title: 'OAuth 提示',
+        message: '未配置线上 Gitee Client ID，已为你提供下方“快速模拟”以便本地直接体验。',
+        type: 'info',
+        duration: 4000,
+      });
+      return;
+    }
+    const authUrl = `https://gitee.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code`;
+    window.location.href = authUrl;
+  }
+}
+
+function mockLogin(username) {
+  // 生成标准 JWT Payload 格式的本地开发 Mock Token
+  const isAdmin = blogConfig?.admin?.github?.includes(username) || blogConfig?.admin?.gitee?.includes(username);
+  const payload = {
+    id: username === 'lizhixu' ? 1 : 99,
+    username,
+    avatar_url: `https://api.dicebear.com/7.x/identicon/svg?seed=${username}`,
+    provider: 'github',
+    isAdmin,
+  };
+
+  // Base64 编码为简单 JWT 形式
+  const header = btoa(JSON.stringify({ alg: 'HS256', typ: 'JWT' }));
+  const body = btoa(JSON.stringify(payload));
+  const mockJwt = `${header}.${body}.mock_signature`;
+
+  localStorage.setItem('token', mockJwt);
+  localStorage.setItem('user_info', JSON.stringify({ id: payload.id, attributes: payload }));
+  token.value = mockJwt;
+
+  if (route.name === 'article_detail') {
+    loadComment();
+  }
+
+  emit('close-dialog');
+
+  ElNotification({
+    title: '登录成功',
+    message: `欢迎回来，${username}！${isAdmin ? '（已识别为博客管理员）' : ''}`,
+    type: 'success',
+    duration: 3000,
+  });
+}
+</script>
+
 <style scoped>
-.loginForm {
-  margin-top: 50px;
+.login-wrapper {
+  padding: 10px 0;
 }
 
-.registerForm {
-  margin-top: 30px;
+.lottie-col {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.email-confirm {
-  text-align: center;
+.login-content-col {
+  padding: 0 20px 0 10px;
+}
+
+.login-box {
+  display: flex;
+  flex-direction: column;
+}
+
+.login-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #303133;
+  margin: 0 0 8px 0;
+}
+
+.login-subtitle {
+  font-size: 13px;
+  color: #909399;
+  line-height: 1.6;
+  margin: 0 0 24px 0;
+}
+
+.oauth-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.oauth-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  font-size: 15px;
+  font-weight: 500;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  border: none;
+}
+
+.oauth-icon {
+  margin-right: 10px;
+}
+
+.github-btn {
+  background-color: #24292e;
+  color: #ffffff;
+}
+
+.github-btn:hover {
+  background-color: #1a1e22;
+  color: #ffffff;
+}
+
+.gitee-btn {
+  background-color: #c71d23;
+  color: #ffffff;
+}
+
+.gitee-btn:hover {
+  background-color: #ab171c;
+  color: #ffffff;
+}
+
+.dev-mock-wrapper {
+  margin-top: 24px;
+}
+
+.divider-text {
+  font-size: 12px;
+  color: #a8abb2;
+}
+
+.mock-btn-group {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
 }
 </style>

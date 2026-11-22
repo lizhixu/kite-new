@@ -1,0 +1,31 @@
+{
+  "title": "Kite's Blog",
+  "beian": "浙ICP备xxxxxxxx号-1",
+  "copyright": "Copyright © 2024 Kite. All rights reserved.",
+  "seo": {
+    "title": "Kite's Blog - 专注前端与边缘计算",
+    "keywords": "Vue3, Vite, 阿里云 ESA, Serverless, 前端技术, 博客",
+    "description": "Kite 的个人技术博客，分享前端开发、边缘计算、Node.js 与架构实践。"
+  },
+  "logo": {
+    "data": {
+      "attributes": {
+        "url": "/favicon.ico"
+      }
+    }
+  },
+  "ad": {
+    "img": "",
+    "h4": "关注微信公众号",
+    "p": "获取最新技术干货与博客更新"
+  },
+  "admin": {
+    "github": ["lizhixu"],
+    "gitee": ["lizhixu"],
+    "repo_url": "https://github.com/lizhixu/kite-new"
+  },
+  "oauth": {
+    "github_client_id": "Ov23li...",
+    "gitee_client_id": "gitee_client_id..."
+  }
+}

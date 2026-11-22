@@ -10,8 +10,8 @@
   >
     <el-menu-item class="logo">
       <router-link to="/">
-        <img :src="cdn_path + blogConfig?.logo.data[0].attributes.url"
-             alt="logo" style="width: 50px;" v-if="blogConfig">
+        <img :src="getLogoUrl()"
+             alt="logo" style="width: 50px; height: 50px; object-fit: contain;" v-if="blogConfig">
       </router-link>
     </el-menu-item>
     <el-menu-item index="/">首页</el-menu-item>
@@ -26,7 +26,12 @@
     </el-sub-menu>
     <!--    <el-menu-item index="3">Tool</el-menu-item>-->
     <div class="flex-grow"/>
-<!--    <el-menu-item index="search"><el-icon><Search /></el-icon></el-menu-item>-->
+    <el-menu-item index="search" @click="searchModalRef?.open()">
+      <template #title>
+        <el-icon><Search /></el-icon>
+        <span class="search-btn-text">搜索 <kbd class="header-kbd">⌘K</kbd></span>
+      </template>
+    </el-menu-item>
     <el-menu-item class="k-avatar" v-if="!token" @click="dialogLoginVisible = true">
       <template #title>
         <el-icon>
@@ -47,16 +52,34 @@
   <el-dialog v-model="dialogLoginVisible" width="800px" align-center>
     <Login @close-dialog="dialogLoginVisible = false;"/>
   </el-dialog>
+  <SearchModal ref="searchModalRef" />
 </template>
 
 <script setup>
 import {inject, onMounted, ref, watch} from 'vue'
 import {useCategoryStore} from "@/stores/category";
 import {ElNotification} from "element-plus";
+import {Search, Cellphone} from "@element-plus/icons-vue";
+import SearchModal from "@/components/SearchModal.vue";
 import {cdn_path, deleteCache} from "@/utils/util";
 import {loadComment, ssoLogout} from "@/utils/changyan";
 import {useRoute} from "vue-router";
 import router from "@/router";
+
+const searchModalRef = ref(null);
+
+function getLogoUrl() {
+  if (!blogConfig) return '/favicon.ico';
+  const logo = blogConfig.logo;
+  if (Array.isArray(logo?.data) && logo.data[0]?.attributes?.url) {
+    return (cdn_path || '') + logo.data[0].attributes.url;
+  }
+  if (logo?.data?.attributes?.url) {
+    return (cdn_path || '') + logo.data.attributes.url;
+  }
+  if (logo?.url) return logo.url;
+  return '/favicon.ico';
+}
 
 const route = useRoute();
 const token = inject('token');
@@ -160,5 +183,23 @@ watch(
     justify-content: center;
     align-items: center;
   }
+}
+
+.search-btn-text {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+}
+
+.header-kbd {
+  font-size: 11px;
+  font-family: inherit;
+  background: #f0f2f5;
+  border: 1px solid #dcdfe6;
+  border-radius: 4px;
+  padding: 1px 4px;
+  line-height: 1.2;
+  color: #909399;
 }
 </style>

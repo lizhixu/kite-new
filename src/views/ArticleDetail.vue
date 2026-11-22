@@ -30,13 +30,29 @@
               <el-breadcrumb-item>正文</el-breadcrumb-item>
             </el-breadcrumb>
             <div class="article-detail">
-              <div class="article-detail-title">{{ article?.title }}</div>
+              <div class="article-detail-title-row">
+                <div class="article-detail-title">{{ article?.title }}</div>
+                <el-button
+                  v-if="isAdmin"
+                  type="primary"
+                  plain
+                  size="small"
+                  class="edit-article-btn"
+                  @click="openGitHubEdit"
+                >
+                  <el-icon style="margin-right: 4px"><EditPen /></el-icon>
+                  在 GitHub 编辑
+                </el-button>
+              </div>
               <div class="author-info-block">
                 <el-row :gutter="20">
-                  <el-col :span="3">{{ getAttributes(article?.author?.data, 'username') }}</el-col>
-                  <el-col :span="3">
+                  <el-col :span="4">{{ getAttributes(article?.author?.data, 'username') || '作者' }}</el-col>
+                  <el-col :span="4">
                     <View style="width: 1em;margin-right: 2px;"/>
                     <span>{{ article?.views }}</span>
+                  </el-col>
+                  <el-col :span="8" v-if="isAdmin">
+                    <el-tag size="small" type="success">已认证管理员</el-tag>
                   </el-col>
                 </el-row>
               </div>
@@ -110,13 +126,13 @@
 <script setup>
 import '@/assets/markdown.scss'
 import {useRoute} from 'vue-router'
-import {ArrowRight, View} from '@element-plus/icons-vue'
+import {ArrowRight, View, EditPen} from '@element-plus/icons-vue'
 import StickySidebar from "sticky-sidebar-v2";
 import router from "@/router";
 import {find, findOne, update} from "@/utils/strapi";
 import MarkdownIt from "markdown-it";
 import dayjs from "dayjs";
-import {inject, nextTick, onMounted, ref} from "vue";
+import {inject, nextTick, onMounted, ref, computed, watch} from "vue";
 import hljs from 'highlight.js';
 import 'highlight.js/styles/stackoverflow-light.css';
 import MarkdownItGithubHeadings from '@gerhobbelt/markdown-it-github-headings'
@@ -158,9 +174,35 @@ md.renderer.rules.link_open = function (tokens, idx, options, env, self) {
 };
 
 const token = inject('token');
+const me = inject('me');
 const route = useRoute();
 const loading = ref(true);
 const blogConfig = inject('blogConfig');
+
+const isAdmin = computed(() => {
+  if (!me?.value?.username) return false;
+  const adminConfig = blogConfig?.admin;
+  if (!adminConfig) return false;
+  const username = me.value.username;
+  const provider = me.value.provider || 'github';
+  if (Array.isArray(adminConfig[provider]) && adminConfig[provider].includes(username)) {
+    return true;
+  }
+  if (Array.isArray(adminConfig.github) && adminConfig.github.includes(username)) {
+    return true;
+  }
+  if (Array.isArray(adminConfig.gitee) && adminConfig.gitee.includes(username)) {
+    return true;
+  }
+  return false;
+});
+
+function openGitHubEdit() {
+  const filePath = article.value?.filePath || `content/posts/${id}.md`;
+  const repoUrl = blogConfig?.admin?.repo_url || 'https://github.com/lizhixu/kite-new';
+  const url = `${repoUrl}/edit/main/${filePath}`;
+  window.open(url, '_blank');
+}
 
 const id = route.params.id;
 const curLocation = window.location.origin + window.location.pathname;
@@ -250,11 +292,24 @@ nextTick(() => {
   margin-top: 20px;
 }
 
-.article-detail-title {
+.article-detail-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 15px;
+}
+
+.article-detail-title {
+  margin-bottom: 0;
   font-size: 32px;
-  line-height: 32px;
+  line-height: 1.3;
   font-weight: 400;
+  flex: 1;
+}
+
+.edit-article-btn {
+  margin-left: 16px;
+  flex-shrink: 0;
 }
 
 .article-detail-header {
